@@ -63,6 +63,10 @@ case_items topic_item {
 	color: Blue;
 }
 
+article section {
+    margin-left:2em;
+}
+
 case_items topic_sub_item {
     margin-left: 8px;
 }
