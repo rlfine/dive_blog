@@ -47,6 +47,26 @@ article {
     border-radius: 5px;
 }
 
+case_items ol li {
+	font-size: large;
+	color: DarkBlue;
+	margin-top: 12px;
+	margin-bottom: 2px;
+}
+case_items ul li {
+	font-size: normal;
+	color: Black;
+}
+
+case_items topic_item {
+	font-style: italic;
+	color: Blue;
+}
+
+case_items topic_sub_item {
+    margin-left: 8px;
+}
+
 footer {
     text-align: center;
     padding: 20px;
