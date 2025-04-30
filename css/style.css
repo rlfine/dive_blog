@@ -30,9 +30,18 @@ nav ul li {
     display: block;
     margin: 15px 15px;
 	font-size: x-large;
-	font-stretch:semi-expanded;
+	font-stretch: semi-expanded;
 	font-family: Arial, Helvetica, sans-serif;
 }
+
+nav.mainIndex ul li a {
+ font-size: smaller;
+}
+
+nav.studyGuide ul li a {
+ font-size: smaller;
+}
+
 
 nav a {
     text-decoration: none;
