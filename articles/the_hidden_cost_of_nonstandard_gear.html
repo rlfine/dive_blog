@@ -65,15 +65,14 @@
 
 </article>
 
-<nav>
-    <a href="../index.html">Back to Home</a>
-</nav>
-
-<footer>
-    <p>© 2024, 2025 Roy Fine | Diving Into Science</p>
-    PADI Master Scuba Diver | NAUI Deep Diver | Dive Safety Advocate</p>
-</footer>
-
+<div id="footer"></div>
+  <script>
+    fetch('/footer.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('footer').innerHTML = html;
+      })
+      .catch(err => console.error('Footer load error:', err));
+  </script>
 </body>
-
 </html>
