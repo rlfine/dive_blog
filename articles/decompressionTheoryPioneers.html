@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decompression Theory Pioneers</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>Decompression Theory Pioneers</h1>
+    <p>The Architects Behind Modern Dive Safety.</p>
+    <a href="../index.html"> <button>Back to Home</button> </a>
+  </header>
+
+  <article>
+
+
+    <h2>Pioneers of Decompression Theory: The Architects Behind Modern Dive Safety</h2>
+    <section>
+      <p>Modern dive safety owes a tremendous debt to the researchers and scientists who developed decompression theory
+        over the last century. These pioneers laid the groundwork for the models we use today—models that allow divers
+        to safely explore the underwater world while managing the risks of decompression sickness (DCS). Below is a
+        tribute to some of the most influential contributors.</p>
+    </section>
+    
+    <h3>John Scott Haldane (1860–1936)</h3>
+    <section>
+      <p><strong>Key Contribution:</strong> Developed the first <em>scientific decompression tables</em> for the British
+        Royal Navy in 1908. He introduced the concept of <em>half-times</em> for different tissue compartments and the
+        idea of limiting pressure reduction to a critical supersaturation ratio (initially 2:1).</p>
+      <p><strong>Legacy:</strong> Widely regarded as the father of modern decompression theory, setting the stage for
+        all later developments.</p>
+    </section>
+
+    <h3>Albert R. Behnke (1903–1992)</h3>
+    <section>
+      <p><strong>Key Contribution:</strong> Advanced U.S. Navy diving tables and pioneered the <em>oxygen window</em>
+        concept, promoting oxygen use in decompression to enhance inert gas elimination.</p>
+      <p><strong>Legacy:</strong> Pushed forward oxygen-based decompression strategies still in use today.</p>
+    </section>
+
+    <h3>Robert D. Workman (1917–1984)</h3>
+    <section>
+      <p><strong>Key Contribution:</strong> Introduced <strong>M-values</strong>, which define the maximum inert gas
+        pressures allowable in tissues. He refined the U.S. Navy decompression tables and formalized supersaturation
+        limits for operational use.</p>
+      <p><strong>Legacy:</strong> His M-value framework remains foundational to many decompression algorithms.</p>
+    </section>
+
+    <h3>Albert A. Bühlmann (1923–1994)</h3>
+    <section>
+      <p><strong>Key Contribution:</strong> Developed the <em>Bühlmann ZHL series</em> algorithms, which are the basis
+        of many modern dive computers. He expanded decompression research to include <strong>altitude diving</strong>
+        and introduced methods for adjusting for lower ambient pressures.</p>
+      <p><strong>Legacy:</strong> His work remains a gold standard for decompression modeling, with widespread global
+        adoption.</p>
+    </section>
+
+    <h3>Bruce Wienke (1940– )</h3>
+    <section>
+      <p><strong>Key Contribution:</strong> Created the <em>Reduced Gradient Bubble Model (RGBM)</em>, integrating
+        bubble dynamics with dissolved gas models to minimize bubble formation and growth.</p>
+      <p><strong>Legacy:</strong> RGBM brought bubble physics to mainstream diving algorithms, influencing many dive
+        computers and technical diving protocols.</p>
+    </section>
+
+    <h3>David Yount (1930–2000)</h3>
+    <section>
+      <p><strong>Key Contribution:</strong> Developed the <em>Varying Permeability Model (VPM)</em>, focusing on how
+        bubble nuclei form, persist, and change in response to pressure.</p>
+      <p><strong>Legacy:</strong> VPM is widely used in technical diving, especially for deep decompression dives.</p>
+    </section>
+
+    <h3>Erik Baker</h3>
+    <section>
+      <p><strong>Key Contribution:</strong> Developed the <em>Gradient Factors (GF)</em> method, allowing divers to
+        adjust conservatism in Bühlmann-based dive computers by selecting how closely to approach critical tissue
+        limits.</p>
+      <p><strong>Legacy:</strong> GF settings are now standard in most technical dive computers, giving divers
+        flexibility to fine-tune their decompression strategy.</p>
+    </section>
+
+    <h3>Robert D. Nishi (1941–2014)</h3>
+    <section>
+      <p><strong>Key Contribution:</strong> Led the development of the <strong>DCIEM decompression tables</strong> in
+        Canada, using empirical Doppler ultrasound bubble data to fine-tune decompression limits for military and
+        commercial divers.</p>
+      <p><strong>Legacy:</strong> His bubble-informed models have a proven safety record, particularly in cold-water and
+        demanding operational environments.</p>
+    </section>
+
+    <h2>Honoring Their Legacy</h2>
+
+    <section>
+      <p>While each of these pioneers contributed unique insights—whether focusing on dissolved gas kinetics, bubble
+        dynamics, or empirical validation—they all shared a common goal: to make diving safer. Thanks to their work,
+        today’s divers benefit from decades of research, innovation, and real-world experience.</p>
+    </section>
+
+  </article>
+
+  <div id="footer">loading...</div>
+  <script>
+    fetch('../footer.html')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('footer').innerHTML = html;
+      })
+      .catch(err => console.error('Footer load error:', err));
+  </script>
+</body>
+
+</html>
