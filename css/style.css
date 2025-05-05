@@ -28,7 +28,7 @@ nav.mainIndex ul {
     margin-left:12em;
 }
 
-@media screen and (max-width:768px) and (orientation:portrait) {
+@media screen and (max-width:600px) and (orientation:portrait) {
     nav.mainIndex ul {
         list-style:linear-gradient(45deg, gray 0 50%, black 50% 100%);
         padding: 0;
