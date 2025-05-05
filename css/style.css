@@ -25,17 +25,9 @@ nav.mainIndex ul {
     list-style:linear-gradient(45deg, gray 0 50%, black 50% 100%);
     padding: 0;
     text-align: left;
-    margin-left:12em;
+    margin-left:4em;
 }
 
-@media screen and (max-width:600px) and (orientation:portrait) {
-    nav.mainIndex ul {
-        list-style:linear-gradient(45deg, gray 0 50%, black 50% 100%);
-        padding: 0;
-        text-align: left;
-        margin-left:10px;
-    }
-}
 
 
 nav.studyGuide ul {
