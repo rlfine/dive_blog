@@ -11,7 +11,7 @@
 <body>
 
     <header>
-        <h1>Facing a Catastrophic BC Failure at 110 Feet<br> Deep Cold Water Diving Survival</h1>
+        <h1>Facing a Catastrophic BC Failure at 110 Feet<br> Deep Cold Water Diving Survival (Part 1)</h1>
         <p>Exploring the science and safety of scuba diving.</p>
         <a href="../index.html"> <button>Back to Home</button> </a>
     </header>
@@ -130,6 +130,17 @@
 
         <p>Prepare deliberately. Train regularly. Dive responsibly.</p>
 
+        <p>
+            <a href="./catastrophic_bc_Failure_at_110_feet_2.html"> In Part 2 of this series on handling the unexpected</a>
+            we will dive deeper into the specifics, and develop an actionable plan that can be 
+            used as a template to build dive plan with your NAUI dive professional.
+        </p>
+        
+        <div class="warning">
+            <strong>Important:</strong> Emergency simulations should only be performed under the direct supervision of an experienced
+            instructor with redundant gas and buoyancy systems in place. <em>Do not attempt this without proper
+                training, preparation, and supervision.</em>
+        </div>
 
         <p><strong>Resources and References:</strong></p>
         <ul>
@@ -141,16 +152,16 @@
 
     <div id="footer">loading...</div>
     <script>
-      fetch('../footer.html')
-          .then(response => {
-              if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
-              return response.text();
-          })
-          .then(html => {
-              document.getElementById('footer').innerHTML = html;
-          })
-          .catch(err => console.error('Footer load error:', err));
-  </script>
-  </body>
-  
-  </html>
+        fetch('../footer.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('footer').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load error:', err));
+    </script>
+</body>
+
+</html>
