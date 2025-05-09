@@ -68,12 +68,24 @@ nav a {
     font-weight: bold;
 }
 
+
 article {
-    max-width: 60%;
     margin: 20px auto;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
+}
+
+@media only screen and (max-width:600px) {
+    article {
+        max-width: 60%;
+    }
+}
+
+@media only screen and (min-width:600px) {
+    article {
+        max-width: 88%;
+    }
 }
 
 case_items ol li {
