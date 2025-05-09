@@ -69,17 +69,13 @@ nav a {
 }
 
 article {
-    background: #fff;
-    border-radius: 5px;
 }
-    article {
-        margin: 10px auto;
-        padding: 10px;
-        width: 58%;
-    }
+
 
 @media only screen and (max-width:600px) {
     article {
+        background: #ff0;
+        border-radius: 5px;
         margin: 10px auto;
         padding: 10px;
         width: 88%;
@@ -88,6 +84,8 @@ article {
 
 @media only screen and (min-width:600px) {
     article {
+        background: #fff;
+        border-radius: 5px;
         margin: 10px auto;
         padding: 10px;
         width: 68%;
