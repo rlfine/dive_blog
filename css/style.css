@@ -69,33 +69,14 @@ nav a {
 }
 
 
-    article {
-        background: #ff0;
-        border-radius: 5px;
-        margin: 10px auto;
-        padding: 10px;
-        width: 88%;
-    }
-
-@media only screen and (max-width:600px) {
-    article {
-        background: #ff0;
-        border-radius: 5px;
-        margin: 10px auto;
-        padding: 10px;
-        width: 88%;
-    }
+article {
+    background: #ff0;
+    border-radius: 5px;
+    margin: 10px auto;
+    padding: 10px;
+    width: 88%;
 }
 
-@media only screen and (min-width:600px) {
-    article {
-        background: #fff;
-        border-radius: 5px;
-        margin: 10px auto;
-        padding: 10px;
-        width: 68%;
-    }
-}
 
 case_items ol li {
 	font-size: large;
