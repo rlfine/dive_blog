@@ -68,22 +68,23 @@ nav a {
     font-weight: bold;
 }
 
-
 article {
-    margin: 20px auto;
-    padding: 20px;
     background: #fff;
     border-radius: 5px;
 }
 
 @media only screen and (max-width:600px) {
     article {
+        margin: 10px auto;
+        padding: 10px;
         max-width: 88%;
     }
 }
 
 @media only screen and (min-width:600px) {
     article {
+        margin: 10px auto;
+        padding: 10px;
         max-width: 88%;
     }
 }
