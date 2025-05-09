@@ -72,12 +72,17 @@ article {
     background: #fff;
     border-radius: 5px;
 }
+    article {
+        margin: 10px auto;
+        padding: 10px;
+        width: 58%;
+    }
 
 @media only screen and (max-width:600px) {
     article {
         margin: 10px auto;
         padding: 10px;
-        max-width: 88%;
+        width: 88%;
     }
 }
 
@@ -85,7 +90,7 @@ article {
     article {
         margin: 10px auto;
         padding: 10px;
-        max-width: 88%;
+        width: 68%;
     }
 }
 
