@@ -68,13 +68,24 @@ nav a {
     font-weight: bold;
 }
 
+@media only screen and (max-width:600px) {
+    article {
+        background-color: green;
+        border-radius: 5px;
+        margin: 10px auto;
+        padding: 10px;
+        width: 88%;
+        }
+}
 
-article {
-    background-color: green;
-    border-radius: 5px;
-    margin: 10px auto;
-    padding: 10px;
-    width: 88%;
+@media only screen and (min-width:600px) {
+    article {
+    background-color: blue;
+        border-radius: 5px;
+        margin: 10px auto;
+        padding: 10px;
+        width: 88%;
+    }
 }
 
 
