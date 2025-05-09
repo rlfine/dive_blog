@@ -68,7 +68,7 @@ nav a {
     font-weight: bold;
 }
 
-@media only screen and (max-width:600px) {
+@media only screen and (max-width: 600px) {
     article {
         background-color: green;
         border-radius: 5px;
@@ -78,7 +78,7 @@ nav a {
         }
 }
 
-@media only screen and (min-width:600px) {
+@media only screen and (min-width: 600px) {
     article {
     background-color: blue;
         border-radius: 5px;
