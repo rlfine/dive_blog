@@ -70,7 +70,7 @@ nav a {
 
 @media only screen and (max-width: 600px) {
     article {
-        background-color: rgb(196, 226, 196);
+        background-color: rgb(212, 255, 212);
         border-radius: 5px;
         margin: 10px auto;
         padding: 10px;
@@ -80,7 +80,7 @@ nav a {
 
 @media only screen and (min-width: 600px) {
     article {
-    background-color: rgb(196, 196, 226);
+    background-color: rgb(212, 212, 255);
         border-radius: 5px;
         margin: 10px auto;
         padding: 10px;
