@@ -65,3 +65,34 @@ p {
 .back-link a:hover {
   text-decoration: underline;
 }
+
+.sidebar {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 1em;
+    margin-top: 2em;
+}
+
+
+.callout {
+  border-left: 6px solid #ccc;
+  padding: 1em;
+  margin: 1.5em 0;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+.callout.warning {
+  border-left-color: #d9534f;
+  background-color: #fff4f4;
+}
+
+.callout.warning strong {
+  color: #d9534f;
+}
+
+.callout ul {
+  margin-top: 0.5em;
+  padding-left: 1.5em;
+}
