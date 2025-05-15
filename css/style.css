@@ -3,7 +3,7 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background: #f4f4f4;
+    background: #fffff4;
     color: #333;
 }
 
@@ -70,7 +70,7 @@ nav a {
 
 @media only screen and (max-width: 600px) {
     article {
-        background-color: rgb(212, 255, 212);
+        background-color: #f0f0f0;
         border-radius: 5px;
         margin: 10px auto;
         padding: 10px;
@@ -80,7 +80,8 @@ nav a {
 
 @media only screen and (min-width: 600px) {
     article {
-    background-color: rgb(212, 212, 255);
+        background-color: #f4f4f4;
+
         border-radius: 5px;
         margin: 10px auto;
         padding: 10px;
