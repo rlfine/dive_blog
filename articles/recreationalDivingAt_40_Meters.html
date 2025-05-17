@@ -8,47 +8,52 @@
     <link rel="stylesheet" href="../css/style.css">
     <script src="../assets/js/ques_and_answ.js"></script>
 
- <style> 
- hr {
-	 margin: 2em 0;
-	 border: none;
-	 height: 1px;
-	 background-color: #ccc;
-}
- .accordion-container {
-	 margin-top: 2em;
-}
- .accordion {
-	 background-color: #004b66;
-	 color: white;
-	 cursor: pointer;
-	 margin-bottom: 5px;
-	 border: none;
-	 text-align: left;
-	 width: 100%;
-	 font-size: 1rem;
-	 transition: background-color 0.3s ease;
-	 text-indent: -36px;
-	 padding-left: 52px;
-	 padding-right: 12px;
-	 padding-bottom: 12px;
-	 padding-top: 12px;
-	 line-height: 1.4em;
-}
- .accordion:hover, .accordion:focus {
-	 background-color: #006080;
-}
- .panel {
-	 display: none;
-	 padding: 15px 20px;
-	 background-color: #ffffff;
-	 border-left: 4px solid #004b66;
-	 border-right: 4px solid #004b66;
-	 border-bottom: 4px solid #004b66;
-	 font-size: 0.95rem;
-}
- </style> 
- 
+    <style>
+        hr {
+            margin: 2em 0;
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+        }
+
+        .accordion-container {
+            margin-top: 2em;
+        }
+
+        .accordion {
+            background-color: #004b66;
+            color: white;
+            cursor: pointer;
+            margin-bottom: 5px;
+            border: none;
+            text-align: left;
+            width: 100%;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            text-indent: -36px;
+            padding-left: 52px;
+            padding-right: 12px;
+            padding-bottom: 12px;
+            padding-top: 12px;
+            line-height: 1.4em;
+        }
+
+        .accordion:hover,
+        .accordion:focus {
+            background-color: #006080;
+        }
+
+        .panel {
+            display: none;
+            padding: 15px 20px;
+            background-color: #ffffff;
+            border-left: 4px solid #004b66;
+            border-right: 4px solid #004b66;
+            border-bottom: 4px solid #004b66;
+            font-size: 0.95rem;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -213,166 +218,159 @@
 
         <div style="background-color: #e6ffe6; border-left: 4px solid #33aa33; padding: 1em; margin: 2em 0;">
             <h3 style="margin-top: 0;">💡 For Example</h3>
-                <ul>
-                    <li>The PADI Deep Dive certification course states a dive computer is optional; either a dive
-                        computer or a
-                        timer! Talk about intentional task overloading - asking a recreational diver to update their
-                        dive
-                        profile in real time with depth and time, and compute nitrogen tissue loading. Nope - bad idea.
-                        <strong>Dive computers are mandatory for deep dives!</strong>
-                    </li>
-                    <li>The PADI Deep Dive certification course states in the section covering Deep Dive equipment that
-                        an
-                        alternate air source is recommended and should be easy to locate. OK - that's good advice.
-                        However, the
-                        section of equipment goes on to say an H-valve or Y-valve is an alternative, as is carrying a
-                        pony
-                        bottle. None of these are appropriate for the recreational diver, especially a pony bottle. See
-                        the side
-                        panel below regarding pony bottle, and why they are not a viable solution for out of air
-                        condition at
-                        130 ft. The best option for out of air at 130 feet is to not be out of air. The second option is
-                        to have
-                        a competent buddy to share air with while both of you ascend.
-                    </li>
-                    <li>
-                        <p> Let's dive deepeer into the Pony Bottle issue.</p>
-                        <!-- START: Pony Bottle and Gas Choice Panel for Deep Dive -->
-                        <p><button class="accordion">🧯 Q: What is the smallest effective pony bottle size for a bailout
-                            ascent from 130
-                            ft?</button>
-                        <div class="panel">
-                            <p>
-                                Assuming a diver with a resting or average RMV of <strong>22 L/min</strong>, ascending
-                                from <strong>130
-                                    ft</strong> with:
-                            </p>
-                            <ul>
-                                <li>Ascent to 55 ft in 2.5 min</li>
-                                <li>Stop at 55 ft for 2 min</li>
-                                <li>Ascent to 15 ft in 2 min</li>
-                                <li>Safety stop at 15 ft for 4 min</li>
-                                <li>Final ascent in 0.5 min</li>
-                            </ul>
-                            <p>
-                                Total gas required: <strong>~558 liters</strong> at surface volume.
-                            </p>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Pony Bottle</th>
-                                        <th>Capacity</th>
-                                        <th>Total Gas (L)</th>
-                                        <th>Sufficient?</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>AL19</td>
-                                        <td>2.5 L @ 207 bar</td>
-                                        <td>~518 L</td>
-                                        <td>⚠️ Just Under</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>AL30</strong></td>
-                                        <td><strong>4.0 L @ 207 bar</strong></td>
-                                        <td><strong>~828 L</strong></td>
-                                        <td><strong>✅</strong></td>
-                                    </tr>
-                                    <tr>
-                                        <td>AL40</td>
-                                        <td>5.7 L @ 207 bar</td>
-                                        <td>~1180 L</td>
-                                        <td>✅</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p><strong>Minimum Recommended Pony Bottle:</strong> <em>AL30 (4.0L, 207 bar)</em></p>
-                            <p class="note">
-                                <strong>Caution:</strong> This analysis assumes a resting RMV of 22 L/min. In a real
-                                emergency, divers
-                                often breathe at <strong>2× or more</strong> their normal rate due to stress or
-                                exertion. If your actual
-                                RMV surges to 44 L/min, the AL30 bottle <strong>may be depleted halfway through the
-                                    ascent</strong>. For
-                                better safety margin, consider an <strong>AL40 or larger</strong>.
-                            </p>
-                        </div>
-                 
-                        
+            <ul>
+                <li>The PADI Deep Dive certification course states a dive computer is optional; either a dive
+                    computer or a
+                    timer! Talk about intentional task overloading - asking a recreational diver to update their
+                    dive
+                    profile in real time with depth and time, and compute nitrogen tissue loading. Nope - bad idea.
+                    <strong>Dive computers are mandatory for deep dives!</strong>
+                </li>
+                <li>The PADI Deep Dive certification course states in the section covering Deep Dive equipment that
+                    an
+                    alternate air source is recommended and should be easy to locate. OK - that's good advice.
+                    However, the
+                    section of equipment goes on to say an H-valve or Y-valve is an alternative, as is carrying a
+                    pony
+                    bottle. None of these are appropriate for the recreational diver, especially a pony bottle. See
+                    the side
+                    panel below regarding pony bottle, and why they are not a viable solution for out of air
+                    condition at
+                    130 ft. The best option for out of air at 130 feet is to not be out of air. The second option is
+                    to have
+                    a competent buddy to share air with while both of you ascend.
+                </li>
+                <li>
+                    <p> Let's dive deepeer into the Pony Bottle issue.</p>
+
+        <!-- START: Pony Bottle and Gas Choice Panel for Deep Dive -->
+                    
+                    <button class="accordion">🧯 Q: What is the smallest effective pony bottle size for a bailout ascent
+                        from 130 ft?</button>
+                    <div class="panel">
                         <p>
-                            <button class="accordion">🧪 Q: What is the best gas mix to fill the pony bottle for this
-                                emergency  ascent?</button>
-                        <div class="panel">
-                            <p>We compare oxygen exposure (PO<sub>2</sub>) during the first 2.5 minutes of ascent from
-                                130 ft using
-                                various gas mixes:</p>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Gas</th>
-                                        <th>PO<sub>2</sub> @ 130 ft</th>
-                                        <th>Risk Level</th>
-                                        <th>Deco Benefit</th>
-                                        <th>Verdict</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Air (21%)</td>
-                                        <td>1.05 ATA</td>
-                                        <td>✅ Safe</td>
-                                        <td>❌ None</td>
-                                        <td>✅ Very Safe</td>
-                                    </tr>
-                                    <tr>
-                                        <td>EAN28</td>
-                                        <td>1.40 ATA</td>
-                                        <td>✅ Safe</td>
-                                        <td>👍 Good</td>
-                                        <td>✅ Recommended</td>
-                                    </tr>
-                                    <tr>
-                                        <td>EAN32</td>
-                                        <td><strong>1.60 ATA</strong></td>
-                                        <td>⚠️ At Limit</td>
-                                        <td>🔥 Excellent</td>
-                                        <td>✅ Acceptable for emergencies only</td>
-                                    </tr>
-                                    <tr>
-                                        <td>EAN36</td>
-                                        <td><strong>1.80 ATA</strong></td>
-                                        <td>🚫 Exceeds Limit</td>
-                                        <td>🔥🔥 High</td>
-                                        <td>🚫 Not advised</td>
-                                    </tr>
-                                    <tr>
-                                        <td>EAN40</td>
-                                        <td><strong>2.00 ATA</strong></td>
-                                        <td>❌ Seizure Risk</td>
-                                        <td>🔥🔥🔥 Very High</td>
-                                        <td>❌ Unsafe</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p>
-                                <strong>Recommendation:</strong> Use <strong>EAN28</strong> for the best balance of
-                                oxygen-rich
-                                off-gassing and CNS safety.
-                                <strong>EAN32</strong> may be acceptable for <em>short, emergency-only</em> use if
-                                ascent is immediate
-                                and calm. Avoid EAN36+ due to high PO<sub>2</sub> risk at depth.
-                            </p>
-                            <p>
-                                <em>Note:</em> Always confirm gas mix with an analyzer, calculate MODs, and pre-plan
-                                bailout use. Avoid
-                                high-PO<sub>2</sub> mixes unless trained in oxygen exposure management and the risk
-                                profile warrants it.
-                            </p>
-                        </div>
-                        <!-- END: Pony Bottle and Gas Choice Panel -->
-                    </li>
-                </ul>
+                            Assuming a diver with a resting or average RMV of <strong>22 L/min</strong>, ascending from
+                            <strong>130 ft</strong> with:
+                        </p>
+                        <ul>
+                            <li>Ascent to 55 ft in 2.5 min</li>
+                            <li>Stop at 55 ft for 2 min</li>
+                            <li>Ascent to 15 ft in 2 min</li>
+                            <li>Safety stop at 15 ft for 4 min</li>
+                            <li>Final ascent in 0.5 min</li>
+                        </ul>
+                        <p>
+                            Total gas required: <strong>~558 liters</strong> at surface volume.
+                        </p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Pony Bottle</th>
+                                    <th>Capacity</th>
+                                    <th>Total Gas (L)</th>
+                                    <th>Sufficient?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>AL19</td>
+                                    <td>2.5 L @ 207 bar</td>
+                                    <td>~518 L</td>
+                                    <td>⚠️ Just Under</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>AL30</strong></td>
+                                    <td><strong>4.0 L @ 207 bar</strong></td>
+                                    <td><strong>~828 L</strong></td>
+                                    <td><strong>✅</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>AL40</td>
+                                    <td>5.7 L @ 207 bar</td>
+                                    <td>~1180 L</td>
+                                    <td>✅</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><strong>Minimum Recommended Pony Bottle:</strong> <em>AL30 (4.0L, 207 bar)</em></p>
+                        <p class="note">
+                            <strong>Caution:</strong> This analysis assumes a resting RMV of 22 L/min. In a real
+                            emergency, divers often breathe at <strong>2× or more</strong> their normal rate due to
+                            stress or exertion. If your actual RMV surges to 44 L/min, the AL30 bottle <strong>may be
+                                depleted halfway through the ascent</strong>. For better safety margin, consider an
+                            <strong>AL40 or larger</strong>.
+                        </p>
+                    </div>
+
+                    <button class="accordion">🧪 Q: What is the best gas mix to fill the pony bottle for this emergency
+                        ascent?</button>
+                    <div class="panel">
+                        <p>We compare oxygen exposure (PO<sub>2</sub>) during the first 2.5 minutes of ascent from 130
+                            ft using various gas mixes:</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Gas</th>
+                                    <th>PO<sub>2</sub> @ 130 ft</th>
+                                    <th>Risk Level</th>
+                                    <th>Deco Benefit</th>
+                                    <th>Verdict</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Air (21%)</td>
+                                    <td>1.05 ATA</td>
+                                    <td>✅ Safe</td>
+                                    <td>❌ None</td>
+                                    <td>✅ Very Safe</td>
+                                </tr>
+                                <tr>
+                                    <td>EAN28</td>
+                                    <td>1.40 ATA</td>
+                                    <td>✅ Safe</td>
+                                    <td>👍 Good</td>
+                                    <td>✅ Recommended</td>
+                                </tr>
+                                <tr>
+                                    <td>EAN32</td>
+                                    <td><strong>1.60 ATA</strong></td>
+                                    <td>⚠️ At Limit</td>
+                                    <td>🔥 Excellent</td>
+                                    <td>✅ Acceptable for emergencies only</td>
+                                </tr>
+                                <tr>
+                                    <td>EAN36</td>
+                                    <td><strong>1.80 ATA</strong></td>
+                                    <td>🚫 Exceeds Limit</td>
+                                    <td>🔥🔥 High</td>
+                                    <td>🚫 Not advised</td>
+                                </tr>
+                                <tr>
+                                    <td>EAN40</td>
+                                    <td><strong>2.00 ATA</strong></td>
+                                    <td>❌ Seizure Risk</td>
+                                    <td>🔥🔥🔥 Very High</td>
+                                    <td>❌ Unsafe</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>
+                            <strong>Recommendation:</strong> Use <strong>EAN28</strong> for the best balance of
+                            oxygen-rich off-gassing and CNS safety.
+                            <strong>EAN32</strong> may be acceptable for <em>short, emergency-only</em> use if ascent is
+                            immediate and calm. Avoid EAN36+ due to high PO<sub>2</sub> risk at depth.
+                        </p>
+                        <p>
+                            <em>Note:</em> Always confirm gas mix with an analyzer, calculate MODs, and pre-plan bailout
+                            use. Avoid high-PO<sub>2</sub> mixes unless trained in oxygen exposure management and the
+                            risk profile warrants it.
+                        </p>
+                    </div>
+        <!-- END: Pony Bottle and Gas Choice Panel -->
+
+                </li>
+            </ul>
             </section>
         </div>
 
