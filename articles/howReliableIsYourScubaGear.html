@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+    <title>How Reliable is Your Scuba Gear</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .sidebar {
+            background: #f2f2f2;
+            padding: 10px 15px;
+            border-left: 5px solid #003f5c;
+            margin: 20px 0;
+        }
+
+        .case-section {
+            margin-top: 30px;
+        }
+
+        .case-section h3 {
+            margin-bottom: 5px;
+            color: #2f4b7c;
+        }
+
+        .code-block {
+            font-family: "Courier New", monospace;
+            background-color: #eee;
+            padding: 0.5em;
+            border-left: 4px solid #005580;
+            margin: 1em 0;
+        }
+
+        .highlight {
+            background-color: #d9edf7;
+            padding: 0.5em;
+            border-left: 4px solid #31708f;
+            margin: 1em 0;
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            color: #005580;
+        }
+
+        .sidebar {
+            font-size: 1.6em;
+            font-style: italic;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            color: brown;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+
+        <h1>How Reliable Is Your Scuba Gear
+            <br>
+            <span style="font-size:22px;"> Applying Engineering Reliability Principles to Dive Safety</span>
+        </h1>
+
+        <p>Exploring the science and safety of scuba diving.</p>
+        <a href="../index.html"> <button>Back to Home</button> </a>
+    </header>
+
+    <article>
+
+        <p>In the world of scuba diving, we often talk about redundancy and equipment checks—but how often do we step
+            back and treat our dive rig like a critical life-support system? Drawing from reliability engineering
+            principles used in industrial systems, we can gain powerful insights into how the components of our dive
+            gear interact, and what our true system-level risk looks like.</p>
+
+        <div class="section-title">Mean Time to Failure (MTTF): A Misunderstood Metric</div>
+        <p>MTTF is a statistical average. When a regulator is rated for 100 hours MTTF, that doesn't mean it will fail
+            at hour 100. It means that <em>on average</em>—over many units and conditions—a failure occurs every 100
+            hours of use. Some fail early, some much later. This makes every dive a roll of the probabilistic dice.</p>
+
+        <div class="section-title">Your Dive Rig as a Series System</div>
+        <p>Let's define a typical single-tank recreational setup with no redundant first stage. This includes:</p>
+        <ul>
+            <li>Tank valve</li>
+            <li>First stage regulator</li>
+            <li>Primary second stage</li>
+            <li>Octopus (cold standby)</li>
+            <li>LP inflator</li>
+            <li>Pressure gauge (SPG)</li>
+            <li>4 hoses (2 LP, 1 HP, 1 spare)</li>
+        </ul>
+        <p>In engineering, this is a <strong>series system</strong>: if any one component fails, the system fails.</p>
+
+        <div class="section-title">Reliability Analysis</div>
+        <p>We converted each component's MTTF into a failure rate (λ), then summed them to get the system-level failure
+            rate.</p>
+        <div class="code-block">
+            Tank valve: λ = 0.0001<br>
+            First stage: λ = 0.002<br>
+            Primary second stage: λ = 0.01<br>
+            Octopus (10% on-demand failure): λ = 0.001<br>
+            LP inflator: λ = 0.0033<br>
+            SPG: λ = 0.001<br>
+            Hoses (total): λ = 0.00267<br>
+            ------------------------------<br>
+            Total system λ = 0.02007 → MTTF ≈ 49.8 hours
+        </div>
+
+        <div class="highlight">
+            Your dive system, under realistic assumptions, has a statistical mean time to failure of just under
+            <strong>50 hours</strong>.
+        </div>
+
+        <div class="section-title">What If Your Octopus Is Neglected?</div>
+        <p>If your backup second stage (octopus) is poorly maintained and has a 50% chance of working on demand:</p>
+        <div class="code-block">
+            Octopus λ = 0.01 × 0.5 = 0.005<br>
+            New total λ = 0.02407 → MTTF ≈ 41.5 hours
+        </div>
+        <p>That's nearly a <strong>20% drop in system reliability</strong>, just from a backup reg being neglected.</p>
+
+        <div class="section-title">Cold Standby ≠ Reliable</div>
+        <p>An unused component, like the octopus, can suffer from dry O-rings, internal corrosion, or salt
+            deposits—making it unreliable unless <strong>actively tested and maintained</strong>. You can't depend on it
+            in an emergency unless it's cared for like your primary.</p>
+
+        <div class="section-title">Recommendations for Divers</div>
+        <ul>
+            <li>Test your octopus on every dive (purge and check for bubbles).</li>
+            <li>Service all second stages at the same interval—whether used or not.</li>
+            <li>Track gear usage hours, and consider MTTF when planning service intervals.</li>
+        </ul>
+
+        <div class="section-title">The Bigger Picture: System Thinking</div>
+        <p>Treat your dive rig like an engineered system:</p>
+        <ul>
+            <li>Understand where redundancy exists—and where it doesn’t.</li>
+            <li>Model reliability, not just functionality.</li>
+            <li>Plan maintenance and testing intervals with failure rates in mind.</li>
+        </ul>
+
+        <div class="highlight">
+            Redundancy isn't safety unless it's maintained, tested, and trusted.
+        </div>
+
+
+        <div class="sidebar">Sidebar: MTTF and the Risks of Rental Gear</div>
+        <div class="highlight">
+            <strong>Rental scuba gear</strong> at resorts often sees 3–4 dives per day, especially in saltwater
+            conditions. While convenient, this equipment is under far more stress than gear owned and carefully
+            maintained by occasional recreational divers.
+        </div>
+        <p>Key concerns with high-use rental gear:</p>
+        <ul>
+            <li><strong>Salt buildup:</strong> Saltwater dries inside BCD inflators, causing sticking or free-flowing
+                valves.</li>
+            <li><strong>High wear rate:</strong> Regulators, second stages, and inflators reach their MTTF thresholds
+                faster due to continuous cycles of wet/dry, pressure exposure, and handling.</li>
+            <li><strong>Delayed maintenance:</strong> Some operators delay servicing to save costs, especially for
+                backup gear.</li>
+        </ul>
+        <p>If you're renting:</p>
+        <ul>
+            <li><strong>Test the inflator valve thoroughly</strong>—inflate/deflate multiple times before water entry.
+            </li>
+            <li><strong>Check all hoses and connections</strong> for leaks or cracks.</li>
+            <li><strong>Breath through both second stages</strong> (primary and octopus), purging both.</li>
+            <li><strong>Confirm SPG reads correctly</strong> and that the tank is fully pressurized before descent.</li>
+        </ul>
+        <div class="highlight">
+            You have a <stronggreater responsibility</strong> to inspect rental gear thoroughly—don't let the
+                convenience of traveling light compromise your safety.
+        </div>
+        <p>Want to go deeper? In the next post, we’ll explore how adding redundancy (e.g., twin first stages, redundant
+            buoyancy, sidemount rigs) can improve system-level MTTF and how to model those with parallel reliability
+            equations.</p>
+</body>
+
+</html>
