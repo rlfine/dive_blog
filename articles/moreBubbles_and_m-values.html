@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>More Bubbles and m_values</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>More Theory for Bubbles and M_values</h1>
+        <p>Exploring the science and safety of scuba diving.</p>
+        <a href="../index.html"> <button>Back to Home</button> </a>
+    </header>
+
+    <article>
+
+
+
+        <h2>Timeline: Evolution of Decompression Safety Limits</h2>
+
+        <section>
+            <p><em>1908 – Haldane’s 2:1 Pressure Ratio</em></p>
+
+
+            <p><strong>John Scott Haldane</strong> published the first staged decompression model based on goat
+                experiments. He proposed that tissues could safely tolerate a nitrogen load of up to <strong>2 times the
+                    ambient pressure</strong> without forming harmful bubbles. This 2:1 ratio applied uniformly to all
+                tissues and formed the foundation of early Navy and commercial diving tables.
+            </p>
+            </div>
+
+            <p>⚓ Mid-20th Century – U.S. Navy Reduces to 1.58:1</p>
+            <p>Further U.S. Navy dive research revealed that the 2:1 ratio was too aggressive for certain tissues,
+                especially slow-saturating compartments like fat and marrow. They revised the maximum allowable pressure
+                differential to about <strong>1.58:1</strong>, still applied universally across all tissue compartments.
+            </p>
+
+            <p>📊 1965 – Workman Introduces M-Values</p>
+            <p><strong>Robert D. Workman</strong> introduced a more refined model that calculated
+                <strong>tissue-specific inert gas limits</strong> known as <strong>M-values</strong>. These values vary
+                by tissue compartment and depth, representing the maximum safe nitrogen pressure for each tissue at any
+                given ambient pressure. His work shifted decompression modeling from a fixed pressure ratio to a
+                flexible, physics-based ceiling model, forming the basis for modern dive computers and tables.
+            </p>
+
+            <p><em>Formula:</em> M = M₀ + ΔM × P<sub>amb</sub>
+            </p>
+
+
+
+        </section>
+
+    </article>
+
+    <div id="footer">loading...</div>
+    <script>
+        fetch('../footer.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('footer').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load error:', err));
+    </script>
+</body>
+
+</html>
