@@ -1277,11 +1277,10 @@
         </div>
 
         <button class="accordion">Q123: Bonus: A scuba diver started with a steel HP100 scuba tank filled to 3000 psi of
-          EAN32. During the predive equipment pool check, the diver used 1200 psi, levaing 1800 psi of EAN32. Diver
-          wants
-          to fill the tank to 3400 psi, and the resulting mixture be EAN36. How many PSI of pure O<sub>2</sub> to add to
-          then top off
-          with air to get the EAN36 mixture?</button>
+          EAN32. During the predive equipment pool check, the diver used 1200 psi, leaving 1800 psi of EAN32. Diver
+          wants to fill the tank to 3400 psi, and the resulting mixture be <strong>EAN36</strong>. How many PSI of pure
+          O<sub>2</sub> to
+          add to then top off with air to get the EAN36 mixture?</button>
         <div class="panel">
           <p><strong>Scenario:</strong> A diver has a <strong>steel HP100 tank</strong> with <strong>1800 psi of
               EAN32</strong> remaining and wants to top it off to <strong>3400 psi of EAN36</strong>.</p>
@@ -1305,20 +1304,34 @@
             <br><span style="margin-left:26px;">⇒ <code>0.32 × 1800 = 576 psi O₂</code></span>
           </p>
 
+          <p style="margin-left:16px;">For 3400 psi final state, diver needs to add 648 psi of O₂ to the tank.
+            <br>Some of the O₂ comes from pure O₂, some from air. <br>
+            Let's compute the amount needed from pure O₂ needes.
+          </p>
+
           <p><strong>Step 3 – Set up blending equation:</strong>
-            <br><span style="margin-left:12px;">Let <code>x</code> = psi of pure O₂ to add</span>
+            <br><span style="margin-left:12px;">If we let <code style="font-weight: bold;">X</code> = psi of pure O₂ to
+              add, then 0.21 × (1600 - <span style="font-weight: bold;">X</span>) will be the amount of O₂ in psi to be
+              added from air.</span>
             <br><span style="margin-left:12px;">Remaining top-off will be with air (21% O₂)</span>
-            <br><span style="margin-left:26px;"> <code>576 + x + 0.21 × (1600 - x) = 1224</code></span>
+            <br><span style="margin-left:26px;">
+              <code>576 + <span style="font-weight: bold;">X</span> + 0.21 × (1600 -  <span style="font-weight: bold;">X</span>) = 1224</code></span>
+            <br><span style="margin-left:26px;">
+              <code>576 + <span style="font-weight: bold;">X</span> - 0.21<span style="font-weight: bold;">X</span> + 0.21 × 1600 = 1224</code></span>
+            <br><span style="margin-left:26px;">
+              <code>576 +  0.79<span style="font-weight: bold;">X</span> + 0.21 × 1600 = 1224</code></span>
           </p>
 
           <p><strong>Step 4 – Solve:</strong>
-            <br><span style="margin-left:12px;"> <code>912 + 0.79x = 1224</code></span>
-            <br><span style="margin-left:12px;"> <code>x ≈ 395 psi of pure O₂</code></span>
+            <br><span style="margin-left:12px;"> <code>912 + 0.79<span style="font-weight: bold;">X</span> = 1224</code></span>
+            <br><span style="margin-left:12px;">
+              <code><span style="font-weight: bold;">X</span> ≈ 395 psi of pure O₂</code></span>
           </p>
 
           <p><strong>Answer:</strong>
             <br><span style="margin-left:12px;"> Add <strong>395 psi of pure O<sub>2</sub></strong>, then top off with
-              air to 3400 psi. The resulting mix will be <strong>EAN36</strong></span>.
+              1205 psi of air to 3400 psi. </span>
+              <br><span style="margin-left:12px;">The resulting mix will be <strong>EAN36</strong></span>.
           </p>
           <img src="../../Resources/partialBlending.png" alt="image filled scuba tank"
             style="display: block; margin: 0 auto;width: 60%;">
