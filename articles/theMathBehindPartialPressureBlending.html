@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Maths Behind Partial Pressure Blending</title>
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .blend-example {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            border-left: 5px solid #2a9d8f;
+            padding: 1em 1.5em;
+            margin: 1.5em 0;
+            line-height: 1.6;
+            border-radius: 8px;
+        }
+
+        .blend-example h3 {
+            margin-top: 0;
+            color: #2a9d8f;
+        }
+
+        .blend-example code {
+            background-color: #eaf4f4;
+            padding: 0.1em 0.4em;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .caution-note {
+            background-color: #fff3cd;
+            border-left: 5px solid #ff9800;
+            padding: 1em 1.25em;
+            margin: 1.5em 0;
+            border-radius: 6px;
+            color: #664d03;
+            font-family: Arial, sans-serif;
+        }
+li{margin-top:18px;}
+
+        .caution-note h4 {
+            margin-top: 0;
+            color: #ff9800;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>The Maths Behind Partial Pressure Blending<br><span style="font-size: 26px; color:darkgray;font-style: italic;">It's not Complicated</span></h1>
+        <p>Exploring the science and safety of scuba diving.</p>
+        <a href="../index.html"> <button>Back to Home</button> </a>
+    </header>
+
+    <article>
+
+
+
+        <div class="blend-example">
+            <h2 style="color:#2a9d8f">Worked Example: Partial Pressure Blending to Create EAN36</h2>
+
+            <p><strong>Scenario:</strong> A diver performs the requisite equipment pool check, starting with a Steel
+                HP100 tank, filled to <strong>3000 psi of EAN32</strong>.
+                During pool check, diver used 1200 psi. Prior to open water dive, diver wants to top off his HP100 tank
+                to <strong>3400 psi of EAN36</strong>. In this exercise, we will calculate the amount of pure oxygen to
+                add, and how much air to use for the remainder. </p><p>See Cautionary Note ⚠️ below.</p><hr>
+
+            <ol>
+                <li><strong>Determine target oxygen pressure:</strong><br>
+                    Final mixture is 36% O<sub>2</sub> at 3400 psi:<br>
+                    <code>3400 × 0.36 = 1224 psi of O₂</code>
+                </li>
+
+                <li><strong>Determine existing oxygen pressure:</strong><br>
+                    Starting mix is 32% O<sub>2</sub> at 1800 psi:<br>
+                    <code>1800 × 0.32 = 576 psi of O₂</code>
+                </li>
+
+                <li><strong>Let <code>X</code> = psi of pure O₂ to add</strong>, and <code>Y</code> = psi of O₂ from air
+                    top-off.<br>
+                    Total O₂ needed is:<br>
+                    <code>576 + X + Y = 1224</code>
+                </li>
+
+                <li><strong>Top-off air contributes:</strong><br>
+                    Air adds 21% oxygen, so:<br>
+                    <code>Y = 0.21 × (3400 − 1800 − X)</code><br>
+                    <code>Y = 0.21 × (1600 − X)</code>
+                </li>
+
+                <li><strong>Substitute and solve:</strong><br>
+                    <code>576 + X + 0.21 × (1600 − X) = 1224</code><br>
+                    Expand:<br>
+                    <code>576 + X + 336 − 0.21X = 1224</code><br>
+                    Combine like terms:<br>
+                    <code>912 + 0.79X = 1224</code><br>
+                    Solve for X:<br>
+                    <code>X = (1224 − 912) ÷ 0.79 = 395 psi of pure O₂</code>
+                </li>
+
+                <li><strong>Calculate air top-off:</strong><br>
+                    Total top-off pressure = <code>3400 − 1800 − 395 = 1205 psi of air</code><br>
+                    O₂ from air = <code>0.21 × 1205 = 253 psi</code>
+                </li>
+            </ol>
+
+            <p><strong>Result:</strong> Add <code>395 psi</code> of pure O₂, then <code>1205 psi</code> of air to yield
+                a final tank pressure of <code>3400 psi</code> with an oxygen fraction of <code>36%</code> (EAN36).</p>
+        </div>
+
+
+        <div class="caution-note">
+            <h4>⚠️ Caution: Real-World Blending Practice</h4>
+            <p>The worked example above is a <strong>mathematical exercise</strong> to illustrate partial pressure
+                blending calculations. In actual practice, it is <strong>not advisable</strong> to add pure oxygen to a
+                tank that already contains <strong>1800 psi of EAN32</strong>.</p>
+
+            <p>For both safety and practical reasons, dive shops following best practices would typically <strong>empty
+                    the tank to near zero</strong> before filling with a new blend like <strong>EAN36</strong>. Pure O₂
+                is normally added <strong>first</strong> to an empty or nearly empty O₂-clean tank, followed by topping
+                off with filtered air to achieve the desired oxygen percentage.</p>
+
+            <p>Attempting to add pure O₂ to a partially full tank at high pressure requires specialized equipment such
+                as an <strong>O₂ booster pump</strong>, should generally be avoided as a standard practice, and if done,
+                should only be done by trained professionals under controlled
+                conditions.</p>
+        </div>
+    </article>
+
+    <div id="footer">loading...</div>
+    <script>
+        fetch('../footer.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('footer').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load error:', err));
+    </script>
+</body>
+
+</html>
