@@ -39,11 +39,36 @@
             color: #664d03;
             font-family: Arial, sans-serif;
         }
-li{margin-top:18px;}
+
+        li {
+            margin-top: 18px;
+        }
 
         .caution-note h4 {
             margin-top: 0;
             color: #ff9800;
+        }
+
+        .sidebar-box {
+            background-color: #eef6fa;
+            border-left: 5px solid #0077b6;
+            padding: 1em 1.25em;
+            margin: 1.5em 0;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            color: #003049;
+        }
+
+        .sidebar-box h4 {
+            margin-top: 0;
+            color: #0077b6;
+        }
+
+        .sidebar-box code {
+            background-color: #d8ecf3;
+            padding: 0.1em 0.3em;
+            border-radius: 4px;
+            font-family: monospace;
         }
     </style>
 </head>
@@ -51,7 +76,11 @@ li{margin-top:18px;}
 <body>
 
     <header>
-        <h1>The Maths Behind Partial Pressure Blending<br><span style="font-size: 26px; color:darkgray;font-style: italic;">It's not Complicated</span></h1>
+        <h1>The Maths Behind Partial Pressure Blending
+            <br><span style="font-size: 24px;">Using Dalton's Law of Partial Pressures</span>
+            <br><span style="font-size: 20px; color:darkgray;font-style: italic;text-decoration: underline;">It's not
+                Complicated</span>
+        </h1>
         <p>Exploring the science and safety of scuba diving.</p>
         <a href="../index.html"> <button>Back to Home</button> </a>
     </header>
@@ -67,7 +96,9 @@ li{margin-top:18px;}
                 HP100 tank, filled to <strong>3000 psi of EAN32</strong>.
                 During pool check, diver used 1200 psi. Prior to open water dive, diver wants to top off his HP100 tank
                 to <strong>3400 psi of EAN36</strong>. In this exercise, we will calculate the amount of pure oxygen to
-                add, and how much air to use for the remainder. </p><p>See Cautionary Note ⚠️ below.</p><hr>
+                add, and how much air to use for the remainder. </p>
+            <p>See Cautionary Note ⚠️ below.</p>
+            <hr>
 
             <ol>
                 <li><strong>Determine target oxygen pressure:</strong><br>
@@ -112,6 +143,44 @@ li{margin-top:18px;}
                 a final tank pressure of <code>3400 psi</code> with an oxygen fraction of <code>36%</code> (EAN36).</p>
         </div>
 
+
+        <div class="sidebar-box">
+            <h4>📘 Dalton’s Law of Partial Pressures</h4>
+            <p><strong>Dalton’s Law</strong> is the fundamental gas law in scuba diving used in decompression algorithms
+                when computing
+                theoretical nitrogen loading in tissues, but it is also used when performing partial pressure blending.
+                The law states:</p>
+
+            <p style="margin-left:22px;"><em>"The total pressure of a gas mixture is equal to the sum of the partial pressures of each individual
+                    gas in the mixture."</em></p>
+
+            <p><strong>Formula:</strong><br>
+                <code>P<sub>total</sub> = P<sub>O₂</sub> + P<sub>N₂</sub> + ...</code>
+            </p>
+
+            <p><strong>The converse of Dalton's Law is also true:</strong> </p>
+            <p style="margin-left:22px;"><em>"The partial pressure of a gas in a mixture is equal to the fraction (or percentage) of that gas
+                    times the total pressure of the gas mixture."</em>
+            </p>
+            <p>
+                It is the converse of Dalton's Law that we use in partial pressure blending.
+            </p>
+
+
+
+
+
+            <p>In scuba blending, if you want to create a specific Nitrox mix (e.g., <strong>EAN36</strong> at
+                <code>3400 psi</code>), you calculate how much of each gas (pure O₂ and air) to add so their partial
+                pressures sum to the desired total:
+            </p>
+
+            <p><code>P<sub>O₂</sub> = 0.36 × 3400 = 1224 psi</code><br>
+                <code>P<sub>N₂</sub> = 3400 − 1224 = 2176 psi</code>
+            </p>
+
+            <p>This law enables precise gas blending for safe and optimized dive profiles.</p>
+        </div>
 
         <div class="caution-note">
             <h4>⚠️ Caution: Real-World Blending Practice</h4>
