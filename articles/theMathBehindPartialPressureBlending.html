@@ -30,6 +30,16 @@
             font-family: monospace;
         }
 
+        .info-note {
+            background-color: #deffde;
+            border-left: 5px solid #00ac48;
+            padding: 1em 1.25em;
+            margin: 1.5em 0;
+            border-radius: 6px;
+            color: #664d03;
+            font-family: Arial, sans-serif;
+        }
+
         .caution-note {
             background-color: #fff3cd;
             border-left: 5px solid #ff9800;
@@ -44,9 +54,14 @@
             margin-top: 18px;
         }
 
+        .info-note h4 {
+            margin-top: 0;
+            color: #00ac16;
+        }
+
         .caution-note h4 {
             margin-top: 0;
-            color: #ff9800;
+            color: #9800ff;
         }
 
         .sidebar-box {
@@ -151,7 +166,8 @@
                 theoretical nitrogen loading in tissues, but it is also used when performing partial pressure blending.
                 The law states:</p>
 
-            <p style="margin-left:22px;"><em>"The total pressure of a gas mixture is equal to the sum of the partial pressures of each individual
+            <p style="margin-left:22px;"><em>"The total pressure of a gas mixture is equal to the sum of the partial
+                    pressures of each individual
                     gas in the mixture."</em></p>
 
             <p><strong>Formula:</strong><br>
@@ -159,15 +175,13 @@
             </p>
 
             <p><strong>The converse of Dalton's Law is also true:</strong> </p>
-            <p style="margin-left:22px;"><em>"The partial pressure of a gas in a mixture is equal to the fraction (or percentage) of that gas
+            <p style="margin-left:22px;"><em>"The partial pressure of a gas in a mixture is equal to the fraction (or
+                    percentage) of that gas
                     times the total pressure of the gas mixture."</em>
             </p>
             <p>
                 It is the converse of Dalton's Law that we use in partial pressure blending.
             </p>
-
-
-
 
 
             <p>In scuba blending, if you want to create a specific Nitrox mix (e.g., <strong>EAN36</strong> at
@@ -182,22 +196,58 @@
             <p>This law enables precise gas blending for safe and optimized dive profiles.</p>
         </div>
 
+        <div class="info-note">
+            <h4>ℹ️ Info: This is Simply a Thought Exercise (do not try this at home)</h4>
+            <p>The tank to be filled already has 1800 psi and we will be attempting to add 395 psi to that. Assuming we
+                have a new, full 244 ft<sup>3</sup> that has 2200 psi. If we have a full tank to fill from, filling will
+                start off as the high pressure of the filling tank moves O₂ to the filled tank. Because the
+                pressure differential between the two tanks is so small, filling the tank will be slow, but it will
+                certainly start. However, as the pressure increases in the tank that we are filling, the pressure also
+                drops in the tank we are filling from.
+            </p>
+
+            <p>If our 244 ft<sup>3</sup> tank had less than 1800 psi, in the absence of a backflow preventer valve, gas
+                from the tank to be filled would flow back to the pure O₂ tank, contaminating our pure O₂
+                supply.
+            </p>
+
+            <p><strong>Important Takeaway:</strong> Just because we can compute it doesn't mean we can do it.
+            </p>
+        </div>
+
+        <hr>
+
+        <div class="sidebar-box">
+            <h4>🟢 What Really Happens at the Dive Shop</h4>
+            <p>When our diver drops off the Steel HP100 tank and asks for it to be topped off to 3400 psi of
+                <strong>EAN36</strong>, the dive shop will take the tank outside and open the valve to empty it (outside
+                because the high pressure gas escaping from the cylinder is quite noisy).
+            </p>
+            <p> When the tank is empty, the the air fill technician will carry the tank back inside, add 570 psi of pure
+                O₂ to the empty HP100 tank, then add 2830 psi of air to get to the requested 3400 psi of EAN36. That is
+                quite a bit more O₂ than the 395
+                psi that we would have needed if we were able to add O₂ to the partiually filled tank. </p>
+            <p>That's counter to the old adage <em>Waste not, Want Not</em>. &nbsp;&nbsp;&nbsp;But . .
+            </p>
+            <p><strong>Remember:</strong> Just because we can compute it doesn't mean we can do it.
+        </div>
+
+
         <div class="caution-note">
             <h4>⚠️ Caution: Real-World Blending Practice</h4>
-            <p>The worked example above is a <strong>mathematical exercise</strong> to illustrate partial pressure
-                blending calculations. In actual practice, it is <strong>not advisable</strong> to add pure oxygen to a
+            <p>As previously noted, the worked example above is a <strong>mathematical exercise</strong> to illustrate
+                partial pressure blending calculations. Even though there are ways to add O₂ from a low pressure tank to
+                a higher pressure tank, in actual practice, it is <strong>not advisable</strong> to add pure oxygen to a
                 tank that already contains <strong>1800 psi of EAN32</strong>.</p>
-
-            <p>For both safety and practical reasons, dive shops following best practices would typically <strong>empty
-                    the tank to near zero</strong> before filling with a new blend like <strong>EAN36</strong>. Pure O₂
-                is normally added <strong>first</strong> to an empty or nearly empty O₂-clean tank, followed by topping
-                off with filtered air to achieve the desired oxygen percentage.</p>
 
             <p>Attempting to add pure O₂ to a partially full tank at high pressure requires specialized equipment such
                 as an <strong>O₂ booster pump</strong>, should generally be avoided as a standard practice, and if done,
-                should only be done by trained professionals under controlled
-                conditions.</p>
+                should only be done by trained professionals under controlled conditions.</p>
+
+            <p><strong>Finally:</strong> Just because we can compute it doesn't mean we can do it.
+            </p>
         </div>
+
     </article>
 
     <div id="footer">loading...</div>
