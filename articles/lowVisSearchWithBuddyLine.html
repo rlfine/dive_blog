@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Low-Visibility Search Patterns with Buddy Line</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+    <style>
+        h2,
+        h3 {
+            color: #004d66;
+        }
+
+        img {
+            max-width: 60%;
+            height: auto;
+            display: block;
+            margin: 1em 0;
+        }
+
+        ul {
+            margin-left: 1.2em;
+        }
+
+        .card {
+            background-color: #f2f9f9;
+            border-left: 5px solid #007b8a;
+            padding: 1em;
+            margin: 1em 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Search Patterns Using and the Buddy Line<br><span style="font-size: smaller;"> Expanding Square &
+                U-Pattern</span></h1>
+        <a href="../index.html"> <button>Back to Home</button> </a>
+    </header>
+
+    <article>
+
+        <section style="font-family: Arial, sans-serif; max-width: 850px; margin: 2em auto; line-height: 1.6;">
+
+            <p style="font-size: larger;">Night diving or any diving for that matter, when visibility challenges
+                increase the risk of losing contact with your buddy, a buddy line is an option to consider.
+                This post introduces the buddy line, and two practical search patterns divers can use during an agency
+                Rescue Diver certification scenario—or any dive conducted in low-visibility conditions, including night
+                diving or murky waters.
+            </p>
+            <p style="font-size: larger;">
+                The buddy line is not something you will typically use on a clear, high visibility Caribbean drift dive,
+                but not all of us are so fortunate to be able to do all of our dives in such pristine conditions. And,
+                maybe not all of us want to - there is a certain feeling of accomplishment that we might experience by
+                diving the depths of a lake or quarry, looking at the abundant fresh water life there.
+            </p>
+            <p style="font-size: larger;">
+                Being prepared for the challenges of a low visibility dive will enhance the experience.
+            </p>
+
+            <p style="font-size: larger;">
+                When surface support is unavailable and visibility is below 5 feet, a <strong>buddy line</strong> can
+                significantly improve safety and effectiveness during diver searches. Advanced dive certification and
+                even the search and recovery speciality mention the buddy line, but I have yet to see an instructor pull
+                one out and demonstrate the use and let student divers practice with it.
+            </p>
+
+            <h2>Buddy-Line Configuration</h2>
+            <ul>
+                <li>Length: 6 to 7 feet</li>
+                <li>Material: Bright-colored nylon line or 3/16" braided rope</li>
+                <li>Knots/tape every 2 feet for tactile reference</li>
+                <li><strong>Clipped-in</strong>: Use bolt snaps to D-rings for hands-free use</li>
+                <li><strong>Hand-held</strong>: For rapid drop in entanglement-prone areas</li>
+            </ul>
+            <img src="../../Resources/buddyLine.png" alt="Buddy-line diagram">
+
+            <h2>Expanding Square Search</h2>
+            <p>Best used when the last known point is identified. One diver navigates using a compass and kick cycles
+                while the buddy mirrors the pattern at a 6-foot distance, connected by the buddy line.</p>
+            <ul>
+                <li>Start at center point (LKP)</li>
+                <li>Swim legs in square, increasing each by ~5 ft</li>
+                <li>Turn 90° at each corner, using compass headings</li>
+                <li>Maintain slight line tension and communicate turns via tugs or hand signals</li>
+            </ul>
+
+            <h2>U-Pattern Sweep</h2>
+            <p>Ideal when no precise starting point exists or in drift-prone environments. Divers swim horizontal lanes,
+                covering ground systematically, then turn back in a U-shape.</p>
+            <ul>
+                <li>Hold compass heading during each sweep pass</li>
+                <li>Maintain lateral buddy spacing with line</li>
+                <li>After each pass, shift laterally (e.g., 6 ft) and reverse direction</li>
+                <li>Use tactile or visual signals to coordinate turns</li>
+            </ul>
+
+            <img src="../../Resources/searchPattern.png" alt="search patterns diagram">
+
+            <h2>Pre-Dive Briefing Card</h2>
+            <div class="card">
+                <strong>Objective:</strong> Conduct low-visibility diver search using buddy line<br>
+                <strong>Team Roles:</strong> Navigator (compass/kick count) & Buddy (line contact/visual assist)<br>
+                <strong>Pattern:</strong> Expanding Square or U-pattern (choose based on area)<br>
+                <strong>Line Method:</strong> Clipped or Hand-held (based on environment)<br>
+                <strong>Signals:</strong><br>
+                - 1 tug = stop<br>
+                - 2 tugs = turn<br>
+                - 3 tugs = ascend/emergency<br>
+                <strong>Abort If:</strong> Visibility lost, entanglement, or line slack/over-extension
+            </div>
+
+            <p>Practicing these patterns improves team coordination and effectiveness in stressful rescue or real-world
+                scenarios.</p>
+
+        </section>
+
+    </article>
+
+    <div id="footer">loading...</div>
+    <script>
+        fetch('../footer.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('footer').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load error:', err));
+    </script>
+</body>
+
+</html>
