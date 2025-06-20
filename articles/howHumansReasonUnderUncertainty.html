@@ -2,12 +2,12 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How Humans Reason Under Uncertainty</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../assets/js/ques_and_answ.js"></script>
-    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../assets/js/ques_and_answ.js"></script>
+  <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
 
   <style>
     body {
@@ -17,12 +17,17 @@
       background: #f9f9f9;
       color: #333;
     }
-    h2, h3 {
+
+    h2,
+    h3 {
       color: #005577;
     }
+
     section {
       margin-bottom: 2rem;
+      padding-right:2em;
     }
+
     code {
       background-color: #eee;
       padding: 2px 4px;
@@ -30,77 +35,152 @@
     }
   </style>
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
 
 </head>
 
 <body>
 
-    <header>
-  <h1>How Humans Reason Under Uncertainty</h1>
-        <a href="../index.html"> <button>Back to Home</button> </a>
-    </header>
+  <header>
+    <h1>How Humans Reason Under Uncertainty</h1>
+    <a href="../index.html"> <button>Back to Home</button> </a>
+  </header>
 
-    <article>
+  <article>
+
+    <section>
+      <p style="font-size:larger;">When faced with uncertainty, our brains often take cognitive shortcuts that can lead us to incorrect
+        conclusions. While these mental heuristics help us make fast decisions, they can misfire when dealing with
+        probabilities, risks, or new evidence. This post explores three interconnected concepts: anchoring bias, the
+        base rate fallacy, and the mathematical foundation for correcting these errors — Bayes' Theorem.</p>
+    </section>
+
+    <section>
+      <h2>Anchoring Bias</h2>
+      <p>Anchoring bias is the tendency to rely too heavily on the first piece of information encountered (the "anchor")
+        when making decisions. For example, if a diver hears that a particular dive computer failed on a deep dive, they
+        might anchor on that story and avoid the brand — even if statistical evidence shows an extremely low failure
+        rate.</p>
+      <p>Anchors distort judgment because they become a mental benchmark. In diving, this might affect perceptions of
+        safety, gear reliability, or site risk — often in ways that aren't supported by broader data.</p>
+    </section>
+
+    <section>
+      <h2>The Base Rate Fallacy</h2>
+      <p>The base rate fallacy occurs when we ignore the general frequency of an event (its "base rate") and instead
+        focus on specific details. For instance, a diver might overreact to a rare equipment failure report, ignoring
+        the fact that such failures happen in less than 0.1% of dives.</p>
+      <p>By neglecting base rates, divers and instructors alike can misjudge risks. Base rate neglect is especially
+        dangerous when making safety decisions, such as assessing DCS risk or interpreting medical test results related
+        to dive fitness.</p>
+    </section>
+
+    <section>
+      <h2>Correcting Intuition with Bayes' Theorem</h2>
+      <p>Bayes' Theorem gives us a formal method to update our beliefs given new evidence. It combines the base rate
+        (prior probability) with the likelihood of the new information:</p>
+
+      <p
+        style="margin-left:10%;width:70%;background-color: lightgoldenrodyellow;padding:12px; font-weight:650;border-width:5px; border-style:solid;border-color: darkgray;">
+        Bayes' Theorem is given by :
+        \[
+        P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
+        \]
+      </p>
 
 
+      <p>By integrating prior knowledge (the base rate) with the new evidence (test result), Bayes’ Theorem avoids both
+        anchoring and base rate fallacy. It’s especially powerful in contexts like medical screening, accident analysis,
+        and dive risk modeling.</p>
 
-  <section>
-    <p>When faced with uncertainty, our brains often take cognitive shortcuts that can lead us to incorrect conclusions. While these mental heuristics help us make fast decisions, they can misfire when dealing with probabilities, risks, or new evidence. This post explores three interconnected concepts: anchoring bias, the base rate fallacy, and the mathematical foundation for correcting these errors — Bayes' Theorem.</p>
-  </section>
+      <div>
+        <h2>Bayes’ Theorem and Rare Conditions: A Diver's Case</h2>
 
-  <section>
-    <h2>Anchoring Bias</h2>
-    <p>Anchoring bias is the tendency to rely too heavily on the first piece of information encountered (the "anchor") when making decisions. For example, if a diver hears that a particular dive computer failed on a deep dive, they might anchor on that story and avoid the brand — even if statistical evidence shows an extremely low failure rate.</p>
-    <p>Anchors distort judgment because they become a mental benchmark. In diving, this might affect perceptions of safety, gear reliability, or site risk — often in ways that aren't supported by broader data.</p>
-  </section>
+        <p>Suppose a diver takes a diagnostic test for a rare condition that affects only 1 in 1,000 divers. The test is
+          said to be 99% accurate. But what is the real probability that the diver has the condition if the test result
+          is positive?</p>
 
-  <section>
-    <h2>The Base Rate Fallacy</h2>
-    <p>The base rate fallacy occurs when we ignore the general frequency of an event (its "base rate") and instead focus on specific details. For instance, a diver might overreact to a rare equipment failure report, ignoring the fact that such failures happen in less than 0.1% of dives.</p>
-    <p>By neglecting base rates, divers and instructors alike can misjudge risks. Base rate neglect is especially dangerous when making safety decisions, such as assessing DCS risk or interpreting medical test results related to dive fitness.</p>
-  </section>
+        <h3>Step 1: Known Probabilities</h3>
+        <ul>
+          <li>Prevalence: \( P(\text{Condition}) = 0.001 \)</li>
+          <li>Complement: \( P(\text{No Condition}) = 0.999 \)</li>
+          <li>True Positive Rate (Sensitivity): \( P(\text{Positive} \mid \text{Condition}) = 0.99 \)</li>
+          <li>False Positive Rate: \( P(\text{Positive} \mid \text{No Condition}) = 0.01 \)</li>
+        </ul>
 
-  <section>
-    <h2>Correcting Intuition with Bayes' Theorem</h2>
-    <p>Bayes' Theorem gives us a formal method to update our beliefs given new evidence. It combines the base rate (prior probability) with the likelihood of the new information:</p>
-    <pre><code>P(A | B) = [P(B | A) * P(A)] / P(B)</code></pre>
+        <h3>Step 2: Bayes' Theorem</h3>
+        <p>Bayes’ Theorem gives us:</p>
+        <p>
+          \[
+          P(\text{Condition} \mid \text{Positive}) = \frac{P(\text{Positive} \mid \text{Condition}) \cdot
+          P(\text{Condition})}
+          {P(\text{Positive})}
+          \]
+        </p>
 
-    <p>Bayes' Theorem is given by \( P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)} \).</p>
+        <h3>Step 3: Compute the Total Probability of a Positive Test</h3>
+        <p>
+          The total probability of testing positive is the sum of true positives and false positives:
+          \[
+          \begin{align*}
+          P(\text{Positive}) &= P(\text{Positive} \mid \text{Condition}) \cdot P(\text{Condition}) \\
+          &\quad + P(\text{Positive} \mid \text{No Condition}) \cdot P(\text{No Condition}) \\
+          &= 0.99 \cdot 0.001 + 0.01 \cdot 0.999 \\
+          &= 0.00099 + 0.00999 = 0.01098
+          \end{align*}
+          \]
+        </p>
 
-    
-    <p>The formula below calculates the updated probability:</p>
-\[
-P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}
-\]
+        <h3>Step 4: Apply the Values</h3>
+        <p>
+          \[
+          P(\text{Condition} \mid \text{Positive}) =
+          \frac{0.00099}{0.01098} \approx 0.0901 = 9.01\%
+          \]
+        </p>
 
-    <p>Let’s say a diver tests positive for a rare condition that affects 1 in 1,000 divers. The test is 99% accurate. Using Bayes’ Theorem, the chance that the diver truly has the condition is not 99% — it’s only around 9%. That’s because false positives from the 999 healthy divers dominate the math.</p>
-    <p>By integrating prior knowledge (the base rate) with the new evidence (test result), Bayes’ Theorem avoids both anchoring and base rate fallacy. It’s especially powerful in contexts like medical screening, accident analysis, and dive risk modeling.</p>
-  </section>
+        <h3>Conclusion</h3>
+        <p>
+          Despite the test being 99% accurate, the chance that the diver actually has the condition after a positive
+          test result is only about <strong>9%</strong>. This is due to the extremely low base rate (prevalence) of the
+          condition — a classic example of how false positives dominate in rare conditions.
+        </p>
+        <p>In layman terms, even though the test has a very high probability of correctly identifying the <em>rare
+            condition</em>, and to that point, a very low rate of false positive results, it is the probability of the
+          rare condition that drives the statistical liklyhood the the
+          diver has the condition.</p>
+      </div>
 
-  <section>
-    <h2>Why This Matters for Divers</h2>
-    <p>Cognitive biases affect everyone — even experienced divers. We may judge a dive site as unsafe based on a single accident, or overtrust a new piece of gear based on marketing rather than failure rates. By being aware of anchoring and the base rate fallacy, divers can make more rational, data-informed decisions.</p>
-    <p>But the reality is, we’re human. And humans don’t operate like perfect Bayesian calculators. Biases are deeply wired, emotionally charged, and reinforced by stories. So it’s not enough to <em>know</em> these fallacies exist — we must actively fight against them when it matters most.</p>
-    <p>The next time you catch yourself saying, "Well, I heard one guy had a problem with that…", pause and ask: "What does the data say? What’s the base rate?" That little habit might make your dives — and your decisions — a lot safer.</p>
-  </section>
+    </section>
 
-      </article>
+    <section>
+      <h2>Why This Matters for Divers</h2>
+      <p>Cognitive biases affect everyone — even experienced divers. We may judge a dive site as unsafe based on a
+        single accident, or overtrust a new piece of gear based on marketing rather than failure rates. By being aware
+        of anchoring and the base rate fallacy, divers can make more rational, data-informed decisions.</p>
+      <p>But the reality is, we’re human. And humans don’t operate like perfect Bayesian calculators. Biases are deeply
+        wired, emotionally charged, and reinforced by stories. So it’s not enough to <em>know</em> these fallacies exist
+        — we must actively fight against them when it matters most.</p>
+      <p>The next time you catch yourself saying, "Well, I heard one guy had a problem with that…", pause and ask: "What
+        does the data say? What’s the base rate?" That little habit might make your dives — and your decisions — a lot
+        safer.</p>
+    </section>
 
-    <div id="footer">loading...</div>
-    <script>
-        fetch('../footer.html')
-            .then(response => {
-                if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
-                return response.text();
-            })
-            .then(html => {
-                document.getElementById('footer').innerHTML = html;
-            })
-            .catch(err => console.error('Footer load error:', err));
-    </script>
+  </article>
+
+  <div id="footer">loading...</div>
+  <script>
+    fetch('../footer.html')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('footer').innerHTML = html;
+      })
+      .catch(err => console.error('Footer load error:', err));
+  </script>
 </body>
 
 </html>
