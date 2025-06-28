@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dive Plan Visualizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        label,
+        input {
+            display: block;
+            margin: 5px 0;
+        }
+
+        #results {
+            display: flex;
+        }
+
+        #dataTable {
+            margin-right: 30px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+</head>
+
+<body>
+
+    <header>
+        <h1>The Real Reason Nitrox Works — and It's Not an Oxygen Boost</h1>
+        <p>Exploring the science and safety of scuba diving.</p>
+        <a href="../index.html"> <button>Back to Home</button> </a>
+    </header>
+
+    <article>
+
+
+
+        <h1>Dive Plan Visualizer</h1>
+        <table>
+            <form id="diveForm">
+                <tr>
+                    <td><label>Tank Volume (liters):</label></td>
+                    <td><input type="number" id="tankLiters" value="3081" required></td>
+                    <td><label>RMV at Surface (L/min): </label></td>
+                    <td><input type="number" id="rmv" value="18" required></td>
+                    <td><label>Descent Rate (m/min): </label></td>
+                    <td><input type="number" id="descentRate" value="12" required></td>
+                </tr>
+
+
+                <tr>
+                    <td><label>Stop at (m):</label></td>
+                    <td><input type="number" id="stopDepth" value="7" required></td>
+                    <td> <label>Stop Time at Stop Depth (min): </label></td>
+                    <td> <input type="number" id="stopTime" value="12" required></label></td>
+                </tr>
+                <tr>
+                    <td> <label>Bottom Depth (m): </label></td>
+                    <td> <input type="number" id="bottomDepth" value="40" required></td>
+                    <td> <label>Bottom Time (min): </label></td>
+                    <td> <label id="bottomTime"  style="border-color: black; border-width: 2px;border-style: inset;text-align: center;">xxxxxx</label></td>
+                </tr>
+                <tr>
+                    <td> <label>Ascent Rate (m/min): </label></td>
+                    <td> <input type="number" id="ascentRate" value="8" required></td>
+                    <td> <label>Deep Stop Depth (m): </label></td>
+                    <td> <input type="number" id="deepStopDepth" value="25" required></td>
+                    <td> <label>Deep Stop Time (min): </label></td>
+                    <td> <input type="number" id="deepStopTime" value="3" required></td>
+                </tr>
+                <tr>
+                    <td> <label>Safety Stop Depth (m): </label></td>
+                    <td> <input type="number" id="safetyStopDepth" value="4" required></td>
+                    <td> <label>Safety Stop Time (min): </label></td>
+                    <td> <input type="number" id="safetyStopTime" value="4" required></td>
+                    <td> <label>Final Surface Reserve (liters): </label></td>
+                    <td> <input type="number" id="reserve" value="455" required></td>
+                </tr>
+                <tr>
+                    <td> <button type="submit">Compute Dive Plan</button></td>
+                </tr>
+            </form>
+        </table>
+
+
+        <div id="results" style="width: 70%;">
+            <div id="dataTable" style="width: 40%;"></div>
+            <canvas id="diveChart" width="80%"></canvas>
+        </div>
+
+        <script>
+            const form = document.getElementById('diveForm');
+            form.onsubmit = function (event) {
+                event.preventDefault();
+
+                const tankLiters = parseFloat(form.tankLiters.value);
+                const rmv = parseFloat(form.rmv.value);
+                const descentRate = parseFloat(form.descentRate.value);
+                const stopDepth = parseFloat(form.stopDepth.value);
+                const stopTime = parseFloat(form.stopTime.value);
+                const bottomDepth = parseFloat(form.bottomDepth.value);
+                const ascentRate = parseFloat(form.ascentRate.value);
+                const deepStopDepth = parseFloat(form.deepStopDepth.value);
+                const deepStopTime = parseFloat(form.deepStopTime.value);
+                const safetyStopDepth = parseFloat(form.safetyStopDepth.value);
+                const safetyStopTime = parseFloat(form.safetyStopTime.value);
+                const reserve = parseFloat(form.reserve.value);
+
+                const segments = [];
+                let currentTime = 0;
+                let remainingGas = tankLiters;
+
+                function addSegment(label, depth, duration) {
+                    const ata = depth / 10 + 1;
+                    const gasUsed = rmv * ata * duration;
+                    remainingGas -= gasUsed;
+                    segments.push({
+                        time: currentTime,
+                        label, depth, ata: ata.toFixed(2), rmv, gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
+                    });
+                    currentTime += duration;
+                }
+
+                addSegment("Descent to Stop", stopDepth, stopDepth / descentRate);
+                addSegment("Stop at " + stopDepth + "m", stopDepth, stopTime);
+                addSegment("Descent to Bottom", bottomDepth, (bottomDepth - stopDepth) / descentRate);
+
+                const gasUsedBeforeBottom = tankLiters - remainingGas;
+                const bottomATA = bottomDepth / 10 + 1;
+                const availableGas = remainingGas - reserve;
+                const bottomTime = availableGas / (rmv * bottomATA);
+
+                addSegment("Bottom (Max " + bottomTime.toFixed(1) + " min)", bottomDepth, 0);
+                addSegment("Ascent to Deep Stop", deepStopDepth, (bottomDepth - deepStopDepth) / ascentRate);
+                addSegment("Deep Stop", deepStopDepth, deepStopTime);
+                addSegment("Ascent to Safety Stop", safetyStopDepth, (deepStopDepth - safetyStopDepth) / ascentRate);
+                addSegment("Safety Stop", safetyStopDepth, safetyStopTime);
+                addSegment("Final Ascent", 0, safetyStopDepth / ascentRate);
+
+                bottomTimeLabel = document.getElementById('bottomTime');
+                bottomTimeLabel.textContent = bottomTime.toFixed(2);
+
+                const table = `<h3>Dive Plan Data</h3>
+        <table><tr><th>Point</th><th>Depth (m)</th><th>ATA</th><th>RMV (L/min)</th><th>Gas Used (L)</th><th>Gas Remaining (L)</th></tr>
+        ${segments.map(s => `<tr><td>${s.label}</td><td>${s.depth}</td><td>${s.ata}</td><td>${s.rmv}</td><td>${s.gasUsed}</td><td>${s.remaining}</td></tr>`).join('')}</table>`;
+
+                document.getElementById('dataTable').innerHTML = table;
+
+                const ctx = document.getElementById('diveChart').getContext('2d');
+                const diveChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: segments.map(s => s.label),
+                        datasets: [{
+                            label: 'Depth (m)',
+                            data: segments.map(s => s.depth),
+                            borderColor: 'blue',
+                            fill: false,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                reverse: true,
+                                title: { display: true, text: 'Depth (meters)' }
+                            }
+                        }
+                    }
+                });
+            };
+        </script>
+
+
+
+    </article>
+
+    <div id="footer">loading...</div>
+    <script>
+        fetch('../footer.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('footer').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load error:', err));
+    </script>
+</body>
+
+</html>
