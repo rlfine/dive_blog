@@ -46,7 +46,7 @@
 <body>
 
     <header>
-        <h1>The Real Reason Nitrox Works — and It's Not an Oxygen Boost</h1>
+        <h1>A Prototypical Dive Planner <br><span style="font-size: 20px;">Computing allowable bottom time based on tank volume and reserve gas</span></h1>
         <p>Exploring the science and safety of scuba diving.</p>
         <a href="../index.html"> <button>Back to Home</button> </a>
     </header>
@@ -65,16 +65,16 @@
                     <td><label>Tank Volume<br> (liters):</label></td>
                     <td><input type="number" id="tankLiters" value="3081" required max="3500" min="300"></td>
                     <td><label>RMV at Surface<br> (L/min): </label></td>
-                    <td><input type="number" id="rmv" value="18" required max="80" min="4"></td>
+                    <td><input type="number" id="surfaceRMV" value="18" required max="80" min="4"></td>
                     <td> <label>Final Surface<br> Reserve (L): </label></td>
-                    <td> <input type="number" id="reserve" value="455" required max="2000" min="50"></td>
+                    <td> <input type="number" id="finalSurfaceReserve" value="455" required max="2000" min="50"></td>
                 </tr>
 
                 <tr>
                     <th colspan="6" style="width:26%; text-align: left; padding-left:1em;"> Descend to first stop</th>
                 </tr>
                 <tr style="background-color:rgb(236, 248, 236);">
-                    <td><label>Descent Rate<br> (m/min): </label></td>
+                    <td><label>Descent Rate to<br>1st Stop (m/min): </label></td>
                     <td><input type="number" id="firstDescentRate" value="12" required max="60" min="6"></td>
                     <td><label>First Stop<br> at (m):</label></td>
                     <td><input type="number" id="firstStopDepth" value="7" required max="40" min="2"></td>
@@ -86,13 +86,13 @@
                     <th colspan="6" style="text-align: left; padding-left:1em;"> Descend to dive bottom depth</th>
                 </tr>
                 <tr style="background-color:rgb(252, 250, 172);">
-                    <td><label>Descent Rate<br> (m/min): </label></td>
+                    <td><label>Descent Rate to<br>Bottom (m/min): </label></td>
                     <td><input type="number" id="bottomDescentRate" value="12" required max="40" min="2"></td>
                     <td><label>Bottom Dive<br> Depth (m):</label></td>
-                    <td><input type="number" id="bottonDepth" value="7" required max="40" min="2"></td>
+                    <td><input type="number" id="bottonDepth" value="40" required max="40" min="2"></td>
                     <td> <label>Stop Time<br> (min): </label></td>
                     <td><label id="BottomStopTime"
-                            style="border-color: black; border-width: 2px;border-style: inset;text-align: center; padding:.3em;">**computed**</label>
+                            style=" color:darkblue; font-weight: 800; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">****</label>
                     </td>
                 </tr>
 
@@ -100,19 +100,19 @@
                     <th colspan="6" style="text-align: left; padding-left:1em;"> Ascend to optional deep stop</th>
                 </tr>
                 <tr style="background-color:rgb(196, 230, 196);">
-                    <td> <label>Ascent Rate<br> (m/min): </label></td>
-                    <td> <input type="number" id="deepStopAscentRate" value="8"  max="60" min="0"></td>
-                    <td> <label>Stop Depth<br> (m): </label></td>
-                    <td> <input type="number" id="deepStopDepth" value="25"  max="30" min="2"></td>
-                    <td> <label>Stop Time<br> (min): </label></td>
-                    <td> <input type="number" id="deepStopTime" value="3"  max="120" min="0"></td>
+                    <td> <label>Ascent Rate to<br>Deep Stop (m/min): </label></td>
+                    <td> <input type="number" id="deepStopAscentRate" value="8" max="60" min="0"></td>
+                    <td> <label>Deep Stop Depth<br> (m): </label></td>
+                    <td> <input type="number" id="deepStopDepth" value="25" max="30" min="2"></td>
+                    <td> <label>Deep Stop Time<br> (min): </label></td>
+                    <td> <input type="number" id="deepStopTime" value="3" max="120" min="0"></td>
                 </tr>
 
                 <tr>
                     <th colspan="6" style="text-align: left; padding-left:1em;"> Ascend to mandatory safety stop</th>
                 </tr>
                 <tr style="background-color:rgb(236, 248, 236);">
-                    <td> <label>Ascent Rate<br> (m/min): </label></td>
+                    <td> <label>Ascent Rate to<br>Safety Stop (m/min): </label></td>
                     <td> <input type="number" id="safetyStopAscentRate" value="8" required max="60" min="1"></td>
                     <td> <label>Safety Stop<br> Depth (m): </label></td>
                     <td> <input type="number" id="safetyStopDepth" value="4" required max="10" min="3"></td>
@@ -125,14 +125,15 @@
                     </th>
                 </tr>
                 <tr style="background-color:rgb(196, 230, 196);">
-                    <td><label>Ascent Rate<br> (m/min): </label></td>
-                    <td colspan="5" ><input type="number" id="safetyStopAscentRate" value="12" required max="60" min="1"></td>
+                    <td><label>Ascent Rate to<br>Surface (m/min): </label></td>
+                    <td colspan="5"><input type="number" id="surfaceAscentRate" value="12" required max="60" min="1">
+                    </td>
                 </tr>
 
 
                 <tr style="background-color:rgb(252, 250, 172);">
-                    <td colspan="6"> <button style="margin:.5em 1em .5em 1em;padding:.5em 2.5em .5em 2.5em;" type="submit"><span
-                                style="font-size: larger;">Compute<br>Dive Plan</span></button></td>
+                    <td colspan="6"> <button style="margin:.5em 1em .5em 1em;padding:.5em 2.5em .5em 2.5em;"
+                            type="submit"><span style="font-size: larger;">Compute<br>Dive Plan</span></button></td>
                 </tr>
             </form>
         </table>
@@ -148,22 +149,172 @@
             form.onsubmit = function (event) {
                 event.preventDefault();
 
+                let debugAlerts = false;
+
+                // Environmental Parameters
                 const tankLiters = parseFloat(form.tankLiters.value);
-                const rmv = parseFloat(form.rmv.value);
+                const surfaceRMV = parseFloat(form.surfaceRMV.value);
+                const finalSurfaceReserve = parseFloat(form.finalSurfaceReserve.value);
+
+                // Descend to first stop
                 const firstDescentRate = parseFloat(form.firstDescentRate.value);
                 const firstStopDepth = parseFloat(form.firstStopDepth.value);
                 const firstStopTime = parseFloat(form.firstStopTime.value);
-                const bottomDepth = parseFloat(form.bottomDepth.value);
-                const firstAscentRate = parseFloat(form.ascentRate.value);
+
+                // Descend to dive bottom depth
+                const bottomDescentRate = parseFloat(form.bottomDescentRate.value);
+                const bottonDepth = parseFloat(form.bottonDepth.value);
+
+                // Ascend to optional deep stop
+                const deepStopAscentRate = parseFloat(form.deepStopAscentRate.value);
                 const deepStopDepth = parseFloat(form.deepStopDepth.value);
                 const deepStopTime = parseFloat(form.deepStopTime.value);
+
+                // Ascend to mandatory safety stop
+                const safetyStopAscentRate = parseFloat(form.safetyStopAscentRate.value);
                 const safetyStopDepth = parseFloat(form.safetyStopDepth.value);
                 const safetyStopTime = parseFloat(form.safetyStopTime.value);
-                const reserve = parseFloat(form.reserve.value);
+
+                // Ascend to surface
+                const surfaceAscentRate = parseFloat(form.surfaceAscentRate.value);
+
+                // compute gas used for known segments - less bottom time for now
+
+                const surfaceDepth = 0;
+
+                let gasUsed = 0;
+                let totalGasUsed = 0;
+                let adjustedRMV = 0
+                let usageATA = 0
+                let effectiveRMV = 0
+                let usageTime = 0
+
+
+                // compute gas usage on descent to first stop
+                usageTime = firstStopDepth / firstDescentRate;
+                usageATA = 1 + ((surfaceDepth + firstStopDepth) / 20);
+                effectiveRMV = surfaceRMV * usageATA;
+                gasUsed = effectiveRMV * usageTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    let msgg = "gas usage to first stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
+
+                // compute gas usage at first stop
+                usageTime = firstStopTime;
+                usageATA = 1 + (firstStopDepth / 10);
+                effectiveRMV = surfaceRMV * usageATA;
+                gasUsed = effectiveRMV * usageTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    msgg = "gas usage at first stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
+
+                // compute gas usage on descent to bottom stop
+                usageTime = (bottonDepth - firstStopDepth) / bottomDescentRate;
+                usageATA = 1 + ((bottonDepth + firstStopDepth) / 20);
+                effectiveRMV = surfaceRMV * usageATA;
+                gasUsed = effectiveRMV * usageTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    msgg = "gas usage to bottom stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
+
+                // compute gas usage at bottom stop
+                /* ****************************************************************** */
+                /* can't do this now, we do not have bottom time yet, we compute that */
+                /* ****************************************************************** */
+
+
+                // compute gas usage on ascent to deep stop
+                usageTime = (bottonDepth - deepStopDepth) / deepStopAscentRate;
+                usageATA = 1 + ((bottonDepth + deepStopDepth) / 20);
+                effectiveRMV = surfaceRMV * usageATA;
+                gasUsed = effectiveRMV * usageTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    msgg = "gas usage to deep stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
+
+                // compute gas usage at deep stop
+                usageTime = deepStopTime;
+                usageATA = 1 + (deepStopDepth / 10);
+                effectiveRMV = surfaceRMV * usageATA;
+                gasUsed = effectiveRMV * usageTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    msgg = "gas usage at deep stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
+
+                // compute gas usage to mandatory safety stop
+                usageTime = (deepStopDepth - safetyStopDepth) / safetyStopAscentRate;
+                usageATA = 1 + ((safetyStopDepth + deepStopDepth) / 20);
+                effectiveRMV = surfaceRMV * usageATA;
+                gasUsed = effectiveRMV * usageTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    msgg = "gas usage to mandatory safety stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
+
+                // compute gas usage at mandatory safety stop
+                usageTime = safetyStopTime;
+                usageATA = 1 + (safetyStopDepth / 10);
+                effectiveRMV = surfaceRMV * usageATA;
+                gasUsed = effectiveRMV * usageTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    msgg = "gas usage at mandatory safety stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
+
+                // compute gas usage to surface
+                usageTime = safetyStopDepth / surfaceAscentRate;
+                usageATA = 1 + (safetyStopDepth / 20);
+                effectiveRMV = surfaceRMV * usageATA;
+                gasUsed = effectiveRMV * usageTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    msgg = "gas usage to surface from safety stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
 
                 const segments = [];
                 let currentTime = 0;
-                let remainingGas = tankLiters;
+                let remainingGas = tankLiters - totalGasUsed - finalSurfaceReserve;
+
+
+                if (debugAlerts) {
+                    msgg = "remainingGas:" + remainingGas.toString() + "\ntotal fixed gas used so far:" + totalGasUsed.toString();
+                    alert(msgg);
+                }
+
+                // compute bottom time based on available gas
+                usageATA = 1 + (bottonDepth / 10);
+                effectiveRMV = surfaceRMV * usageATA;
+                let maxBottomTime = remainingGas / effectiveRMV;
+                gasUsed = effectiveRMV * maxBottomTime;
+                totalGasUsed += gasUsed;
+
+                if (debugAlerts) {
+                    msgg = "gas usage at bottom\n--------------------------\n" + "bottomTime: " + maxBottomTime.toFixed(2) + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
+                    alert(msgg);
+                }
+
+                document.getElementById("BottomStopTime").innerText = (maxBottomTime + 0.5).toFixed(0);
 
                 function addSegment(label, depth, duration) {
                     const ata = depth / 10 + 1;
