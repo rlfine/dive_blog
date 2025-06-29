@@ -46,7 +46,8 @@
 <body>
 
     <header>
-        <h1>A Prototypical Dive Planner <br><span style="font-size: 20px;">Computing allowable bottom time based on tank volume and reserve gas</span></h1>
+        <h1>A Prototypical Dive Planner <br><span style="font-size: 20px;">Computing allowable bottom time based on tank
+                volume and reserve gas</span></h1>
         <p>Exploring the science and safety of scuba diving.</p>
         <a href="../index.html"> <button>Back to Home</button> </a>
     </header>
@@ -59,11 +60,17 @@
         <table style="width:90%;margin:1em;">
             <form id="diveForm">
                 <tr>
-                    <th colspan="6" style="text-align: left; padding-left:1em;width:1em;"> Environmental Parameters</th>
+                    <th colspan="6" style="text-align: left; padding-left:1em; "> Environmental Parameters</th>
                 </tr>
                 <tr style="background-color:rgb(196, 230, 196);">
                     <td><label>Tank Volume<br> (liters):</label></td>
-                    <td><input type="number" id="tankLiters" value="3081" required max="3500" min="300"></td>
+                    <td>
+                        <select style="font-size: 14px;" id="tankLiters" name="tankLiters">
+                            <option value="3081">Steel HP100 237 bar (3081 L)</option>
+                            <option value="2690">Steel HP100 207 bar (2690 L)</option>
+                            <option value="2277">AL80 207 bar (2277 L)</option>
+                        </select>
+                    </td>
                     <td><label>RMV at Surface<br> (L/min): </label></td>
                     <td><input type="number" id="surfaceRMV" value="18" required max="80" min="4"></td>
                     <td> <label>Final Surface<br> Reserve (L): </label></td>
@@ -92,7 +99,8 @@
                     <td><input type="number" id="bottonDepth" value="40" required max="40" min="2"></td>
                     <td> <label>Stop Time<br> (min): </label></td>
                     <td><label id="BottomStopTime"
-                            style=" color:darkblue; font-weight: 800; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">****</label>
+                            style=" color:darkblue; font-weight: 700; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">
+                            ****</label>
                     </td>
                 </tr>
 
