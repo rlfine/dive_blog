@@ -96,7 +96,7 @@
                     <td><label>Descent Rate to<br>Bottom (m/min): </label></td>
                     <td><input type="number" id="bottomDescentRate" value="12" required max="40" min="2"></td>
                     <td><label>Bottom Dive<br> Depth (m):</label></td>
-                    <td><input type="number" id="bottonDepth" value="40" required max="40" min="2"></td>
+                    <td><input type="number" id="bottomDepth" value="40" required max="40" min="2"></td>
                     <td> <label>Stop Time<br> (min): </label></td>
                     <td><label id="BottomStopTime"
                             style=" color:darkblue; font-weight: 700; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">
@@ -171,7 +171,7 @@
 
                 // Descend to dive bottom depth
                 const bottomDescentRate = parseFloat(form.bottomDescentRate.value);
-                const bottonDepth = parseFloat(form.bottonDepth.value);
+                const bottomDepth = parseFloat(form.bottomDepth.value);
 
                 // Ascend to optional deep stop
                 const deepStopAscentRate = parseFloat(form.deepStopAscentRate.value);
@@ -223,8 +223,8 @@
                 }
 
                 // compute gas usage on descent to bottom stop
-                usageTime = (bottonDepth - firstStopDepth) / bottomDescentRate;
-                usageATA = 1 + ((bottonDepth + firstStopDepth) / 20);
+                usageTime = (bottomDepth - firstStopDepth) / bottomDescentRate;
+                usageATA = 1 + ((bottomDepth + firstStopDepth) / 20);
                 effectiveRMV = surfaceRMV * usageATA;
                 gasUsed = effectiveRMV * usageTime;
                 totalGasUsed += gasUsed;
@@ -241,8 +241,8 @@
 
 
                 // compute gas usage on ascent to deep stop
-                usageTime = (bottonDepth - deepStopDepth) / deepStopAscentRate;
-                usageATA = 1 + ((bottonDepth + deepStopDepth) / 20);
+                usageTime = (bottomDepth - deepStopDepth) / deepStopAscentRate;
+                usageATA = 1 + ((bottomDepth + deepStopDepth) / 20);
                 effectiveRMV = surfaceRMV * usageATA;
                 gasUsed = effectiveRMV * usageTime;
                 totalGasUsed += gasUsed;
@@ -311,7 +311,7 @@
                 }
 
                 // compute bottom time based on available gas
-                usageATA = 1 + (bottonDepth / 10);
+                usageATA = 1 + (bottomDepth / 10);
                 effectiveRMV = surfaceRMV * usageATA;
                 let maxBottomTime = remainingGas / effectiveRMV;
                 gasUsed = effectiveRMV * maxBottomTime;
@@ -326,33 +326,42 @@
 
                 function addSegment(label, depth, duration) {
                     const ata = depth / 10 + 1;
-                    const gasUsed = rmv * ata * duration;
+                    const gasUsed = surfaceRMV * ata * duration;
                     remainingGas -= gasUsed;
                     segments.push({
                         time: currentTime,
-                        label, depth, ata: ata.toFixed(2), rmv, gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
+                        label, depth, ata: ata.toFixed(2), surfaceRMV, gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
                     });
                     currentTime += duration;
                 }
 
+                // map our variables to graph variables - will refactor later --- TODO
+                const stopDepth = bottomDepth;
+                const stopTime= maxBottomTime;
+                const descentRate = bottomDescentRate;
+
                 addSegment("Descent to Stop", stopDepth, stopDepth / descentRate);
                 addSegment("Stop at " + stopDepth + "m", stopDepth, stopTime);
-                addSegment("Descent to Bottom", bottomDepth, (bottomDepth - stopDepth) / descentRate);
+                addSegment("Descent to Bottom", bottomDepth, (bottomDepth - firstStopDepth) / descentRate);
+
+                addSegment("Bottom (Max " + maxBottomTime.toFixed(1) + " min)", bottomDepth, 0);
 
                 const gasUsedBeforeBottom = tankLiters - remainingGas;
                 const bottomATA = bottomDepth / 10 + 1;
-                const availableGas = remainingGas - reserve;
-                const bottomTime = availableGas / (rmv * bottomATA);
+                const availableGas = remainingGas - finalSurfaceReserve;
+                const bottomTime = availableGas / (surfaceRMV * bottomATA);
 
-                addSegment("Bottom (Max " + bottomTime.toFixed(1) + " min)", bottomDepth, 0);
-                addSegment("Ascent to Deep Stop", deepStopDepth, (bottomDepth - deepStopDepth) / ascentRate);
+
+                addSegment("Ascent to Deep Stop", deepStopDepth, (bottomDepth - deepStopDepth) / deepStopAscentRate);
                 addSegment("Deep Stop", deepStopDepth, deepStopTime);
-                addSegment("Ascent to Safety Stop", safetyStopDepth, (deepStopDepth - safetyStopDepth) / ascentRate);
+                addSegment("Ascent to Safety Stop", safetyStopDepth, (deepStopDepth - safetyStopDepth) / safetyStopAscentRate);
                 addSegment("Safety Stop", safetyStopDepth, safetyStopTime);
-                addSegment("Final Ascent", 0, safetyStopDepth / ascentRate);
+                addSegment("Final Ascent", 0, safetyStopDepth / surfaceAscentRate);
 
-                bottomTimeLabel = document.getElementById('bottomTime');
-                bottomTimeLabel.textContent = bottomTime.toFixed(2);
+                //bottomTimeLabel = document.getElementById('bottomTime');
+                //bottomTimeLabel.textContent = bottomTime.toFixed(2);
+
+                alert("getting ready to build graph");
 
                 const table = `<h3>Dive Plan Data</h3>
         <table><tr><th>Point</th><th>Depth (m)</th><th>ATA</th><th>RMV (L/min)</th><th>Gas Used (L)</th><th>Gas Remaining (L)</th></tr>
