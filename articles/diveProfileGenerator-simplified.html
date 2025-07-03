@@ -39,6 +39,10 @@
             padding: 5px;
         }
     </style>
+
+    <script>
+    </script>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
 </head>
@@ -54,8 +58,6 @@
 
     <article>
 
-
-
         <h1>Dive Plan Visualizer</h1>
         <table style="width:90%;margin:1em;">
             <form id="diveForm">
@@ -66,7 +68,8 @@
                     <td><label>Tank Volume<br> (liters):</label></td>
                     <td>
                         <select style="font-size: 14px;" id="tankLiters" name="tankLiters">
-                            <option value="3081">Steel HP100 237 bar (3081 L)</option>
+                            <option value="3555">Steel HP120 237 bar (3555 L)</option>
+                            <option value="3081" selected>Steel HP100 237 bar (3081 L)</option>
                             <option value="2690">Steel HP100 207 bar (2690 L)</option>
                             <option value="2277">AL80 207 bar (2277 L)</option>
                         </select>
@@ -86,7 +89,7 @@
                     <td><label>First Stop<br> at (m):</label></td>
                     <td><input type="number" id="firstStopDepth" value="7" required max="40" min="2"></td>
                     <td> <label>Stop Time (min): </label></td>
-                    <td> <input type="number" id="firstStopTime" value="12" required max="120" min="0"></label></td>
+                    <td> <input type="number" id="firstStopTime" value="3" required max="120" min="0"></label></td>
                 </tr>
 
                 <tr>
@@ -113,7 +116,7 @@
                     <td> <label>Deep Stop Depth<br> (m): </label></td>
                     <td> <input type="number" id="deepStopDepth" value="25" max="30" min="2"></td>
                     <td> <label>Deep Stop Time<br> (min): </label></td>
-                    <td> <input type="number" id="deepStopTime" value="3" max="120" min="0"></td>
+                    <td> <input type="number" id="deepStopTime" value="4" max="120" min="0"></td>
                 </tr>
 
                 <tr>
@@ -153,6 +156,32 @@
         </div>
 
         <script>
+
+
+            function appendPartialSegment(label, seg, duration, effectiveATA, effectiveRMV) {
+                let a = Number(duration).toFixed(2);
+                let b = Number(effectiveATA).toFixed(2);
+                let c = Number(effectiveRMV).toFixed(2);
+                let d = a * b * c;
+
+                //let mm = "effectiveRMV:"+c+",duration:"+a+", effectiveATA: "+b+", gas used at: "+label + "=" + d;
+                //alert(mm);
+
+                seg.push({ label: label, duration: a, ata: b, rmv: c, gasUsed: d });
+            }
+
+            //   segments.push({
+            //       time: currentTime, label,
+            //       depth, ata: ata.toFixed(2), rmv: surfaceRMV.toFixed(2), gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
+            //   });
+
+            const tankSelectorElement = document.getElementById('tankLiters');
+            tankSelectorElement.addEventListener('change', (event) => {
+                document.getElementById("BottomStopTime").innerText = "****";
+                const selectedValue = event.target.value;
+                console.log("tank selector value changed: value: " + selectedValue);
+            });
+
             const form = document.getElementById('diveForm');
             form.onsubmit = function (event) {
                 event.preventDefault();
@@ -190,154 +219,103 @@
 
                 const surfaceDepth = 0;
 
-                let gasUsed = 0;
-                let totalGasUsed = 0;
-                let adjustedRMV = 0
-                let usageATA = 0
+                let effectiveATA = 0
                 let effectiveRMV = 0
                 let usageTime = 0
 
+                /* ************************************************************************************* */
+                /*       here we go - compute gas usage at each step along the waydown and then back up  */
+                /* ************************************************************************************* */
+
+                const usageToBottomSegment = [];
 
                 // compute gas usage on descent to first stop
                 usageTime = firstStopDepth / firstDescentRate;
-                usageATA = 1 + ((surfaceDepth + firstStopDepth) / 20);
-                effectiveRMV = surfaceRMV * usageATA;
-                gasUsed = effectiveRMV * usageTime;
-                totalGasUsed += gasUsed;
-
-                if (debugAlerts) {
-                    let msgg = "gas usage to first stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
+                curDepth = (surfaceDepth + firstStopDepth) / 2;
+                effectiveATA = 1 + (curDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('gas usage to first stop', usageToBottomSegment, usageTime, curDepth, effectiveATA, effectiveRMV);
 
                 // compute gas usage at first stop
                 usageTime = firstStopTime;
-                usageATA = 1 + (firstStopDepth / 10);
-                effectiveRMV = surfaceRMV * usageATA;
-                gasUsed = effectiveRMV * usageTime;
-                totalGasUsed += gasUsed;
+                curDepth = firstStopDepth;
+                effectiveATA = 1 + (curDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('gas usage at first stop', usageToBottomSegment, usageTime, curDepth, effectiveATA, effectiveRMV);
 
-                if (debugAlerts) {
-                    msgg = "gas usage at first stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
 
                 // compute gas usage on descent to bottom stop
                 usageTime = (bottomDepth - firstStopDepth) / bottomDescentRate;
-                usageATA = 1 + ((bottomDepth + firstStopDepth) / 20);
-                effectiveRMV = surfaceRMV * usageATA;
-                gasUsed = effectiveRMV * usageTime;
-                totalGasUsed += gasUsed;
+                curDepth = (bottomDepth - firstStopDepth) / 2;
+                effectiveATA = 1 + (curDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('gas usage to bottom', usageToBottomSegment, usageTime, curDepth, effectiveATA, effectiveRMV);
 
-                if (debugAlerts) {
-                    msgg = "gas usage to bottom stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
-
-                // compute gas usage at bottom stop
                 /* ****************************************************************** */
-                /* can't do this now, we do not have bottom time yet, we compute that */
+                /*               compute gas usage at bottom stop                     */
+                /*        can't do this now, we do not have bottom time yet           */
                 /* ****************************************************************** */
 
+                const usageToSurfaceSegment = [];
 
                 // compute gas usage on ascent to deep stop
                 usageTime = (bottomDepth - deepStopDepth) / deepStopAscentRate;
-                usageATA = 1 + ((bottomDepth + deepStopDepth) / 20);
-                effectiveRMV = surfaceRMV * usageATA;
-                gasUsed = effectiveRMV * usageTime;
-                totalGasUsed += gasUsed;
-
-                if (debugAlerts) {
-                    msgg = "gas usage to deep stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
+                effectiveATA = 1 + ((bottomDepth + deepStopDepth) / 20);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('gas usage to deep stop', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
 
                 // compute gas usage at deep stop
                 usageTime = deepStopTime;
-                usageATA = 1 + (deepStopDepth / 10);
-                effectiveRMV = surfaceRMV * usageATA;
-                gasUsed = effectiveRMV * usageTime;
-                totalGasUsed += gasUsed;
-
-                if (debugAlerts) {
-                    msgg = "gas usage at deep stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
+                effectiveATA = 1 + (deepStopDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('gas usage at deep stop', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
 
                 // compute gas usage to mandatory safety stop
                 usageTime = (deepStopDepth - safetyStopDepth) / safetyStopAscentRate;
-                usageATA = 1 + ((safetyStopDepth + deepStopDepth) / 20);
-                effectiveRMV = surfaceRMV * usageATA;
-                gasUsed = effectiveRMV * usageTime;
-                totalGasUsed += gasUsed;
-
-                if (debugAlerts) {
-                    msgg = "gas usage to mandatory safety stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
+                effectiveATA = 1 + ((safetyStopDepth + deepStopDepth) / 20);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('gas usage to safety stop', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
 
                 // compute gas usage at mandatory safety stop
                 usageTime = safetyStopTime;
-                usageATA = 1 + (safetyStopDepth / 10);
-                effectiveRMV = surfaceRMV * usageATA;
-                gasUsed = effectiveRMV * usageTime;
-                totalGasUsed += gasUsed;
-
-                if (debugAlerts) {
-                    msgg = "gas usage at mandatory safety stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
+                effectiveATA = 1 + (safetyStopDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('gas usage at safety stop', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
 
                 // compute gas usage to surface
                 usageTime = safetyStopDepth / surfaceAscentRate;
-                usageATA = 1 + (safetyStopDepth / 20);
-                effectiveRMV = surfaceRMV * usageATA;
-                gasUsed = effectiveRMV * usageTime;
-                totalGasUsed += gasUsed;
-
-                if (debugAlerts) {
-                    msgg = "gas usage to surface from safety stop\n--------------------------\n" + "usageTime: " + usageTime.toString() + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
-
-                const segments = [];
-                let currentTime = 0;
-                let remainingGas = tankLiters - totalGasUsed - finalSurfaceReserve;
+                effectiveATA = 1 + (safetyStopDepth / 20);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('gas usage to surface', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
 
 
-                if (debugAlerts) {
-                    msgg = "remainingGas:" + remainingGas.toString() + "\ntotal fixed gas used so far:" + totalGasUsed.toString();
-                    alert(msgg);
-                }
+                let gasUsedDown = 0
+                usageToBottomSegment.forEach((element, index, array) => {
+                    gasUsedDown += element['gasUsed'];
+                });
+
+                let gasUsedUp = 0
+                usageToSurfaceSegment.forEach((element, index, array) => {
+                    gasUsedUp += element['gasUsed'];
+                });
+
+                let totalGasUsed = gasUsedDown + gasUsedUp;
+
+                let availableGasAtBottom = tankLiters - totalGasUsed - finalSurfaceReserve;
 
                 // compute bottom time based on available gas
-                usageATA = 1 + (bottomDepth / 10);
-                effectiveRMV = surfaceRMV * usageATA;
-                let maxBottomTime = remainingGas / effectiveRMV;
-                gasUsed = effectiveRMV * maxBottomTime;
-                totalGasUsed += gasUsed;
+                effectiveATA = 1 + (bottomDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                let maxBottomTime = availableGasAtBottom / effectiveRMV;
+                let gasUsedAtBottom = effectiveRMV * maxBottomTime;
 
-                if (debugAlerts) {
-                    msgg = "gas usage at bottom\n--------------------------\n" + "bottomTime: " + maxBottomTime.toFixed(2) + "\neffectiveRMV: " + effectiveRMV.toString() + "\nusageATA: " + usageATA.toString() + "\ngasUsed: " + gasUsed.toFixed(2) + " liters\n" + "totalGasUsed: " + totalGasUsed.toFixed(2) + " liters";
-                    alert(msgg);
-                }
+                totalGasUsed += gasUsedAtBottom;
 
                 document.getElementById("BottomStopTime").innerText = (maxBottomTime + 0.5).toFixed(0);
 
-                function addSegment(label, depth, duration) {
-                    const ata = depth / 10 + 1;
-                    const gasUsed = surfaceRMV * ata * duration;
-                    remainingGas -= gasUsed;
-                    segments.push({
-                        time: currentTime,
-                        label, depth, ata: ata.toFixed(2), surfaceRMV, gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
-                    });
-                    currentTime += duration;
-                }
-
                 // map our variables to graph variables - will refactor later --- TODO
                 const stopDepth = bottomDepth;
-                const stopTime= maxBottomTime;
+                const stopTime = maxBottomTime;
                 const descentRate = bottomDescentRate;
 
                 addSegment("Descent to Stop", stopDepth, stopDepth / descentRate);
@@ -350,7 +328,6 @@
                 const bottomATA = bottomDepth / 10 + 1;
                 const availableGas = remainingGas - finalSurfaceReserve;
                 const bottomTime = availableGas / (surfaceRMV * bottomATA);
-
 
                 addSegment("Ascent to Deep Stop", deepStopDepth, (bottomDepth - deepStopDepth) / deepStopAscentRate);
                 addSegment("Deep Stop", deepStopDepth, deepStopTime);
@@ -370,7 +347,7 @@
                 document.getElementById('dataTable').innerHTML = table;
 
                 const ctx = document.getElementById('diveChart').getContext('2d');
-                const diveChart = new Chart(ctx, {
+                const diveChart = new xChart(ctx, {
                     type: 'line',
                     data: {
                         labels: segments.map(s => s.label),
