@@ -40,9 +40,6 @@
         }
     </style>
 
-    <script>
-    </script>
-
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
 </head>
@@ -76,7 +73,7 @@
                         </select>
                     </td>
                     <td><label>RMV at Surface<br> (L/min): </label></td>
-                    <td><input type="number" id="surfaceRMV" value="18" required max="80" min="4"></td>
+                    <td><input type="number" id="surfaceRMV" value="12" required max="80" min="4"></td>
                     <td> <label>Final Surface<br> Reserve (L): </label></td>
                     <td> <input type="number" id="finalSurfaceReserve" value="455" required max="2000" min="50"></td>
                 </tr>
@@ -98,7 +95,7 @@
                 </tr>
                 <tr style="background-color:rgb(252, 250, 172);">
                     <td><label>Descent Rate to<br>Bottom (m/min): </label></td>
-                    <td><input type="number" id="bottomDescentRate" value="12" required max="40" min="2"></td>
+                    <td><input type="number" id="bottomDescentRate" value="8" required max="40" min="2"></td>
                     <td><label>Bottom Dive<br> Depth (m):</label></td>
                     <td><input type="number" id="bottomDepth" value="40" required max="40" min="2"></td>
                     <td> <label>Stop Time<br> (min): </label></td>
@@ -138,7 +135,7 @@
                 </tr>
                 <tr style="background-color:rgb(196, 230, 196);">
                     <td><label>Ascent Rate to<br>Surface (m/min): </label></td>
-                    <td colspan="5"><input type="number" id="surfaceAscentRate" value="12" required max="60" min="1">
+                    <td colspan="5"><input type="number" id="surfaceAscentRate" value="4" required max="60" min="1">
                     </td>
                 </tr>
 
@@ -158,17 +155,19 @@
 
         <script>
 
+            //    appendPartialSegment('gas usage to first stop', usageToBottomSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
-            function appendPartialSegment(label, seg, duration, effectiveATA, effectiveRMV) {
+            function appendPartialSegment(label, seg, duration, effectiveDepth, effectiveATA, effectiveRMV) {
                 let a = Number(duration).toFixed(2);
                 let b = Number(effectiveATA).toFixed(2);
                 let c = Number(effectiveRMV).toFixed(2);
-                let d = a * b * c;
+                let d = (a * c).toFixed(2);
 
-                //let mm = "effectiveRMV:"+c+",duration:"+a+", effectiveATA: "+b+", gas used at: "+label + "=" + d;
+                let mm = "duration:" + a + ",  effectiveATA: " + b + "  effectiveRMV:" + c + ", " + label + "=" + d;
                 //alert(mm);
+                console.log(mm);
 
-                seg.push({ label: label, duration: a, ata: b, rmv: c, gasUsed: d });
+                seg.push({ label: label, duration: a, depth: effectiveDepth, ata: b, rmv: c, gasUsed: d });
             }
 
             //   segments.push({
@@ -232,6 +231,7 @@
                 const surfaceDepth = 0;
 
                 let effectiveATA = 0
+                let effectiveDepth = 0
                 let effectiveRMV = 0
                 let usageTime = 0
 
@@ -243,25 +243,25 @@
 
                 // compute gas usage on descent to first stop
                 usageTime = firstStopDepth / firstDescentRate;
-                curDepth = (surfaceDepth + firstStopDepth) / 2;
-                effectiveATA = 1 + (curDepth / 10);
+                effectiveDepth = (surfaceDepth + firstStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
                 effectiveRMV = surfaceRMV * effectiveATA;
-                appendPartialSegment('gas usage to first stop', usageToBottomSegment, usageTime, curDepth, effectiveATA, effectiveRMV);
+                appendPartialSegment('gas usage to first stop', usageToBottomSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
                 // compute gas usage at first stop
                 usageTime = firstStopTime;
-                curDepth = firstStopDepth;
-                effectiveATA = 1 + (curDepth / 10);
+                effectiveDepth = firstStopDepth;
+                effectiveATA = 1 + (effectiveDepth / 10);
                 effectiveRMV = surfaceRMV * effectiveATA;
-                appendPartialSegment('gas usage at first stop', usageToBottomSegment, usageTime, curDepth, effectiveATA, effectiveRMV);
+                appendPartialSegment('gas usage at first stop', usageToBottomSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
 
                 // compute gas usage on descent to bottom stop
                 usageTime = (bottomDepth - firstStopDepth) / bottomDescentRate;
-                curDepth = (bottomDepth - firstStopDepth) / 2;
-                effectiveATA = 1 + (curDepth / 10);
+                effectiveDepth = (bottomDepth + firstStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
                 effectiveRMV = surfaceRMV * effectiveATA;
-                appendPartialSegment('gas usage to bottom', usageToBottomSegment, usageTime, curDepth, effectiveATA, effectiveRMV);
+                appendPartialSegment('gas usage to bottom', usageToBottomSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
                 /* ****************************************************************** */
                 /*               compute gas usage at bottom stop                     */
@@ -272,44 +272,52 @@
 
                 // compute gas usage on ascent to deep stop
                 usageTime = (bottomDepth - deepStopDepth) / deepStopAscentRate;
-                effectiveATA = 1 + ((bottomDepth + deepStopDepth) / 20);
+                effectiveDepth = (bottomDepth + deepStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
                 effectiveRMV = surfaceRMV * effectiveATA;
-                appendPartialSegment('gas usage to deep stop', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
+                appendPartialSegment('gas usage to deep stop', usageToSurfaceSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
                 // compute gas usage at deep stop
                 usageTime = deepStopTime;
-                effectiveATA = 1 + (deepStopDepth / 10);
+                effectiveDepth = deepStopDepth;
+                effectiveATA = 1 + (effectiveDepth / 10);
                 effectiveRMV = surfaceRMV * effectiveATA;
-                appendPartialSegment('gas usage at deep stop', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
+                appendPartialSegment('gas usage at deep stop', usageToSurfaceSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
                 // compute gas usage to mandatory safety stop
                 usageTime = (deepStopDepth - safetyStopDepth) / safetyStopAscentRate;
-                effectiveATA = 1 + ((safetyStopDepth + deepStopDepth) / 20);
+                effectiveDepth = (deepStopDepth + safetyStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
                 effectiveRMV = surfaceRMV * effectiveATA;
-                appendPartialSegment('gas usage to safety stop', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
+                appendPartialSegment('gas usage to safety stop', usageToSurfaceSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
                 // compute gas usage at mandatory safety stop
                 usageTime = safetyStopTime;
+                effectiveDepth = safetyStopDepth;
                 effectiveATA = 1 + (safetyStopDepth / 10);
                 effectiveRMV = surfaceRMV * effectiveATA;
-                appendPartialSegment('gas usage at safety stop', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
+                appendPartialSegment('gas usage at safety stop', usageToSurfaceSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
                 // compute gas usage to surface
                 usageTime = safetyStopDepth / surfaceAscentRate;
-                effectiveATA = 1 + (safetyStopDepth / 20);
+                effectiveDepth = (0 + safetyStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
                 effectiveRMV = surfaceRMV * effectiveATA;
-                appendPartialSegment('gas usage to surface', usageToSurfaceSegment, usageTime, effectiveATA, effectiveRMV);
+                appendPartialSegment('gas usage to surface', usageToSurfaceSegment, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
 
 
                 let gasUsedDown = 0
                 usageToBottomSegment.forEach((element, index, array) => {
-                    gasUsedDown += element['gasUsed'];
+                    gasUsedDown += Number(element.gasUsed);
                 });
+                console.log("gas used down: : " + Number(gasUsedDown).toFixed(2));
+
 
                 let gasUsedUp = 0
                 usageToSurfaceSegment.forEach((element, index, array) => {
-                    gasUsedUp += element['gasUsed'];
+                    gasUsedUp += Number(element.gasUsed);
                 });
+                console.log("gas used up: : " + Number(gasUsedUp).toFixed(2));
 
                 let totalGasUsed = gasUsedDown + gasUsedUp;
 
