@@ -71,7 +71,8 @@
                             <option value="3555">Steel HP120 237 bar (3555 L)</option>
                             <option value="3081" selected>Steel HP100 237 bar (3081 L)</option>
                             <option value="2690">Steel HP100 207 bar (2690 L)</option>
-                            <option value="2277">AL80 207 bar (2277 L)</option>
+                            <option value="2277">AL80 Single 207 bar (2277 L)</option>
+                            <option value="4554">AL80 Doubles 207 bar (4554 L)</option>
                         </select>
                     </td>
                     <td><label>RMV at Surface<br> (L/min): </label></td>
@@ -175,8 +176,19 @@
             //       depth, ata: ata.toFixed(2), rmv: surfaceRMV.toFixed(2), gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
             //   });
 
-            const tankSelectorElement = document.getElementById('tankLiters');
-            tankSelectorElement.addEventListener('change', (event) => {
+            document.getElementById('tankLiters').addEventListener('change', (event) => {
+                document.getElementById("BottomStopTime").innerText = "****";
+                const selectedValue = event.target.value;
+                console.log("tank selector value changed: value: " + selectedValue);
+            });
+
+            document.getElementById('bottomDepth').addEventListener('change', (event) => {
+                document.getElementById("BottomStopTime").innerText = "****";
+                const selectedValue = event.target.value;
+                console.log("tank selector value changed: value: " + selectedValue);
+            });
+
+            document.getElementById('surfaceRMV').addEventListener('change', (event) => {
                 document.getElementById("BottomStopTime").innerText = "****";
                 const selectedValue = event.target.value;
                 console.log("tank selector value changed: value: " + selectedValue);
