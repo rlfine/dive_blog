@@ -331,7 +331,7 @@
 
                 totalGasUsed += gasUsedAtBottom;
 
-                document.getElementById("BottomStopTime").innerText = (maxBottomTime + 0.5).toFixed(0);
+                document.getElementById("BottomStopTime").innerText = (maxBottomTime + 0.5).toFixed(2);
 
                 // map our variables to graph variables - will refactor later --- TODO
                 const stopDepth = bottomDepth;
@@ -342,7 +342,7 @@
                 addSegment("Stop at " + stopDepth + "m", stopDepth, stopTime);
                 addSegment("Descent to Bottom", bottomDepth, (bottomDepth - firstStopDepth) / descentRate);
 
-                addSegment("Bottom (Max " + maxBottomTime.toFixed(1) + " min)", bottomDepth, 0);
+                addSegment("Bottom (Max " + maxBottomTime.toFixed(2) + " min)", bottomDepth, 0);
 
                 const gasUsedBeforeBottom = tankLiters - remainingGas;
                 const bottomATA = bottomDepth / 10 + 1;
