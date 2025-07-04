@@ -148,10 +148,10 @@
         </table>
 
         <div id="results" style="width: 100%;">
-            <div id="dataTable"  style="width: 80%;"></div>
+            <div id="dataTable" style="width: 80%;"></div>
         </div>
         <div style="margin-top:8em;width: 80%;"">
-            <canvas id="diveChart" ></canvas>
+            <canvas id="diveChart"></canvas>
         </div>
 
         <script>
@@ -339,7 +339,7 @@
 
                 totalGasUsed += gasUsedAtBottom;
 
-                document.getElementById("BottomStopTime").innerText = (maxBottomTime + 0.5).toFixed(2);
+                document.getElementById("BottomStopTime").innerText = maxBottomTime.toFixed(2);
 
                 const segments = [];
                 let currentTime = 0;
@@ -352,7 +352,7 @@
                         depth: Number(e.depth).toFixed(2),
                         ata: Number(e.ata).toFixed(2),
                         rmv: Number(e.rmv).toFixed(2),
-                        duration:Number(e.duration).toFixed(2),
+                        duration: Number(e.duration).toFixed(2),
                         gasUsed: Number(e.gasUsed).toFixed(2),
                         remaining: gasRemaining
                     });
@@ -366,12 +366,11 @@
                     depth: Number(bottomDepth).toFixed(2),
                     ata: Number(effectiveATA).toFixed(2),
                     rmv: Number(effectiveRMV).toFixed(2),
-                    duration:Number(maxBottomTime).toFixed(2),
+                    duration: Number(maxBottomTime).toFixed(2),
                     gasUsed: Number(gasUsedAtBottom).toFixed(2),
                     remaining: gasRemaining
                 });
                 currentTime += Number(maxBottomTime);
-
 
 
                 usageToSurfaceSegments.forEach((e) => {
@@ -382,40 +381,55 @@
                         depth: Number(e.depth).toFixed(2),
                         ata: Number(e.ata).toFixed(2),
                         rmv: Number(e.rmv).toFixed(2),
-                        duration:Number(e.duration).toFixed(2),
+                        duration: Number(e.duration).toFixed(2),
                         gasUsed: Number(e.gasUsed).toFixed(2),
                         remaining: gasRemaining
                     });
                     currentTime += Number(e.duration);
                 });
 
-
-
+                const grafSegments = [];
+                currentTime = 0;
+                let remainingGas = tankLiters;
+                function addSegment(label, depth, duration) {
+                    const ata = depth / 10 + 1;
+                    const rmv = surfaceRMV * ata;;
+                    const gasUsed = surfaceRMV * ata * duration;
+                    remainingGas -= gasUsed;
+                    grafSegments.push({
+                        time: currentTime,
+                        label, depth, ata: ata.toFixed(2), rmv, gasUsed: gasUsed.toFixed(1)}
+                    );
+                    currentTime += duration;
+                }
+                const gasUsedBeforeBottom = tankLiters - remainingGas;
+                const bottomATA = bottomDepth / 10 + 1;
+                const availableGas = remainingGas - finalSurfaceReserve;
+                const bottomTime = availableGas / (surfaceRMV * bottomATA);
 
                 // map our variables to graph variables - will refactor later --- TODO
-                const stopDepth = bottomDepth;
                 const stopTime = maxBottomTime;
                 const descentRate = bottomDescentRate;
 
-                //addSegment("Descent to Stop", stopDepth, stopDepth / descentRate);
-                //addSegment("Stop at " + stopDepth + "m", stopDepth, stopTime);
-                //addSegment("Descent to Bottom", bottomDepth, (bottomDepth - firstStopDepth) / descentRate);
+                addSegment("Dive start", 0, firstStopDepth / firstDescentRate);
+                addSegment("Descend to First Stop", firstStopDepth, firstStopDepth / descentRate);
+                addSegment("First Stop at " + firstStopDepth + "m", firstStopDepth, firstStopTime);
+                addSegment("Descent to Bottom", bottomDepth, (bottomDepth - firstStopDepth) / descentRate);
+                addSegment("Bottom Stop at " + bottomDepth + "m", bottomDepth, bottomTime);
 
-                //addSegment("Bottom (Max " + maxBottomTime.toFixed(2) + " min)", bottomDepth, 0);
+                addSegment("Ascend to Deep Stop", deepStopDepth, deepStopDepth / deepStopAscentRate);
+                addSegment("Deep Stop at " + deepStopDepth + "m", deepStopDepth, deepStopTime);
+                addSegment("Ascend to Safety Stop", safetyStopDepth, safetyStopDepth / safetyStopAscentRate);
+                addSegment("Safety Stop at " + safetyStopDepth + "m", safetyStopDepth, safetyStopTime);
+                addSegment("Ascend to Surface", 0, safetyStopDepth / safetyStopAscentRate);
 
-                //const gasUsedBeforeBottom = tankLiters - remainingGas;
-                //const bottomATA = bottomDepth / 10 + 1;
-                //const availableGas = remainingGas - finalSurfaceReserve;
-                //const bottomTime = availableGas / (surfaceRMV * bottomATA);
 
-                //addSegment("Ascent to Deep Stop", deepStopDepth, (bottomDepth - deepStopDepth) / deepStopAscentRate);
-                //addSegment("Deep Stop", deepStopDepth, deepStopTime);
-                //addSegment("Ascent to Safety Stop", safetyStopDepth, (deepStopDepth - safetyStopDepth) / safetyStopAscentRate);
-                //addSegment("Safety Stop", safetyStopDepth, safetyStopTime);
-                //addSegment("Final Ascent", 0, safetyStopDepth / surfaceAscentRate);
 
-                //bottomTimeLabel = document.getElementById('bottomTime');
-                //bottomTimeLabel.textContent = bottomTime.toFixed(2);
+                bottomTimeLabel = document.getElementById('BottomStopTime');
+                if (bottomTimeLabel === null) {
+                    console.log("bottomTimeLabel is null");
+                }
+                bottomTimeLabel.textContent = bottomTime.toFixed(2);
 
                 console.log("getting ready to build graph");
 
@@ -443,32 +457,28 @@
 
                 document.getElementById('dataTable').innerHTML = table;
 
-  /* ************************************************************* */
-  /*    TODO - build setments for graph, then enable and format    */
-  /* ************************************************************* */
-
-  //              const ctx = document.getElementById('diveChart').getContext('2d');
-  //              const diveChart = new Chart(ctx, {
-  //                  type: 'line',
-  //                  data: {
-  //                      labels: segments.map(s => s.label),
-  //                      datasets: [{
-  //                         label: 'Depth (m)',
-  //                          data: segments.map(s => s.depth),
-  //                          borderColor: 'blue',
-  //                          fill: false,
-  //                          tension: 0.1
-  //                      }]
-  //                  },
-  //                  options: {
-  //                      scales: {
-  //                          y: {
-  //                              reverse: true,
-  //                              title: { display: true, text: 'Depth (meters)' }
-  //                          }
-  //                      }
-  //                  }
-  //              });
+                const ctx = document.getElementById('diveChart').getContext('2d');
+                const diveChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: grafSegments.map(s => s.label),
+                        datasets: [{
+                            label: 'Depth (m)',
+                            data: grafSegments.map(s => s.depth),
+                            borderColor: 'blue',
+                            fill: false,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                reverse: true,
+                                title: { display: true, text: 'Depth (meters)' }
+                            }
+                        }
+                    }
+                });
 
             };   // form.onSubmit()
         </script>
