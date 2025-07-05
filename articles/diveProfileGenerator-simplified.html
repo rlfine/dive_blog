@@ -457,24 +457,45 @@
 
                 document.getElementById('dataTable').innerHTML = table;
 
-                const ctx = document.getElementById('diveChart').getContext('2d');
+                const canvas = document.getElementById('diveChart');
+                const ctx = canvas.getContext('2d');
                 const diveChart = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: grafSegments.map(s => s.label),
-                        datasets: [{
+                        datasets: [
+                            {
                             label: 'Depth (m)',
                             data: grafSegments.map(s => s.depth),
                             borderColor: 'blue',
+                            yAxisID: 'yDepth',
                             fill: false,
                             tension: 0.1
-                        }]
+                        },
+                    {
+                            label: 'volume (l)',
+                            data: [3000, 2300,1900,1620,1150,750,650,455],
+                            borderColor: 'green',
+                            yAxisID: 'yDepth',
+                            fill: false,
+                            tension: 0.1
+                    },
+                ]
                     },
                     options: {
                         scales: {
-                            y: {
-                                reverse: true,
+                            yDepth: {
+                                min:0, max:50,
+                                type: 'linear',
+                                reverse: true,position: 'left',
                                 title: { display: true, text: 'Depth (meters)' }
+                            },
+                            yGasRemaining: {
+                                min:0, max:3400,
+                                type: 'linear',
+                                reverse: true,position: 'right',
+                                title: { display: true, text: 'Gas (liters)' },
+                                grid:{drawOnCharArea:false,}
                             }
                         }
                     }
