@@ -150,8 +150,8 @@
         <div id="results" style="width: 100%;">
             <div id="dataTable" style="width: 80%;"></div>
         </div>
-        <div style="margin-top:8em;width: 80%;"">
-            <canvas id="diveChart"></canvas>
+        <div style="margin-top:8em;width: 80%;">
+            <canvas id= "diveChart"></canvas>
         </div>
 
         <script>
@@ -398,7 +398,8 @@
                     remainingGas -= gasUsed;
                     grafSegments.push({
                         time: currentTime,
-                        label, depth, ata: ata.toFixed(2), rmv, gasUsed: gasUsed.toFixed(1)}
+                        label, depth, ata: ata.toFixed(2), rmv, gasUsed: gasUsed.toFixed(1)
+                    }
                     );
                     currentTime += duration;
                 }
@@ -465,37 +466,37 @@
                         labels: grafSegments.map(s => s.label),
                         datasets: [
                             {
-                            label: 'Depth (m)',
-                            data: grafSegments.map(s => s.depth),
-                            borderColor: 'blue',
-                            yAxisID: 'yDepth',
-                            fill: false,
-                            tension: 0.1
-                        },
-                    {
-                            label: 'volume (l)',
-                            data: [3000, 2300,1900,1620,1150,750,650,455],
-                            borderColor: 'green',
-                            yAxisID: 'yDepth',
-                            fill: false,
-                            tension: 0.1
-                    },
-                ]
+                                label: 'Depth (m)',
+                                data: grafSegments.map(s => s.depth),
+                                borderColor: 'blue',
+                                yAxisID: 'yDepth',
+                                fill: false,
+                                tension: 0.1
+                            },
+                            {
+                                label: 'volume (l)',
+                                data: [3000, 2300, 1900, 1620, 1150, 750, 650, 455],
+                                borderColor: 'green',
+                                yAxisID: 'yDepth',
+                                fill: false,
+                                tension: 0.1
+                            },
+                        ]
                     },
                     options: {
                         scales: {
                             yDepth: {
-                                min:0, max:50,
+                                min: 0, max: 50,
                                 type: 'linear',
-                                reverse: true,position: 'left',
+                                reverse: true, position: 'left',
                                 title: { display: true, text: 'Depth (meters)' }
                             },
                             yGasRemaining: {
-                                min:0, max:3400,
+                                min: 0, max: 3400,
                                 type: 'linear',
-                                reverse: true,position: 'right',
+                                reverse: true, position: 'right',
                                 title: { display: true, text: 'Gas (liters)' },
-                                grid:{drawOnCharArea:false,}
+                                grid: { drawOnCharArea: false, }
                             }
                         }
                     }
