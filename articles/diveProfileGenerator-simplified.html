@@ -151,7 +151,7 @@
             <div id="dataTable" style="width: 80%;"></div>
         </div>
         <div style="margin-top:8em;width: 80%;">
-            <canvas id= "diveChart"></canvas>
+            <canvas id="diveChart"></canvas>
         </div>
 
         <script>
@@ -372,7 +372,6 @@
                 });
                 currentTime += Number(maxBottomTime);
 
-
                 usageToSurfaceSegments.forEach((e) => {
                     gasRemaining -= Number(e.gasUsed);
                     segments.push({
@@ -388,17 +387,20 @@
                     currentTime += Number(e.duration);
                 });
 
+                // build the graph segments data set
                 const grafSegments = [];
                 currentTime = 0;
                 let remainingGas = tankLiters;
+
                 function addSegment(label, depth, duration) {
+                    console.log("label: " + label + ",  depth: " + depth.toFixed(1)+ ",  duration: " + duration.toFixed(1));
                     const ata = depth / 10 + 1;
                     const rmv = surfaceRMV * ata;;
                     const gasUsed = surfaceRMV * ata * duration;
                     remainingGas -= gasUsed;
                     grafSegments.push({
                         time: currentTime,
-                        label, depth, ata: ata.toFixed(2), rmv, gasUsed: gasUsed.toFixed(1)
+                        label, depth, gasRemaining: remainingGas.toFixed(1)
                     }
                     );
                     currentTime += duration;
@@ -413,9 +415,9 @@
                 const descentRate = bottomDescentRate;
 
                 addSegment("Dive start", 0, firstStopDepth / firstDescentRate);
-                addSegment("Descend to First Stop", firstStopDepth, firstStopDepth / descentRate);
+                addSegment("Descend to First Stop", firstStopDepth, firstStopDepth / firstDescentRate);
                 addSegment("First Stop at " + firstStopDepth + "m", firstStopDepth, firstStopTime);
-                addSegment("Descent to Bottom", bottomDepth, (bottomDepth - firstStopDepth) / descentRate);
+                addSegment("Descent to Bottom", bottomDepth, (bottomDepth - firstStopDepth) / bottomDescentRate);
                 addSegment("Bottom Stop at " + bottomDepth + "m", bottomDepth, bottomTime);
 
                 addSegment("Ascend to Deep Stop", deepStopDepth, deepStopDepth / deepStopAscentRate);
@@ -424,6 +426,11 @@
                 addSegment("Safety Stop at " + safetyStopDepth + "m", safetyStopDepth, safetyStopTime);
                 addSegment("Ascend to Surface", 0, safetyStopDepth / safetyStopAscentRate);
 
+                // dump graph segments data
+                console.log("dump graph segments data")
+                grafSegments.forEach((e) => {
+                    console.log("depth: " + e.depth + ",  gasRemaining: " + e.gasRemaining);
+                })
 
 
                 bottomTimeLabel = document.getElementById('BottomStopTime');
@@ -460,6 +467,9 @@
 
                 const canvas = document.getElementById('diveChart');
                 const ctx = canvas.getContext('2d');
+
+
+
                 const diveChart = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -474,10 +484,11 @@
                                 tension: 0.1
                             },
                             {
-                                label: 'volume (l)',
-                                data: [3000, 2300, 1900, 1620, 1150, 750, 650, 455],
+                                label: 'Gas Remaining (l)',
+                                xdata: [3000, 2300, 1900, 1620, 1150, 750, 650, 455],
+                                data: grafSegments.map(s => s.gasRemaining),
                                 borderColor: 'green',
-                                yAxisID: 'yDepth',
+                                yAxisID: 'yGasRemaining',
                                 fill: false,
                                 tension: 0.1
                             },
@@ -492,11 +503,10 @@
                                 title: { display: true, text: 'Depth (meters)' }
                             },
                             yGasRemaining: {
-                                min: 0, max: 3400,
                                 type: 'linear',
-                                reverse: true, position: 'right',
+                                reverse: false, position: 'right',
                                 title: { display: true, text: 'Gas (liters)' },
-                                grid: { drawOnCharArea: false, }
+                                sgrid: { drawOnCharArea: false, }
                             }
                         }
                     }
