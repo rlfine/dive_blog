@@ -40,6 +40,10 @@
         }
     </style>
 
+    <script>
+        let diveChart;
+    </script>
+
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
 </head>
@@ -392,46 +396,18 @@
                 currentTime = 0;
                 let remainingGas = tankLiters;
 
-                function addSegment(label, depth, duration) {
-                    console.log("label: " + label + ",  depth: " + depth.toFixed(1)+ ",  duration: " + duration.toFixed(1));
-                    const ata = depth / 10 + 1;
-                    const rmv = surfaceRMV * ata;;
-                    const gasUsed = surfaceRMV * ata * duration;
-                    remainingGas -= gasUsed;
+                function addSegment(label, currentTime, depth, remainingGas) {
+                    console.log("label: " + label + ",  depth: " + " currentTime: " + currentTime + depth.toFixed(1));
                     grafSegments.push({
                         time: currentTime,
-                        label, depth, gasRemaining: remainingGas.toFixed(1)
-                    }
-                    );
-                    currentTime += duration;
+                        label, depth, gasRemaining: remainingGas
+                    });
                 }
-                const gasUsedBeforeBottom = tankLiters - remainingGas;
-                const bottomATA = bottomDepth / 10 + 1;
-                const availableGas = remainingGas - finalSurfaceReserve;
-                const bottomTime = availableGas / (surfaceRMV * bottomATA);
 
-                // map our variables to graph variables - will refactor later --- TODO
-                const stopTime = maxBottomTime;
-                const descentRate = bottomDescentRate;
+                const bottomATA = 1 + bottomDepth / 10;
+                const bottomAvailableGas = remainingGas - finalSurfaceReserve;
 
-                addSegment("Dive start", 0, firstStopDepth / firstDescentRate);
-                addSegment("Descend to First Stop", firstStopDepth, firstStopDepth / firstDescentRate);
-                addSegment("First Stop at " + firstStopDepth + "m", firstStopDepth, firstStopTime);
-                addSegment("Descent to Bottom", bottomDepth, (bottomDepth - firstStopDepth) / bottomDescentRate);
-                addSegment("Bottom Stop at " + bottomDepth + "m", bottomDepth, bottomTime);
-
-                addSegment("Ascend to Deep Stop", deepStopDepth, deepStopDepth / deepStopAscentRate);
-                addSegment("Deep Stop at " + deepStopDepth + "m", deepStopDepth, deepStopTime);
-                addSegment("Ascend to Safety Stop", safetyStopDepth, safetyStopDepth / safetyStopAscentRate);
-                addSegment("Safety Stop at " + safetyStopDepth + "m", safetyStopDepth, safetyStopTime);
-                addSegment("Ascend to Surface", 0, safetyStopDepth / safetyStopAscentRate);
-
-                // dump graph segments data
-                console.log("dump graph segments data")
-                grafSegments.forEach((e) => {
-                    console.log("depth: " + e.depth + ",  gasRemaining: " + e.gasRemaining);
-                })
-
+                const bottomTime = bottomAvailableGas / (surfaceRMV * bottomATA);
 
                 bottomTimeLabel = document.getElementById('BottomStopTime');
                 if (bottomTimeLabel === null) {
@@ -463,21 +439,28 @@
                        </tr>`).join('')}
                     </table>`;
 
+                const chartLabelData = ["Dive start", "Descent to First Stop", "First Stop", "Descent to Bottom", "Bottom Stop", "Ascend to Deep Stop", "Deep Stop", "Ascend to Safety Stop", "Safety Stop", "Ascend to Surface",];
+                const depthChartData = [0, firstStopDepth, firstStopDepth, bottomDepth, bottomDepth, deepStopDepth, deepStopDepth, safetyStopDepth, safetyStopDepth, 0];
+                const gasChartData = [tankLiters, segments[0].remaining, segments[1].remaining, segments[2].remaining, segments[3].remaining, segments[4].remaining, segments[5].remaining, segments[6].remaining, segments[7].remaining, segments[8].remaining];
+
                 document.getElementById('dataTable').innerHTML = table;
 
                 const canvas = document.getElementById('diveChart');
                 const ctx = canvas.getContext('2d');
 
 
+                if (diveChart) {
+                    diveChart.destroy(); // Destroy the existing chart instance
+                }
 
-                const diveChart = new Chart(ctx, {
+                diveChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: grafSegments.map(s => s.label),
+                        labels: chartLabelData,
                         datasets: [
                             {
                                 label: 'Depth (m)',
-                                data: grafSegments.map(s => s.depth),
+                                data: depthChartData,
                                 borderColor: 'blue',
                                 yAxisID: 'yDepth',
                                 fill: false,
@@ -485,8 +468,7 @@
                             },
                             {
                                 label: 'Gas Remaining (l)',
-                                xdata: [3000, 2300, 1900, 1620, 1150, 750, 650, 455],
-                                data: grafSegments.map(s => s.gasRemaining),
+                                data: gasChartData,
                                 borderColor: 'green',
                                 yAxisID: 'yGasRemaining',
                                 fill: false,
