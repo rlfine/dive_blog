@@ -459,7 +459,7 @@
                         labels: chartLabelData,
                         datasets: [
                             {
-                                label: 'Depth (m)',
+                                label: 'Depth (M)',
                                 data: depthChartData,
                                 borderColor: 'blue',
                                 yAxisID: 'yDepth',
@@ -467,7 +467,7 @@
                                 tension: 0.1
                             },
                             {
-                                label: 'Gas Remaining (l)',
+                                label: 'Gas Remaining (L)',
                                 data: gasChartData,
                                 borderColor: 'green',
                                 yAxisID: 'yGasRemaining',
@@ -477,6 +477,18 @@
                         ]
                     },
                     options: {
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    padding: 32,
+                                    boxWidth: 66, // Set the desired width of the colored box
+                                    boxHeight: 2, // Set the desired height of the colored box
+                                    font: {
+                                        size: 18
+                                    }
+                                }
+                            }
+                        },
                         scales: {
                             yDepth: {
                                 min: 0, max: 50,
