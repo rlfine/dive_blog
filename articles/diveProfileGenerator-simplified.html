@@ -38,6 +38,14 @@
             border-collapse: collapse;
             padding: 5px;
         }
+
+        .divSidebar {
+            border-style: solid;
+            border-width: 2px;
+            margin: 2em 12em 2em 5em;
+            padding: 1em;
+            background-color: rgb(198, 243, 241);
+        }
     </style>
 
     <script>
@@ -52,71 +60,102 @@
 
     <header>
         <h1>A Prototypical Dive Planner <br><span style="font-size: 20px;">Computing allowable bottom time based on tank
-                volume and reserve gas</span></h1>
+                volume and reserve gas and estimated RMV</span></h1>
         <p>Exploring the science and safety of scuba diving.</p>
         <a href="../index.html"> <button>Back to Home</button> </a>
     </header>
 
     <article>
-        <h1></h1>
-        <p>I am diving with a Steel HP100, filled to 237 bar with 21% air and my surface RML is 12 liters per minute
-            (OK, it's likely more than that, especially at depth, but lets use this value for sake of this exercise).
-            The question that I have pertains to dive planning an an approach to estimating mthe maximum time at depth
-            for a simple square dive like we would see in a lake or quarry. Here is the scenario:
-        <div>What is my max bottom time at 40 meters if my dive profile has the following:</div>
+        <p>When I am diving locally, I'm diving with a Steel HP100 tank, filled to 237 bar with 21% air and my surface
+            RMV is 12 liters per minute (OK, it's likely more than that, especially when it's cold, but let's use it
+            for sake of this exercise). The question that I have pertains to dive planning and an approach to estimating
+            the maximum time at depth for a simple square dive like we would see in a lake or quarry.
+
+            Here is the scenario:
+
+        <div>What is my max bottom time at 40 meters if my dive profile has the following:
+
+        </div>
         <ol>
-            <li>Descend at rate of 12 meters per minute (12 m/min) to 7 meters and stop there for 3 minutes for a quick
-                buddy check before going to the deep end.</li>
-            <li>Descend to 40 meters at rate of 8 m/min, and hang out here for ??? min (TODO: compute max time)</li>
-            <li>Ascend to 25 meters at rate of 8 meters per minute and stop there for 4 minutes for a recommended (by
+            <li>Descend at a rate of 12 meters per minute (12 m/min) to 7 meters and stop there for 3 minutes for a
+                quick
+                buddy check before going deep.</li>
+            <li>Descend to 40 meters at a rate of 8 m/min, and hang out here for ??? min. (TODO: compute max time)</li>
+            <li>Ascend to 25 meters at a rate of 8 meters per minute and stop there for 4 minutes for a recommended (by
                 some) deep stop</li>
-            <li>Ascend to 4 meters at rate of 8 meters per minute and stop there for 5 minutes for the requisite safety
+            <li>Ascend to 4 meters at a rate of 8 meters per minute and stop there for 5 minutes for the requisite
+                safety
                 stop (we do 5 min safety stop after a deep dive vs the standard 3 min)</li>
-            <li>Ascend to the surface at a pedestrian rate of 4 meters per minute and finish dive with 455 liters
-                reserve air in tank
+            <li>Ascend to the surface at a pedestrian rate of 4 meters per minute and finish the dive with 455 liters of
+                reserve air in the tank.
             </li>
         </ol>
         </p>
         <p>Can we compute the maximum time we could stay at 40 meters in step 2 in order to surface with 455 liters of
             reserve?
         </p>
-        <div
-            style="border-style: solid; border-width:2px; margin:2em;padding:1em;background-color: rgb(198, 243, 241);">
+        <div class="divSidebar">
             <span style="font-size: large;font-weight: 700;">Sidebar</span><br>
             <div style="margin-left:2em">Some will ask why I would want to end the dive with 455 liters of air, when
-                most agencies recommend ending a
-                dive with something in the neighborhood of 500 PSI (why use liters and not PSI as a measure of air)?
-                When I have a choice, I will dive with my personal Steel HP100 tank. The tank holds roughly 13
-                liters of water, and when filled to the stated working pressure of 3442 PSI or 237 bar, it holds
-                approximately 100 ft<sup>3</sup>
-                of gas, or roughly 3058 liters of air. On occassion, a fill shop fills it to 3000 PSI (or close to
-                that),
-                and according to Boyle's law, I now have 2690 liters of air. On occassion, I travel and dive, and there
-                I
-                will typically dive with the ubiquitous AL80 tank that holds approximately 2277 liters of air. Couple
-                all of
-                those liter vaolue measurements with ones computer RMV, expressed in liters per minute, and we see it
-                makes
-                no sense to use PSI andthen have to do the conversions everytime one changes tanks or gets a different
-                fill
-                PSI.</div>
+                most agencies recommend ending a dive with something in the neighborhood of 500 PSI (why use liters and
+                not PSI as a measure of air)? When I have a choice, I will dive with my personal Steel HP100 tank. The
+                tank holds roughly 13 liters of water, and when filled to the stated working pressure of 3442 PSI or 237
+                bar, it holds approximately 100 ft<sup>3</sup> of gas, or roughly 3058 liters. On occassion, a fill shop
+                will not recognize the tank is HP100 and has marking that clearly states the working pressure is 3442,
+                and fill the tank to 3000 PSI (or close to that), and according to Boyle's law, I now have 2690 liters
+                of air.
+                <div style="margin-top:.6em">
+                    And, on occasion, I am fortunate to travel and dive, and I will typically dive with the ubiquitous
+                    AL80
+                    tank that holds approximately 2277 liters of air. Couple all of those liter value measurements with
+                    one's computed RMV, expressed in liters per minute, and we see it makes no sense to use PSI and then
+                    have to do the conversions every time one changes tanks or gets a different fill PSI.
+                </div>
+            </div>
         </div>
+
         <p>
-            To answer the above question, I worked out all of the numbers in my dive planning notebook, and came up with
+            To answer the above question, I worked out all of the numbers in my dive planning notebook and came up with
             an answer. But then I started thinking of different RMV values (maybe I am not a 12 L/Min diver on every
             dive) and different deep dive levels (not every dive hole is 40 meters deep, and not one every dive do I
-            want to go the 40 meters). I decided to develop a tool that a bit easire to use than a calculator, a pencil,
-            a notebook, and an eraser. The following is the result of a few evening messing around with HTML, CSS, and
-            the Javascript Chart.js app. It is still a work in progress (as of mid June 2025), but it seems to be
-            functional enough for the purposes of rough estimations for a deep dive, given a few rigid parameters (the
-            square dive).
+            want to go the 40 meters). I decided to develop a tool that is a bit easier to use than a calculator, a
+            pencil, a notebook, and an eraser. The following is the result of a few evenings messing around with HTML,
+            CSS, and the Javascript Chart.js app. It is still a work in progress (as of mid-June 2025), but it seems to
+            be functional enough for the purposes of rough estimations for a deep dive, given a few rigid parameters
+            (the square dive, and dive consistent RMV).
+
         <p>
-            Another Note: the bottom time estimator is only as good as the input parameters, especially the projected
-            RMV.
-            If you do not have a good idea of your pwesonal RMV, look at this
-          <a href="../../Resources/NavyDiveManual_RMV.png"  target="_blank">chart from the U.S. Navy Diving Manual</a>.         The chart is for fit Navy divers (most of us are not), so make adjustments and accomodations accordingly
+        <div class="divSidebar">
+            <span style="font-size: large;font-weight: 700;color:darkblue">Another Note</span><br>
+            The bottom time estimator is only as good as the input parameters, especially the projected RMV. If you do
+            not have a good idea of your personal RMV, look at this <a href="../../Resources/NavyDiveManual_RMV.png"
+                target="_blank">chart from the U.S. Navy Diving Manual</a>. The chart is for
+            <strong><em>fit</em></strong> Navy divers (most of us are not), so make adjustments and accommodations
+            accordingly.
+        </div>
         </p>
+
+        <p>
+        <div class="divSidebar">
+            <span style="font-size: large;font-weight: 700;color:red">And Yet Another Note</span>
+            <div style="margin-top:.6em">
+                The bottom time estimator computes the bottom time for the above dive profile to be approximately 43
+                minutes with an RMV of 12 L/min and a Steel 100 tank starting at 237 bar. The NAUI air dive tables tells
+                us a 10 minute dive to 40 meters violates the NDL rule, and requires a 5 decompression stop at 5 meters.
+                So a 43 minute dive to 40 meters is far beyond recreation dive limits.
+            </div>
+            <div style="margin-top:.6em">
+                Even with an RMV of 18 liters per minute and diving with an AL80 tank with 2277 liters of air, the dive
+                planning calculator prediction is 20 minutes of deep time - also beyond no-stop NDL limits, requiring an
+                even longer decompression stop..
+            </div>
+            <div style="margin-top:.6em">
+                It is important to remember that when diving, we never do what we can do.
+                Instead, we dive safe and we do what we should do.
+            </div>
+        </div>
         </p>
+
         <h1>Dive Plan Visualizer</h1>
         <table style="width:90%;margin:1em;">
             <form id="diveForm">
