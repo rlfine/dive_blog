@@ -128,7 +128,7 @@
         <div class="divSidebar">
             <span style="font-size: large;font-weight: 700;color:darkblue">Another Note</span><br>
             The bottom time estimator is only as good as the input parameters, especially the projected RMV. If you do
-            not have a good idea of your personal RMV, look at this <a href="../../Resources/NavyDiveManual_RMV.png"
+            not have a good idea of your personal RMV, look at this <a href="../Resources/NavyDiveManual_RMV.png"
                 target="_blank">chart from the U.S. Navy Diving Manual</a>. The chart is for
             <strong><em>fit</em></strong> Navy divers (most of us are not), so make adjustments and accommodations
             accordingly.
@@ -561,7 +561,7 @@
                                 borderColor: 'blue',
                                 yAxisID: 'yDepth',
                                 fill: false,
-                                tension: 0.1
+                                tension: 0.0
                             },
                             {
                                 label: 'Gas Remaining (L)',
@@ -569,7 +569,7 @@
                                 borderColor: 'green',
                                 yAxisID: 'yGasRemaining',
                                 fill: false,
-                                tension: 0.1
+                                tension: 0.0
                             },
                         ]
                     },
@@ -577,7 +577,7 @@
                         plugins: {
                             legend: {
                                 labels: {
-                                    padding: 32,
+                                    padding: 16,
                                     boxWidth: 66, // Set the desired width of the colored box
                                     boxHeight: 2, // Set the desired height of the colored box
                                     font: {
@@ -588,16 +588,46 @@
                         },
                         scales: {
                             yDepth: {
-                                min: 0, max: 50,
+                                min: 0, 
+                                max: 50,
                                 type: 'linear',
-                                reverse: true, position: 'left',
-                                title: { display: true, text: 'Depth (meters)' }
+                                reverse: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Depth (meters)',
+                                    font: {
+                                        size: 16,
+                                    }
+                                },
+                                ticks: {
+                                    color: 'blue', // Set left Y-axis label color
+                                    font: {
+                                        size: 16,
+                                    }
+                                },
                             },
                             yGasRemaining: {
                                 type: 'linear',
-                                reverse: false, position: 'right',
-                                title: { display: true, text: 'Gas (liters)' },
-                                sgrid: { drawOnCharArea: false, }
+                                reverse: false,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Gas (liters)',
+                                    font: {
+                                        size: 16,
+                                    }
+                                },
+                                sgrid: {
+                                    drawOnCharArea: false,
+                                },
+                                ticks: {
+                                    color: 'green', // Set right Y-axis label color
+                                    font: {
+                                        size: 16,
+                                    }
+                                }
+
                             }
                         }
                     }
