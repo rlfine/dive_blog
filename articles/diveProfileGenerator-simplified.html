@@ -550,6 +550,32 @@
                     diveChart.destroy(); // Destroy the existing chart instance
                 }
 
+                const drawBottomTimeLabel = {
+                    id: 'drawBottomTimeLabel',
+                    afterDraw(chart, args, pluginOptions) {
+                        const { ctx, scales } = chart;
+                        const { x: xScale, y: yScale } = scales;
+
+                        const { xValue, yValue, text, color } = pluginOptions;
+
+                        console.log("drawBottomTimeLabel.  xValue: " + xValue + ", yValue:" + yValue);
+
+                        const x = xValue; //xScale.getPixelForValue(xValue);
+                        const y = yValue; //yScale.getPixelForValue(yValue);
+
+                        console.log("drawBottomTimeLabel.  x: " + x + ", y:" + y);
+
+                        // Draw the label
+                        ctx.fillStyle = color || 'red';
+                        ctx.font = 'bold 12px sans-serif';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(text || 'Point', x + 2, y + 8);
+                        ctx.restore();
+                    }
+                };
+
+
                 diveChart = new Chart(ctx, {
                     type: 'line',
                     data: {
@@ -575,6 +601,12 @@
                     },
                     options: {
                         plugins: {
+                            drawBottomTimeLabel: {
+                                xValue: 360,
+                                yValue: 840,
+                                text: 'Max Bottom Time: ' + bottomTime.toFixed(2) + " min",
+                                color: 'blue',
+                            },
                             legend: {
                                 labels: {
                                     padding: 16,
@@ -588,7 +620,7 @@
                         },
                         scales: {
                             yDepth: {
-                                min: 0, 
+                                min: 0,
                                 max: 50,
                                 type: 'linear',
                                 reverse: true,
@@ -630,7 +662,8 @@
 
                             }
                         }
-                    }
+                    },
+                    plugins: [drawBottomTimeLabel]
                 });
 
             };   // form.onSubmit()
