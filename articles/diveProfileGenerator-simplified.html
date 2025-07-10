@@ -554,14 +554,14 @@
                     id: 'drawBottomTimeLabel',
                     afterDraw(chart, args, pluginOptions) {
                         const { ctx, scales } = chart;
-                        const { x: xScale, y: yScale } = scales;
+                        const { x: xScale, yDepth: yScale } = scales;
 
                         const { xValue, yValue, text, color } = pluginOptions;
 
                         console.log("drawBottomTimeLabel.  xValue: " + xValue + ", yValue:" + yValue);
 
-                        const x = xValue; //xScale.getPixelForValue(xValue);
-                        const y = yValue; //yScale.getPixelForValue(yValue);
+                        const x = xScale.getPixelForValue(xValue);
+                        const y = yScale.getPixelForValue(yValue);
 
                         console.log("drawBottomTimeLabel.  x: " + x + ", y:" + y);
 
@@ -570,7 +570,7 @@
                         ctx.font = 'bold 12px sans-serif';
                         ctx.textAlign = 'left';
                         ctx.textBaseline = 'bottom';
-                        ctx.fillText(text || 'Point', x + 2, y + 8);
+                        ctx.fillText(text || 'Point', x - 20, y + 28);
                         ctx.restore();
                     }
                 };
@@ -602,8 +602,8 @@
                     options: {
                         plugins: {
                             drawBottomTimeLabel: {
-                                xValue: 360,
-                                yValue: 840,
+                                xValue: 'Descent to Bottom',
+                                yValue: 40,
                                 text: 'Max Bottom Time: ' + bottomTime.toFixed(2) + " min",
                                 color: 'blue',
                             },
