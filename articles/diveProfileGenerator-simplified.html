@@ -603,7 +603,7 @@
                         plugins: {
                             drawBottomTimeLabel: {
                                 xValue: 'Descent to Bottom',
-                                yValue: 40,
+                                yValue: bottomDepth,
                                 text: 'Max Bottom Time: ' + bottomTime.toFixed(2) + " min",
                                 color: 'blue',
                             },
@@ -620,8 +620,9 @@
                         },
                         scales: {
                             yDepth: {
-                                min: 0,
-                                max: 50,
+                                beginAtZero: true,
+                                min: 0, 
+                                max: bottomDepth + 5,
                                 type: 'linear',
                                 reverse: true,
                                 position: 'left',
@@ -632,7 +633,13 @@
                                         size: 16,
                                     }
                                 },
+                                grid: {
+                                    color: 'lightgrey',
+                                    lineWidth: 1,
+                                    drawTicks: true
+                                },
                                 ticks: {
+                                    stepSize: 5,
                                     color: 'blue', // Set left Y-axis label color
                                     font: {
                                         size: 16,
@@ -641,6 +648,8 @@
                             },
                             yGasRemaining: {
                                 type: 'linear',
+                                beginAtZero: true,
+                                min: 0,
                                 reverse: false,
                                 position: 'right',
                                 title: {
@@ -653,8 +662,15 @@
                                 sgrid: {
                                     drawOnCharArea: false,
                                 },
+                                grid: {
+                                    color: 'lightgreen',             // Line color
+                                    lineWidth: 1,              // Line thickness
+                                    drawBorder: true,          // Show left axis line
+                                    drawTicks: true            // Show tick marks
+                                },
                                 ticks: {
-                                    color: 'green', // Set right Y-axis label color
+                                    stepSize: 200,
+                                    color: 'green', // Set gas-remaining Y-axis label color
                                     font: {
                                         size: 16,
                                     }
