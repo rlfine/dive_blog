@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dive Plan Visualizer</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
@@ -16,6 +18,11 @@
         input {
             display: block;
             margin: 5px 0;
+        }
+
+        input[type="number"] {
+            width: 80px;
+            height: 30px;
         }
 
         #results {
@@ -33,160 +40,649 @@
             border-collapse: collapse;
             padding: 5px;
         }
+
+        .divSidebar {
+            border-style: solid;
+            border-width: 2px;
+            margin: 2em 12em 2em 5em;
+            padding: 1em;
+            background-color: rgb(198, 243, 241);
+        }
     </style>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+
+    <script>
+        let diveChart;
+    </script>
 </head>
 
 <body>
 
     <header>
-        <h1>The Real Reason Nitrox Works — and It's Not an Oxygen Boost</h1>
+        <h1>A Prototypical Dive Planner <br><span style="font-size: 20px;">Computing allowable bottom time based on tank
+                volume and reserve gas and estimated RMV</span></h1>
         <p>Exploring the science and safety of scuba diving.</p>
         <a href="../index.html"> <button>Back to Home</button> </a>
     </header>
 
     <article>
+        <p>When I am diving locally, I'm diving with a Steel HP100 tank, filled to 237 bar with 21% air and my surface
+            RMV is 12 liters per minute (OK, it's likely more than that, especially when it's cold, but let's use it
+            for sake of this exercise). The question that I have pertains to dive planning and an approach to estimating
+            the maximum time at depth for a simple square dive like we would see in a lake or quarry.
 
+            Here is the scenario:
 
+        <div>What is my max bottom time at 40 meters if my dive profile has the following:
+
+        </div>
+        <ol>
+            <li>Descend at a rate of 12 meters per minute (12 m/min) to 7 meters and stop there for 3 minutes for a
+                quick
+                buddy check before going deep.</li>
+            <li>Descend to 40 meters at a rate of 8 m/min, and hang out here for ??? min. (TODO: compute max time)</li>
+            <li>Ascend to 25 meters at a rate of 8 meters per minute and stop there for 4 minutes for a recommended (by
+                some) deep stop</li>
+            <li>Ascend to 4 meters at a rate of 8 meters per minute and stop there for 5 minutes for the requisite
+                safety
+                stop (we do 5 min safety stop after a deep dive vs the standard 3 min)</li>
+            <li>Ascend to the surface at a pedestrian rate of 4 meters per minute and finish the dive with 455 liters of
+                reserve air in the tank.
+            </li>
+        </ol>
+        </p>
+        <p>Can we compute the maximum time we could stay at 40 meters in step 2 in order to surface with 455 liters of
+            reserve?
+        </p>
+        <div class="divSidebar">
+            <span style="font-size: large;font-weight: 700;">Sidebar</span><br>
+            <div style="margin-left:2em">Some will ask why I would want to end the dive with 455 liters of air, when
+                most agencies recommend ending a dive with something in the neighborhood of 500 PSI (why use liters and
+                not PSI as a measure of air)? When I have a choice, I will dive with my personal Steel HP100 tank. The
+                tank holds roughly 13 liters of water, and when filled to the stated working pressure of 3442 PSI or 237
+                bar, it holds approximately 100 ft<sup>3</sup> of gas, or roughly 3058 liters. On occassion, a fill shop
+                will not recognize the tank is HP100 and has marking that clearly states the working pressure is 3442,
+                and fill the tank to 3000 PSI (or close to that), and according to Boyle's law, I now have 2690 liters
+                of air.
+                <div style="margin-top:.6em">
+                    And, on occasion, I am fortunate to travel and dive, and I will typically dive with the ubiquitous
+                    AL80
+                    tank that holds approximately 2277 liters of air. Couple all of those liter value measurements with
+                    one's computed RMV, expressed in liters per minute, and we see it makes no sense to use PSI and then
+                    have to do the conversions every time one changes tanks or gets a different fill PSI.
+                </div>
+            </div>
+        </div>
+
+        <p>
+            To answer the above question, I worked out all of the numbers in my dive planning notebook and came up with
+            an answer. But then I started thinking of different RMV values (maybe I am not a 12 L/Min diver on every
+            dive) and different deep dive levels (not every dive hole is 40 meters deep, and not one every dive do I
+            want to go the 40 meters). I decided to develop a tool that is a bit easier to use than a calculator, a
+            pencil, a notebook, and an eraser. The following is the result of a few evenings messing around with HTML,
+            CSS, and the Javascript Chart.js app. It is still a work in progress (as of mid-June 2025), but it seems to
+            be functional enough for the purposes of rough estimations for a deep dive, given a few rigid parameters
+            (the square dive, and dive consistent RMV).
+
+        <p>
+        <div class="divSidebar">
+            <span style="font-size: large;font-weight: 700;color:darkblue">Another Note</span><br>
+            The bottom time estimator is only as good as the input parameters, especially the projected RMV. If you do
+            not have a good idea of your personal RMV, look at this <a href="../Resources/NavyDiveManual_RMV.png"
+                target="_blank">chart from the U.S. Navy Diving Manual</a>. The chart is for
+            <strong><em>fit</em></strong> Navy divers (most of us are not), so make adjustments and accommodations
+            accordingly.
+        </div>
+        </p>
+
+        <p>
+        <div class="divSidebar">
+            <span style="font-size: large;font-weight: 700;color:red">And Yet Another Note</span>
+            <div style="margin-top:.6em">
+                The bottom time estimator computes the bottom time for the above dive profile to be approximately 43
+                minutes with an RMV of 12 L/min and a Steel 100 tank starting at 237 bar. The NAUI air dive tables tells
+                us a 10 minute dive to 40 meters violates the NDL rule, and requires a 5 decompression stop at 5 meters.
+                So a 43 minute dive to 40 meters is far beyond recreation dive limits.
+            </div>
+            <div style="margin-top:.6em">
+                Even with an RMV of 18 liters per minute and diving with an AL80 tank with 2277 liters of air, the dive
+                planning calculator prediction is 20 minutes of deep time - also beyond no-stop NDL limits, requiring an
+                even longer decompression stop..
+            </div>
+            <div style="margin-top:.6em">
+                It is important to remember that when diving, we never do what we can do.
+                Instead, we dive safe and we do what we should do.
+            </div>
+        </div>
+        </p>
 
         <h1>Dive Plan Visualizer</h1>
-        <table>
+        <table style="width:90%;margin:1em;">
             <form id="diveForm">
                 <tr>
-                    <td><label>Tank Volume (liters):</label></td>
-                    <td><input type="number" id="tankLiters" value="3081" required></td>
-                    <td><label>RMV at Surface (L/min): </label></td>
-                    <td><input type="number" id="rmv" value="18" required></td>
-                    <td><label>Descent Rate (m/min): </label></td>
-                    <td><input type="number" id="descentRate" value="12" required></td>
+                    <th colspan="6" style="text-align: left; padding-left:1em; "> Environmental Parameters</th>
+                </tr>
+                <tr style="background-color:rgb(196, 230, 196);">
+                    <td><label>Tank Volume<br> (liters):</label></td>
+                    <td>
+                        <select style="font-size: 14px;" id="tankLiters" name="tankLiters">
+                            <option value="3555">Steel HP120 237 bar (3555 L)</option>
+                            <option value="3081" selected>Steel HP100 237 bar (3081 L)</option>
+                            <option value="2690">Steel HP100 207 bar (2690 L)</option>
+                            <option value="2277">AL80 Single 207 bar (2277 L)</option>
+                            <option value="4554">AL80 Doubles 207 bar (4554 L)</option>
+                        </select>
+                    </td>
+                    <td><label>RMV at Surface<br> (L/min): </label></td>
+                    <td><input type="number" id="surfaceRMV" value="12" required max="80" min="4"></td>
+                    <td> <label>Final Surface<br> Reserve (L): </label></td>
+                    <td> <input type="number" id="finalSurfaceReserve" value="455" required max="2000" min="50"></td>
+                </tr>
+
+                <tr>
+                    <th colspan="6" style="width:26%; text-align: left; padding-left:1em;"> Descend to first stop</th>
+                </tr>
+                <tr style="background-color:rgb(236, 248, 236);">
+                    <td><label>Descent Rate to<br>1st Stop (m/min): </label></td>
+                    <td><input type="number" id="firstDescentRate" value="12" required max="60" min="6"></td>
+                    <td><label>First Stop<br> at (m):</label></td>
+                    <td><input type="number" id="firstStopDepth" value="7" required max="40" min="2"></td>
+                    <td> <label>Stop Time (min): </label></td>
+                    <td> <input type="number" id="firstStopTime" value="3" required max="120" min="0"></label></td>
+                </tr>
+
+                <tr>
+                    <th colspan="6" style="text-align: left; padding-left:1em;"> Descend to dive bottom depth</th>
+                </tr>
+                <tr style="background-color:rgb(252, 250, 172);">
+                    <td><label>Descent Rate to<br>Bottom (m/min): </label></td>
+                    <td><input type="number" id="bottomDescentRate" value="8" required max="40" min="2"></td>
+                    <td><label>Bottom Dive<br> Depth (m):</label></td>
+                    <td><input type="number" id="bottomDepth" value="40" required max="40" min="2"></td>
+                    <td> <label>Stop Time<br> (min): </label></td>
+                    <td><label id="BottomStopTime"
+                            style=" color:darkblue; font-weight: 700; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">
+                            ****</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th colspan="6" style="text-align: left; padding-left:1em;"> Ascend to optional deep stop</th>
+                </tr>
+                <tr style="background-color:rgb(196, 230, 196);">
+                    <td> <label>Ascent Rate to<br>Deep Stop (m/min): </label></td>
+                    <td> <input type="number" id="deepStopAscentRate" value="8" max="60" min="0"></td>
+                    <td> <label>Deep Stop Depth<br> (m): </label></td>
+                    <td> <input type="number" id="deepStopDepth" value="25" max="30" min="2"></td>
+                    <td> <label>Deep Stop Time<br> (min): </label></td>
+                    <td> <input type="number" id="deepStopTime" value="4" max="120" min="0"></td>
+                </tr>
+
+                <tr>
+                    <th colspan="6" style="text-align: left; padding-left:1em;"> Ascend to mandatory safety stop</th>
+                </tr>
+                <tr style="background-color:rgb(236, 248, 236);">
+                    <td> <label>Ascent Rate to<br>Safety Stop (m/min): </label></td>
+                    <td> <input type="number" id="safetyStopAscentRate" value="8" required max="60" min="1"></td>
+                    <td> <label>Safety Stop<br> Depth (m): </label></td>
+                    <td> <input type="number" id="safetyStopDepth" value="4" required max="10" min="3"></td>
+                    <td> <label>Safety Stop<br> Time (min): </label></td>
+                    <td> <input type="number" id="safetyStopTime" value="4" required max="10" min="3"></td>
+                </tr>
+
+                <tr>
+                    <th colspan="6" style="text-align: left; padding-left:1em;"> Ascent to surface - <em>dive over</em>
+                    </th>
+                </tr>
+                <tr style="background-color:rgb(196, 230, 196);">
+                    <td><label>Ascent Rate to<br>Surface (m/min): </label></td>
+                    <td colspan="5"><input type="number" id="surfaceAscentRate" value="4" required max="60" min="1">
+                    </td>
                 </tr>
 
 
-                <tr>
-                    <td><label>Stop at (m):</label></td>
-                    <td><input type="number" id="stopDepth" value="7" required></td>
-                    <td> <label>Stop Time at Stop Depth (min): </label></td>
-                    <td> <input type="number" id="stopTime" value="12" required></label></td>
-                </tr>
-                <tr>
-                    <td> <label>Bottom Depth (m): </label></td>
-                    <td> <input type="number" id="bottomDepth" value="40" required></td>
-                    <td> <label>Bottom Time (min): </label></td>
-                    <td> <label id="bottomTime"  style="border-color: black; border-width: 2px;border-style: inset;text-align: center;">xxxxxx</label></td>
-                </tr>
-                <tr>
-                    <td> <label>Ascent Rate (m/min): </label></td>
-                    <td> <input type="number" id="ascentRate" value="8" required></td>
-                    <td> <label>Deep Stop Depth (m): </label></td>
-                    <td> <input type="number" id="deepStopDepth" value="25" required></td>
-                    <td> <label>Deep Stop Time (min): </label></td>
-                    <td> <input type="number" id="deepStopTime" value="3" required></td>
-                </tr>
-                <tr>
-                    <td> <label>Safety Stop Depth (m): </label></td>
-                    <td> <input type="number" id="safetyStopDepth" value="4" required></td>
-                    <td> <label>Safety Stop Time (min): </label></td>
-                    <td> <input type="number" id="safetyStopTime" value="4" required></td>
-                    <td> <label>Final Surface Reserve (liters): </label></td>
-                    <td> <input type="number" id="reserve" value="455" required></td>
-                </tr>
-                <tr>
-                    <td> <button type="submit">Compute Dive Plan</button></td>
+                <tr style="background-color:rgb(252, 250, 172);">
+                    <td colspan="6"> <button style="margin:.5em 1em .5em 1em;padding:.5em 2.5em .5em 2.5em;"
+                            type="submit"><span style="font-size: larger;">Compute<br>Dive Plan</span></button></td>
                 </tr>
             </form>
         </table>
 
-
-        <div id="results" style="width: 70%;">
-            <div id="dataTable" style="width: 40%;"></div>
-            <canvas id="diveChart" width="80%"></canvas>
+        <div id="results" style="width: 100%;">
+            <div id="dataTable" style="width: 80%;"></div>
+        </div>
+        <div style="margin-top:1em;width: 100%;border: 2px solid darkgrey; ">
+            <canvas width="600" height="600" id="diveChart" style="margin:1em;border: 2px solid lightgray; "></canvas>
         </div>
 
         <script>
+
+            //    appendPartialSegment('descent to first stop', usageToBottomSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+            function appendPartialSegment(label, seg, duration, effectiveDepth, effectiveATA, effectiveRMV) {
+                let a = Number(duration).toFixed(2);
+                let b = Number(effectiveATA).toFixed(2);
+                let c = Number(effectiveRMV).toFixed(2);
+                let d = (a * c).toFixed(2);
+
+                let mm = "duration:" + a + ",  effectiveATA: " + b + "  effectiveRMV:" + c + ", " + label + "=" + d;
+                //alert(mm);
+                console.log(mm);
+
+                seg.push({ label: label, duration: a, depth: effectiveDepth, ata: b, rmv: c, gasUsed: d });
+            }
+
+            //   segments.push({
+            //       time: currentTime, label,
+            //       depth, ata: ata.toFixed(2), rmv: surfaceRMV.toFixed(2), gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
+            //   });
+
+            document.getElementById('tankLiters').addEventListener('change', (event) => {
+                document.getElementById("BottomStopTime").innerText = "****";
+                const selectedValue = event.target.value;
+                console.log("tank selector value changed: value: " + selectedValue);
+            });
+
+            document.getElementById('bottomDepth').addEventListener('change', (event) => {
+                document.getElementById("BottomStopTime").innerText = "****";
+                const selectedValue = event.target.value;
+                console.log("tank selector value changed: value: " + selectedValue);
+            });
+
+            document.getElementById('surfaceRMV').addEventListener('change', (event) => {
+                document.getElementById("BottomStopTime").innerText = "****";
+                const selectedValue = event.target.value;
+                console.log("tank selector value changed: value: " + selectedValue);
+            });
+
             const form = document.getElementById('diveForm');
             form.onsubmit = function (event) {
                 event.preventDefault();
 
+                let debugAlerts = false;
+
+                // Environmental Parameters
                 const tankLiters = parseFloat(form.tankLiters.value);
-                const rmv = parseFloat(form.rmv.value);
-                const descentRate = parseFloat(form.descentRate.value);
-                const stopDepth = parseFloat(form.stopDepth.value);
-                const stopTime = parseFloat(form.stopTime.value);
+                const surfaceRMV = parseFloat(form.surfaceRMV.value);
+                const finalSurfaceReserve = parseFloat(form.finalSurfaceReserve.value);
+
+                // Descend to first stop
+                const firstDescentRate = parseFloat(form.firstDescentRate.value);
+                const firstStopDepth = parseFloat(form.firstStopDepth.value);
+                const firstStopTime = parseFloat(form.firstStopTime.value);
+
+                // Descend to dive bottom depth
+                const bottomDescentRate = parseFloat(form.bottomDescentRate.value);
                 const bottomDepth = parseFloat(form.bottomDepth.value);
-                const ascentRate = parseFloat(form.ascentRate.value);
+
+                // Ascend to optional deep stop
+                const deepStopAscentRate = parseFloat(form.deepStopAscentRate.value);
                 const deepStopDepth = parseFloat(form.deepStopDepth.value);
                 const deepStopTime = parseFloat(form.deepStopTime.value);
+
+                // Ascend to mandatory safety stop
+                const safetyStopAscentRate = parseFloat(form.safetyStopAscentRate.value);
                 const safetyStopDepth = parseFloat(form.safetyStopDepth.value);
                 const safetyStopTime = parseFloat(form.safetyStopTime.value);
-                const reserve = parseFloat(form.reserve.value);
+
+                // Ascend to surface
+                const surfaceAscentRate = parseFloat(form.surfaceAscentRate.value);
+
+                // compute gas used for known segments - less bottom time for now
+
+                const surfaceDepth = 0;
+
+                let effectiveATA = 0
+                let effectiveDepth = 0
+                let effectiveRMV = 0
+                let usageTime = 0
+
+                /* ************************************************************************************* */
+                /*       here we go - compute gas usage at each step along the waydown and then back up  */
+                /* ************************************************************************************* */
+
+                const usageToBottomSegments = [];
+
+                // compute gas usage on descent to first stop
+                usageTime = firstStopDepth / firstDescentRate;
+                effectiveDepth = (surfaceDepth + firstStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('descent to first stop', usageToBottomSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+                // compute gas usage at first stop
+                usageTime = firstStopTime;
+                effectiveDepth = firstStopDepth;
+                effectiveATA = 1 + (effectiveDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('first stop', usageToBottomSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+
+                // compute gas usage on descent to bottom stop
+                usageTime = (bottomDepth - firstStopDepth) / bottomDescentRate;
+                effectiveDepth = (bottomDepth + firstStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('descent to bottom', usageToBottomSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+                /* ****************************************************************** */
+                /*               compute gas usage at bottom stop                     */
+                /*        can't do this now, we do not have bottom time yet           */
+                /* ****************************************************************** */
+
+                const usageToSurfaceSegments = [];
+
+                // compute gas usage on ascent to deep stop
+                usageTime = (bottomDepth - deepStopDepth) / deepStopAscentRate;
+                effectiveDepth = (bottomDepth + deepStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('ascend to deep stop', usageToSurfaceSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+                // compute gas usage at deep stop
+                usageTime = deepStopTime;
+                effectiveDepth = deepStopDepth;
+                effectiveATA = 1 + (effectiveDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('deep stop', usageToSurfaceSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+                // compute gas usage to mandatory safety stop
+                usageTime = (deepStopDepth - safetyStopDepth) / safetyStopAscentRate;
+                effectiveDepth = (deepStopDepth + safetyStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('ascend to safety stop', usageToSurfaceSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+                // compute gas usage at mandatory safety stop
+                usageTime = safetyStopTime;
+                effectiveDepth = safetyStopDepth;
+                effectiveATA = 1 + (safetyStopDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('safety stop', usageToSurfaceSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+                // compute gas usage to surface
+                usageTime = safetyStopDepth / surfaceAscentRate;
+                effectiveDepth = (0 + safetyStopDepth) / 2;
+                effectiveATA = 1 + (effectiveDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                appendPartialSegment('ascend to surface', usageToSurfaceSegments, usageTime, effectiveDepth, effectiveATA, effectiveRMV);
+
+
+                let gasUsedDown = 0
+                usageToBottomSegments.forEach((element) => {
+                    gasUsedDown += Number(element.gasUsed);
+                });
+                console.log("gas used down: : " + Number(gasUsedDown).toFixed(2));
+
+
+                let gasUsedUp = 0
+                usageToSurfaceSegments.forEach((element) => {
+                    gasUsedUp += Number(element.gasUsed);
+                });
+                console.log("gas used up: : " + Number(gasUsedUp).toFixed(2));
+
+                let totalGasUsed = gasUsedDown + gasUsedUp;
+
+                let availableGasAtBottom = tankLiters - totalGasUsed - finalSurfaceReserve;
+
+                // compute bottom time based on available gas
+
+                console.log("computing bottom time and gas usage");
+
+                effectiveATA = 1 + (bottomDepth / 10);
+                effectiveRMV = surfaceRMV * effectiveATA;
+                let maxBottomTime = availableGasAtBottom / effectiveRMV;
+                let gasUsedAtBottom = effectiveRMV * maxBottomTime;
+                console.log("bottom effectiveATA: " + effectiveATA);
+                console.log("bottom effectiveRMV: " + effectiveRMV);
+                console.log("bottom time: " + maxBottomTime);
+                console.log("bottom gas usage: " + gasUsedAtBottom);
+
+                totalGasUsed += gasUsedAtBottom;
+
+                document.getElementById("BottomStopTime").innerText = maxBottomTime.toFixed(2);
 
                 const segments = [];
                 let currentTime = 0;
-                let remainingGas = tankLiters;
-
-                function addSegment(label, depth, duration) {
-                    const ata = depth / 10 + 1;
-                    const gasUsed = rmv * ata * duration;
-                    remainingGas -= gasUsed;
+                let gasRemaining = tankLiters;
+                usageToBottomSegments.forEach((e) => {
+                    gasRemaining -= Number(e.gasUsed);
                     segments.push({
                         time: currentTime,
-                        label, depth, ata: ata.toFixed(2), rmv, gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
+                        label: e.label,
+                        depth: Number(e.depth).toFixed(2),
+                        ata: Number(e.ata).toFixed(2),
+                        rmv: Number(e.rmv).toFixed(2),
+                        duration: Number(e.duration).toFixed(2),
+                        gasUsed: Number(e.gasUsed).toFixed(2),
+                        remaining: gasRemaining
                     });
-                    currentTime += duration;
+                    currentTime += Number(e.duration);
+                });
+
+                gasRemaining -= Number(gasUsedAtBottom);
+                segments.push({
+                    time: currentTime,
+                    label: "bottom",
+                    depth: Number(bottomDepth).toFixed(2),
+                    ata: Number(effectiveATA).toFixed(2),
+                    rmv: Number(effectiveRMV).toFixed(2),
+                    duration: Number(maxBottomTime).toFixed(2),
+                    gasUsed: Number(gasUsedAtBottom).toFixed(2),
+                    remaining: gasRemaining
+                });
+                currentTime += Number(maxBottomTime);
+
+                usageToSurfaceSegments.forEach((e) => {
+                    gasRemaining -= Number(e.gasUsed);
+                    segments.push({
+                        time: currentTime,
+                        label: e.label,
+                        depth: Number(e.depth).toFixed(2),
+                        ata: Number(e.ata).toFixed(2),
+                        rmv: Number(e.rmv).toFixed(2),
+                        duration: Number(e.duration).toFixed(2),
+                        gasUsed: Number(e.gasUsed).toFixed(2),
+                        remaining: gasRemaining
+                    });
+                    currentTime += Number(e.duration);
+                });
+
+                // build the graph segments data set
+                const grafSegments = [];
+                currentTime = 0;
+                let remainingGas = tankLiters;
+
+                function addSegment(label, currentTime, depth, remainingGas) {
+                    console.log("label: " + label + ",  depth: " + " currentTime: " + currentTime + depth.toFixed(1));
+                    grafSegments.push({
+                        time: currentTime,
+                        label, depth, gasRemaining: remainingGas
+                    });
                 }
 
-                addSegment("Descent to Stop", stopDepth, stopDepth / descentRate);
-                addSegment("Stop at " + stopDepth + "m", stopDepth, stopTime);
-                addSegment("Descent to Bottom", bottomDepth, (bottomDepth - stopDepth) / descentRate);
+                const bottomATA = 1 + bottomDepth / 10;
+                const bottomAvailableGas = remainingGas - finalSurfaceReserve;
 
-                const gasUsedBeforeBottom = tankLiters - remainingGas;
-                const bottomATA = bottomDepth / 10 + 1;
-                const availableGas = remainingGas - reserve;
-                const bottomTime = availableGas / (rmv * bottomATA);
+                const bottomTime = bottomAvailableGas / (surfaceRMV * bottomATA);
 
-                addSegment("Bottom (Max " + bottomTime.toFixed(1) + " min)", bottomDepth, 0);
-                addSegment("Ascent to Deep Stop", deepStopDepth, (bottomDepth - deepStopDepth) / ascentRate);
-                addSegment("Deep Stop", deepStopDepth, deepStopTime);
-                addSegment("Ascent to Safety Stop", safetyStopDepth, (deepStopDepth - safetyStopDepth) / ascentRate);
-                addSegment("Safety Stop", safetyStopDepth, safetyStopTime);
-                addSegment("Final Ascent", 0, safetyStopDepth / ascentRate);
-
-                bottomTimeLabel = document.getElementById('bottomTime');
+                bottomTimeLabel = document.getElementById('BottomStopTime');
+                if (bottomTimeLabel === null) {
+                    console.log("bottomTimeLabel is null");
+                }
                 bottomTimeLabel.textContent = bottomTime.toFixed(2);
 
+                console.log("getting ready to build graph");
+
                 const table = `<h3>Dive Plan Data</h3>
-        <table><tr><th>Point</th><th>Depth (m)</th><th>ATA</th><th>RMV (L/min)</th><th>Gas Used (L)</th><th>Gas Remaining (L)</th></tr>
-        ${segments.map(s => `<tr><td>${s.label}</td><td>${s.depth}</td><td>${s.ata}</td><td>${s.rmv}</td><td>${s.gasUsed}</td><td>${s.remaining}</td></tr>`).join('')}</table>`;
+                    <table style="width:100%;">
+                       <tr>
+                         <th>Point</th>
+                         <th>Depth (m)</th>
+                         <th>Effective ATA</th>
+                         <th>Effective RMV (L/min)</th>
+                         <th>Duration (min)</th>
+                         <th>Gas Used (L)</th>
+                         <th>Gas Remaining (L)</th>
+                       </tr>
+                    ${segments.map(s => `<tr>
+                         <td>${s.label}</td>
+                         <td>${s.depth}</td>
+                         <td>${s.ata}</td>
+                         <td>${s.rmv}</td>
+                         <td>${s.duration}</td>
+                         <td>${(s.gasUsed)}</td>
+                         <td>${s.remaining.toFixed(2)}</td>
+                       </tr>`).join('')}
+                    </table>`;
+
+                const chartLabelData = ["Dive start", "Descent to First Stop", "First Stop", "Descent to Bottom", "Bottom Stop", "Ascend to Deep Stop", "Deep Stop", "Ascend to Safety Stop", "Safety Stop", "Ascend to Surface",];
+                const depthChartData = [0, firstStopDepth, firstStopDepth, bottomDepth, bottomDepth, deepStopDepth, deepStopDepth, safetyStopDepth, safetyStopDepth, 0];
+                const gasChartData = [tankLiters, segments[0].remaining, segments[1].remaining, segments[2].remaining, segments[3].remaining, segments[4].remaining, segments[5].remaining, segments[6].remaining, segments[7].remaining, segments[8].remaining];
 
                 document.getElementById('dataTable').innerHTML = table;
 
-                const ctx = document.getElementById('diveChart').getContext('2d');
-                const diveChart = new Chart(ctx, {
+                const canvas = document.getElementById('diveChart');
+                const ctx = canvas.getContext('2d');
+
+
+                if (diveChart) {
+                    diveChart.destroy(); // Destroy the existing chart instance
+                }
+
+                const drawBottomTimeLabel = {
+                    id: 'drawBottomTimeLabel',
+                    afterDraw(chart, args, pluginOptions) {
+                        const { ctx, scales } = chart;
+                        const { x: xScale, yDepth: yScale } = scales;
+
+                        const { xValue, yValue, text, color } = pluginOptions;
+
+                        console.log("drawBottomTimeLabel.  xValue: " + xValue + ", yValue:" + yValue);
+
+                        const x = xScale.getPixelForValue(xValue);
+                        const y = yScale.getPixelForValue(yValue);
+
+                        console.log("drawBottomTimeLabel.  x: " + x + ", y:" + y);
+
+                        // Draw the label
+                        ctx.fillStyle = color || 'red';
+                        ctx.font = 'bold 12px sans-serif';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'bottom';
+                        ctx.fillText(text || 'Point', x - 20, y + 28);
+                        ctx.restore();
+                    }
+                };
+
+
+                diveChart = new Chart(ctx, {
                     type: 'line',
                     data: {
-                        labels: segments.map(s => s.label),
-                        datasets: [{
-                            label: 'Depth (m)',
-                            data: segments.map(s => s.depth),
-                            borderColor: 'blue',
-                            fill: false,
-                            tension: 0.1
-                        }]
+                        labels: chartLabelData,
+                        datasets: [
+                            {
+                                label: 'Depth (M)',
+                                data: depthChartData,
+                                borderColor: 'blue',
+                                yAxisID: 'yDepth',
+                                fill: false,
+                                tension: 0.0
+                            },
+                            {
+                                label: 'Gas Remaining (L)',
+                                data: gasChartData,
+                                borderColor: 'green',
+                                yAxisID: 'yGasRemaining',
+                                fill: false,
+                                tension: 0.0
+                            },
+                        ]
                     },
                     options: {
+                        plugins: {
+                            drawBottomTimeLabel: {
+                                xValue: 'Descent to Bottom',
+                                yValue: bottomDepth,
+                                text: 'Max Bottom Time: ' + bottomTime.toFixed(2) + " min",
+                                color: 'blue',
+                            },
+                            legend: {
+                                labels: {
+                                    padding: 16,
+                                    boxWidth: 66, // Set the desired width of the colored box
+                                    boxHeight: 2, // Set the desired height of the colored box
+                                    font: {
+                                        size: 18
+                                    }
+                                }
+                            }
+                        },
                         scales: {
-                            y: {
+                            yDepth: {
+                                beginAtZero: true,
+                                min: 0, 
+                                max: bottomDepth + 5,
+                                type: 'linear',
                                 reverse: true,
-                                title: { display: true, text: 'Depth (meters)' }
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'Depth (meters)',
+                                    font: {
+                                        size: 16,
+                                    }
+                                },
+                                grid: {
+                                    color: 'lightgrey',
+                                    lineWidth: 1,
+                                    drawTicks: true
+                                },
+                                ticks: {
+                                    stepSize: 5,
+                                    color: 'blue', // Set left Y-axis label color
+                                    font: {
+                                        size: 16,
+                                    }
+                                },
+                            },
+                            yGasRemaining: {
+                                type: 'linear',
+                                beginAtZero: true,
+                                min: 0,
+                                reverse: false,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Gas (liters)',
+                                    font: {
+                                        size: 16,
+                                    }
+                                },
+                                sgrid: {
+                                    drawOnCharArea: false,
+                                },
+                                grid: {
+                                    color: 'lightgreen',             // Line color
+                                    lineWidth: 1,              // Line thickness
+                                    drawBorder: true,          // Show left axis line
+                                    drawTicks: true            // Show tick marks
+                                },
+                                ticks: {
+                                    stepSize: 200,
+                                    color: 'green', // Set gas-remaining Y-axis label color
+                                    font: {
+                                        size: 16,
+                                    }
+                                }
+
                             }
                         }
-                    }
+                    },
+                    plugins: [drawBottomTimeLabel]
                 });
-            };
+
+            };   // form.onSubmit()
         </script>
-
-
 
     </article>
 
