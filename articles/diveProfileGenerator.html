@@ -48,6 +48,13 @@
             padding: 1em;
             background-color: rgb(198, 243, 241);
         }
+
+        /* Scoped spinner removal - use class=:no-spinner' to remove from an inut number element in form */
+        input.no-spinner::-webkit-inner-spin-button,
+        input.no-spinner::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
 
     <script>
@@ -140,7 +147,8 @@
             <div style="margin-top:.6em">
                 The bottom time estimator computes the bottom time for the above dive profile to be approximately 43
                 minutes with an RMV of 12 L/min and a Steel 100 tank starting at 237 bar. The NAUI air dive tables tells
-                us a 10 minute dive to 40 meters violates the NDL rule, and has a mandatory 5 minute decompression stop at 5 meters.
+                us a 10 minute dive to 40 meters violates the NDL rule, and has a mandatory 5 minute decompression stop
+                at 5 meters.
                 So a 43 minute dive to 40 meters is far beyond recreation dive limits.
             </div>
             <div style="margin-top:.6em">
@@ -280,18 +288,21 @@
                 document.getElementById("BottomStopTime").innerText = "****";
                 const selectedValue = event.target.value;
                 console.log("tank selector value changed: value: " + selectedValue);
+                document.getElementById('diveForm').requestSubmit();
             });
 
             document.getElementById('bottomDepth').addEventListener('change', (event) => {
                 document.getElementById("BottomStopTime").innerText = "****";
                 const selectedValue = event.target.value;
                 console.log("tank selector value changed: value: " + selectedValue);
+                document.getElementById('diveForm').requestSubmit();
             });
 
             document.getElementById('surfaceRMV').addEventListener('change', (event) => {
                 document.getElementById("BottomStopTime").innerText = "****";
                 const selectedValue = event.target.value;
                 console.log("tank selector value changed: value: " + selectedValue);
+                document.getElementById('diveForm').requestSubmit();
             });
 
             const form = document.getElementById('diveForm');
@@ -620,7 +631,7 @@
                         scales: {
                             yDepth: {
                                 beginAtZero: true,
-                                min: 0, 
+                                min: 0,
                                 max: bottomDepth + 5,
                                 type: 'linear',
                                 reverse: true,
