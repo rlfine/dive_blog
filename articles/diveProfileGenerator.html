@@ -49,6 +49,10 @@
             background-color: rgb(198, 243, 241);
         }
 
+        input.autoUpdater {
+            border: 2px solid blue;
+        }
+
         /* Scoped spinner removal - use class=:no-spinner' to remove from an inut number element in form */
         input.no-spinner::-webkit-inner-spin-button,
         input.no-spinner::-webkit-outer-spin-button {
@@ -172,7 +176,7 @@
                 <tr style="background-color:rgb(196, 230, 196);">
                     <td><label>Tank Volume<br> (liters):</label></td>
                     <td>
-                        <select style="font-size: 14px;" id="tankLiters" name="tankLiters">
+                        <select class="autoUpdater"  style="font-size: 14px;" id="tankLiters" name="tankLiters">
                             <option value="3555">Steel HP120 237 bar (3555 L)</option>
                             <option value="3081" selected>Steel HP100 237 bar (3081 L)</option>
                             <option value="2690">Steel HP100 207 bar (2690 L)</option>
@@ -181,7 +185,7 @@
                         </select>
                     </td>
                     <td><label>RMV at Surface<br> (L/min): </label></td>
-                    <td><input type="number" id="surfaceRMV" value="12" required max="80" min="4"></td>
+                    <td><input class="autoUpdater" type="number" id="surfaceRMV" value="12" required max="80" min="4"></td>
                     <td> <label>Final Surface<br> Reserve (L): </label></td>
                     <td> <input type="number" id="finalSurfaceReserve" value="455" required max="2000" min="50"></td>
                 </tr>
@@ -205,7 +209,7 @@
                     <td><label>Descent Rate to<br>Bottom (m/min): </label></td>
                     <td><input type="number" id="bottomDescentRate" value="8" required max="40" min="2"></td>
                     <td><label>Bottom Dive<br> Depth (m):</label></td>
-                    <td><input type="number" id="bottomDepth" value="40" required max="40" min="2"></td>
+                    <td><input class="autoUpdater"  type="number" id="bottomDepth" value="40" required max="40" min="2"></td>
                     <td> <label>Stop Time<br> (min): </label></td>
                     <td><label id="BottomStopTime"
                             style=" color:darkblue; font-weight: 700; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">
