@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Surface Intervals, Safety Stops, and Tissue Loading in NAUI Decompression Theory</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!DOCTYPE html>
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      .xbody {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fdfdfd;
+        color: #222;
+      }
+
+      h2 {
+        color: #006699;
+      }
+
+      h3 {
+        margin-top: 1.5em;
+        color: #444;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1em 0;
+      }
+
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f0f0f0;
+      }
+
+      ul {
+        margin-top: 0.5em;
+      }
+
+    .note {
+      margin-left:18px;
+      padding: 12px;
+      background-color: #e0fbfc;
+      border-left: 4px solid darkblue;
+      border-right: 1px solid darkblue;
+      border-top: 1px solid darkblue;
+      border-bottom: 1px solid darkblue;
+      width:80%
+    }
+
+
+    </style>
+
+  </head>
+
+<body>
+
+  <header>
+    <h1>Understanding Surface Intervals, Safety Stops, and Tissue Loading in NAUI Decompression Theory/h1>
+      <p>Exploring the science and safety of scuba diving.</p>
+      <a href="../index.html"> <button>Back to Home</button> </a>
+  </header>
+
+  <article>
+
+    <h2>Surface Intervals Less Than 10 Minutes in NAUI Air Dive Tables</h2>
+    <p>Recreational dive tables, including those published by NAUI, do not credit surface intervals of less than 10
+      minutes when performing repetitive dive calculations. But why? And how does this relate to other important safety
+      concepts like safety stops, tissue compartment behavior, and the risk of decompression sickness (DCS) over
+      multiple dives?</p>
+    <p>This article walks through the detailed reasoning behind short surface intervals, the purpose of safety stops,
+      and the differences between fast and slow tissue compartments in decompression theory.
+    </p>
+    <p>Whether you're a dive instructor or an aspiring Master Scuba Diver, this <em>deep dive</em> will help you
+      anticipate the tough questions your students might ask — and help you answer them with confidence.</p>
+
+    <h3>Why Surface Intervals < 10 Minutes Don’t Count</h3>
+
+        <p>In NAUI Air Dive Tables, a surface interval of less than 10 minutes is not credited because it is not long
+          enough to permit significant nitrogen off-gassing, especially from the slower tissue compartments. In fact, if
+          we look cloely at the NAUI AIR DIVE TABLE, we see the mapping from the surface interval to the dive letter
+          group for the next dive has no entries for less than 10 minutes. For example, Group G has 7 entries ranging
+          from 24:00-5:42 all the way down to 0:50-0:10. What letter group do we use for the next dive after a 5 minute
+          surface interval following a 35 minute dive to 60 feet? Here's the rule, and a bit leter we will develop the
+          theory:
+        </p>
+        <div class="note">
+          If diver surfaces and descends again within the window 0 to 10 minute, the two dives are treated as one
+          continuous multilevel
+          exposure. This is a conservative assumption that prevents underestimating residual nitrogen.
+        <ul>
+          <li>Rule: If SI &lt; 10 minutes → treat as a single dive</li>
+          <li>Combine total bottom time</li>
+          <li>Use the deepest depth reached</li>
+        </ul>
+        </div>
+        <p>
+          That sounds a whole lot like the NAUI dive tables are <em>discounting</em> the efficacy of a 10 minute surface
+          interval. If that is the case, then we are open to asking the next really important question - If the 10
+          minute SI is not counted, then why is there such a focus on the 3 minute safety stop at 12 feet? Can we
+          discount that as well? Can we skip it if it doesn't count? Likely after the astute diver reads this paragraph,
+          few are thinking to themselves 'Wow, this guy is really on to something!' And if any are, I hope we can
+          disuaude them from following such a foolish position.
+        </p>
+
+        <p>Let's look closer at the 3 minute safety stop, and the the short (less than 10 minuite) surface interval.
+
+        </p>
+        <h3>Why Safety Stops Are Still Valuable</h3>
+
+        <p>A 3–5 minute safety stop at 5 meters (15 feet) is not a surface interval, nor is it credited in dive table
+          planning. However, it significantly reduces decompression risk by allowing fast tissues to off-gas more
+          gently, reducing microbubble formation.</p>
+        <p>Fast tissues (5–10 min half-times) are more likely to create microbubbles upon ascent if not given time to
+          stabilize. Safety stops serve as a buffer zone to control off-gassing gradients and reduce embolic risk.</p>
+
+        <h3>Fast vs. Slow Tissues: Off-Gassing and Risk</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Fast Tissues</th>
+              <th>Slow Tissues</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Half-Time</td>
+              <td>5–10 min</td>
+              <td>60–120+ min</td>
+            </tr>
+            <tr>
+              <td>Absorption</td>
+              <td>Quick</td>
+              <td>Slow</td>
+            </tr>
+            <tr>
+              <td>Off-Gassing</td>
+              <td>Quick</td>
+              <td>Very slow</td>
+            </tr>
+            <tr>
+              <td>Bubble Risk</td>
+              <td>High if uncontrolled ascent</td>
+              <td>Low unless multi-dive buildup</td>
+            </tr>
+            <tr>
+              <td>Tolerable Tension</td>
+              <td>Low</td>
+              <td>High</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Slow tissues tolerate more supersaturation because they absorb and release nitrogen gradually. Fast tissues,
+          by contrast, have lower tolerance and drive ascent profile design.</p>
+
+        <h3>After Surfacing: Who’s Still Off-Gassing?</h3>
+
+        <p>Upon surfacing, fast tissues are actively off-gassing and continue to do so for several minutes. If the diver
+          made a safe ascent, the risk of microbubble formation is low. Slow tissues, however, may still be at peak
+          saturation, or even continue to on-gas from venous return flow.</p>
+        <p>This slow off-gassing becomes critical during repetitive dives. Multiple dives over 3–6 hours can load slow
+          compartments beyond safe levels, particularly if short surface intervals and cold water reduce off-gassing
+          rates.</p>
+
+        <h3>DCIEM and Bubble Theory</h3>
+
+        <p>DCIEM, VPM, and other bubble-based models (as opposed to dissolved gas-only models like Bühlmann ZHL)
+          explicitly consider post-dive venous gas emboli. These models highlight that even if fast compartments are
+          “clean,” nitrogen can still be released from slow tissues into circulation and create latent decompression
+          stress.</p>
+        <p>Thus, repetitive dives that appear conservative can still accumulate risk via slow tissue nitrogen loading
+          and reverse gradients.</p>
+
+        <h3>Final Takeaway</h3>
+
+        <p>Surface intervals less than 10 minutes are treated conservatively because they provide negligible relief to
+          the body’s slow tissues. Safety stops, while not counted in repetitive dive planning, are highly effective in
+          reducing microbubble formation in fast tissues. Both practices reflect different safety priorities grounded in
+          physiological reality. A dive leader or instructor should understand these distinctions to answer student
+          questions with clarity and scientific accuracy.</p>
+
+  </article>
+
+  <div id="footer">loading...</div>
+  <script>
+    fetch('../footer.html')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('footer').innerHTML = html;
+      })
+      .catch(err => console.error('Footer load error:', err));
+  </script>
+</body>
+
+</html>

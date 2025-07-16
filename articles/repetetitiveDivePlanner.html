@@ -14,27 +14,30 @@
             margin: 20px;
         }
 
-        table{
+        table {
             border: 1px solid black;
             border-collapse: collapse;
             padding: 5px;
             width: 100%;
             margin: 0px;
+        }
     </style>
 
     <script>
 
         const rawNAUIData = {
-            40: [[10, "A"], [19, "B"], [25, "C"], [30, "D"], [35, "E"], [40, "F"], [50, "G"], [60, "H"], [70, "I"], [80, "J"], [90, "K"], [100, "L"], [110, "M"], [120, "N"], [130, "O"], [140, "P"], [150, "Q"], [160, "R"], [170, "S"], [180, "T"], [190, "U"], [200, "V"]],
-            50: [[9, "A"], [17, "B"], [22, "C"], [27, "D"], [31, "E"], [35, "F"], [40, "G"], [45, "H"], [50, "I"], [55, "J"], [60, "K"], [65, "L"], [70, "M"], [75, "N"], [80, "O"], [85, "P"], [90, "Q"]],
-            60: [[8, "A"], [15, "B"], [20, "C"], [25, "D"], [29, "E"], [33, "F"], [37, "G"], [41, "H"], [45, "I"], [49, "J"], [53, "K"], [57, "L"], [61, "M"]],
-            70: [[7, "A"], [13, "B"], [18, "C"], [22, "D"], [26, "E"], [30, "F"], [34, "G"], [37, "H"], [40, "I"], [43, "J"], [46, "K"], [49, "L"]],
-            80: [[6, "A"], [11, "B"], [16, "C"], [20, "D"], [24, "E"], [28, "F"], [31, "G"], [34, "H"], [37, "I"], [40, "J"], [43, "K"]],
-            90: [[6, "A"], [10, "B"], [14, "C"], [18, "D"], [22, "E"], [26, "F"], [29, "G"], [32, "H"], [35, "I"], [38, "J"]],
-            100: [[5, "A"], [9, "B"], [13, "C"], [17, "D"], [21, "E"], [25, "F"], [28, "G"], [31, "H"], [34, "I"]],
-            110: [[5, "A"], [8, "B"], [12, "C"], [16, "D"], [20, "E"], [23, "F"], [26, "G"], [29, "H"]],
-            120: [[4, "A"], [7, "B"], [11, "C"], [15, "D"], [18, "E"], [21, "F"], [24, "G"]],
-            130: [[4, "A"], [6, "B"], [10, "C"], [13, "D"], [16, "E"], [19, "F"]],
+            20: [[26, "A"], [43, "B"], [61, "C"], [82, "D"], [106, "E"], [133, "F"], [165, "G"], [205, "H"], [256, "I"], [330, "J"], [461, "K"], [560, "L"]],
+            30: [[17, "A"], [27, "B"], [38, "C"], [50, "D"], [62, "E"], [76, "F"], [91, "G"], [107, "H"], [125, "I"], [145, "J"], [167, "K"], [193, "L"], [223, "M"], [260, "N"]],
+            40: [[12, "A"], [20, "B"], [27, "C"], [36, "D"], [44, "E"], [53, "F"], [63, "G"], [73, "H"], [84, "I"], [95, "J"], [108, "K"], [121, "L"], [130, "M"], [140, "N"]],
+            50: [[9, "A"], [15, "B"], [21, "C"], [28, "D"], [34, "E"], [41, "F"], [48, "G"], [56, "H"], [63, "I"], [71, "J"], [75, "K"], [80, "M"]],
+            60: [[7, "A"], [12, "B"], [17, "C"], [22, "D"], [28, "E"], [33, "F"], [39, "G"], [45, "H"], [50, "I"], [55, "L"]],
+            70: [[6, "A"], [10, "B"], [14, "C"], [19, "D"], [23, "E"], [28, "F"], [32, "G"], [37, "H"], [40, "I"], [45, "K"]],
+            80: [[5, "A"], [9, "B"], [12, "C"], [16, "D"], [20, "E"], [24, "F"], [28, "G"], [30, "H"], [35, "J"]],
+            90: [[4, "A"], [7, "B"], [11, "C"], [14, "D"], [17, "E"], [21, "F"], [24, "G"], [25, "H"], [30, "J"]],
+            100: [[4, "A"], [6, "B"], [9, "C"], [12, "D"], [15, "E"], [18, "F"], [20, "G"], [25, "J"]],
+            110: [[3, "A"], [6, "B"], [8, "C"], [11, "D"], [14, "E"], [15, "F"], [20, "I"]],
+            120: [[3, "A"], [5, "B"], [6, "C"], [10, "D"], [12, "E"], [15, "H"]],
+            130: [[2, "A"], [4, "B"], [6, "C"], [8, "D"], [10, "G"]],
         };
 
         const NAUI_TABLE = {};
@@ -44,11 +47,18 @@
 
         function getEndOfDiveLetterGroup(depth, time) {
             const roundedDepth = Math.ceil(depth / 10) * 10;
+            console.log("rounded depth for: " + depth + "(feet)" + roundedDepth);
             const entries = NAUI_TABLE[roundedDepth];
-            if (!entries) return null;
-            for (const entry of entries) {
-                if (time <= entry.maxTime) return entry.group;
+            if (!entries) {
+                console.log("nothing found for this depth:" + roundedDepth);
+                return null;
             }
+            for (const entry of entries) {
+                if (time <= entry.maxTime) {
+                    return entry.group;
+                }
+            }
+            console.log("dive profile Exceeds no-decompression limits");
             return null; // Exceeds no-decompression limits
         }
     </script>
@@ -67,21 +77,18 @@
     <article>
 
         <h1 style="text-align: center">NAUI REPETITIVE AIR DIVE TABLE</h1>
-        <h3 style="text-align: center;color:darkblue;"">Based on NAUI 2023 air dive table</h3>
+        <h3 style="text-align: center;color:darkblue;">Based on NAUI 2023 air dive table</h3>
         <table>
             <form id="repetitiveDiveForm">
                 <tr style="background-color:rgb(236, 248, 236);">
                     <th colspan="4" style="font-size:larger;text-align: left; padding-left:1em; "> Environmental
                         Parameters</th>
-                    <th colspan="2" style="text-align: right;padding:1em;"> <button
-                            style="background-color: lightblue;margin:.5em 1em .5em 1em;padding:0.8em 2.5em .8em 2.5em;"
-                            onclick="submitHandler()">Compute Letter Group</button></th>
                 </tr>
                 <tr style="background-color:rgb(196, 230, 196);">
-                    <td><label>Start Depth (m): </label></td>
+                    <td><label>Start Depth (feet): </label></td>
                     <td><input type="number" id="startDepth" value="70" required max="130" min="5"></td>
                     <td> <label>Dive Time (minutes)</label></td>
-                    <td> <input type="number" id="diveTime" value="23" required max="500" min="10"></td>
+                    <td> <input type="number" id="diveTime" value="23" required max="500" min="1"></td>
                     <td> <label>Letter Group: </label></td>
                     <td><label id="letterGroup"
                             style=" color:darkblue; font-weight: 700; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">
@@ -90,7 +97,7 @@
                 </tr>
                 <tr style="background-color:rgb(252, 250, 172);">
                     <td colspan="6"> <button
-                            style="background-color:lightblue;margin:.5em 1em .5em 1em;padding:0.8em 2.5em 0.8em 2.5em;"
+                            style="background-color:lightblue;margin:0.5em 1em 0.5em 1em;padding:0.8em 2.5em 0.8em 2.5em;"
                             type="submit">Compute Letter Group</button>
                     </td>
                 </tr>
@@ -102,17 +109,34 @@
                 document.getElementById('repetitiveDiveForm').requestSubmit();
             }
 
+
             const form = document.getElementById('repetitiveDiveForm');
             form.onsubmit = function (event) {
+                console.log("hello world");
                 event.preventDefault();
 
                 let debugAlerts = false;
+                document.getElementById("letterGroup").innerText = '';
+
+                const depth = parseFloat(form.startDepth.value);
+                const time = parseFloat(form.diveTime.value);
+                console.log("form parameters(" + depth + "," + time + "):");
 
 
-                document.getElementById("letterGroup").innerText = 'J';
-
+                let letterGroup = getEndOfDiveLetterGroup(depth, time)
+                if (letterGroup == null) {
+                    console.log("letterGroup is null or undefined");
+                    letterGroup = 'undef';
+                    document.getElementById("letterGroup").innerText = letterGroup;
+                    alert("letter group is undefined, likely exceeds NDL");
+                }
+                else {
+                    console.log("End Of Dive Letter Group(" + depth + "," + time + "):" + letterGroup);
+                    document.getElementById("letterGroup").innerText = letterGroup;
+                }
             }
         </script>
+
     </article>
 
     <div id="footer">loading...</div>
