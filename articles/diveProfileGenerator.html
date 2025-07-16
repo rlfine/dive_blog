@@ -44,7 +44,8 @@
         .divSidebar {
             border-style: solid;
             border-width: 2px;
-            margin: 2em 12em 2em 5em;
+            margin: 1;
+            width: 90%;
             padding: 1em;
             background-color: rgb(198, 243, 241);
         }
@@ -168,15 +169,19 @@
         </p>
 
         <h1>Dive Plan Visualizer</h1>
-        <table style="width:90%;margin:1em;">
+        <table style="width:100%;margin:0px;">
             <form id="diveForm">
                 <tr>
-                    <th colspan="6" style="text-align: left; padding-left:1em; "> Environmental Parameters</th>
+                    <th colspan="5" style="font-size:larger;text-align: left; padding-left:1em; "> Environmental
+                        Parameters</th>
+                    <th colspan="5" style="text-align: center;padding:1em;"> <button
+                            style="font-size:1.025em;background-color: lightblue;margin:.5em 1em .5em 1em;padding:0.8em 2.5em .8em 2.5em;"
+                            onclick="submitHandler()">Compute Dive Plan</button></th>
                 </tr>
                 <tr style="background-color:rgb(196, 230, 196);">
                     <td><label>Tank Volume<br> (liters):</label></td>
                     <td>
-                        <select class="autoUpdater"  style="font-size: 14px;" id="tankLiters" name="tankLiters">
+                        <select class="autoUpdater" style="font-size: 14px;" id="tankLiters" name="tankLiters">
                             <option value="3555">Steel HP120 237 bar (3555 L)</option>
                             <option value="3081" selected>Steel HP100 237 bar (3081 L)</option>
                             <option value="2690">Steel HP100 207 bar (2690 L)</option>
@@ -185,7 +190,8 @@
                         </select>
                     </td>
                     <td><label>RMV at Surface<br> (L/min): </label></td>
-                    <td><input class="autoUpdater" type="number" id="surfaceRMV" value="12" required max="80" min="4"></td>
+                    <td><input class="autoUpdater" type="number" id="surfaceRMV" value="12" required max="80" min="4">
+                    </td>
                     <td> <label>Final Surface<br> Reserve (L): </label></td>
                     <td> <input type="number" id="finalSurfaceReserve" value="455" required max="2000" min="50"></td>
                 </tr>
@@ -209,7 +215,8 @@
                     <td><label>Descent Rate to<br>Bottom (m/min): </label></td>
                     <td><input type="number" id="bottomDescentRate" value="8" required max="40" min="2"></td>
                     <td><label>Bottom Dive<br> Depth (m):</label></td>
-                    <td><input class="autoUpdater"  type="number" id="bottomDepth" value="40" required max="40" min="2"></td>
+                    <td><input class="autoUpdater" type="number" id="bottomDepth" value="40" required max="40" min="2">
+                    </td>
                     <td> <label>Stop Time<br> (min): </label></td>
                     <td><label id="BottomStopTime"
                             style=" color:darkblue; font-weight: 700; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">
@@ -253,8 +260,9 @@
 
 
                 <tr style="background-color:rgb(252, 250, 172);">
-                    <td colspan="6"> <button style="margin:.5em 1em .5em 1em;padding:.5em 2.5em .5em 2.5em;"
-                            type="submit"><span style="font-size: larger;">Compute<br>Dive Plan</span></button></td>
+                    <td colspan="6"> <button
+                            style="background-color:lightblue;margin:.5em 1em .5em 1em;padding:0.8em 2.5em 0.8em 2.5em;"
+                            type="submit"><span style="font-size: larger;">Compute Dive Plan</span></button></td>
                 </tr>
             </form>
         </table>
@@ -288,25 +296,30 @@
             //       depth, ata: ata.toFixed(2), rmv: surfaceRMV.toFixed(2), gasUsed: gasUsed.toFixed(1), remaining: remainingGas.toFixed(1)
             //   });
 
+
+            function submitHandler() {
+                document.getElementById('diveForm').requestSubmit();
+            }
+
             document.getElementById('tankLiters').addEventListener('change', (event) => {
                 document.getElementById("BottomStopTime").innerText = "****";
                 const selectedValue = event.target.value;
                 console.log("tank selector value changed: value: " + selectedValue);
-                document.getElementById('diveForm').requestSubmit();
+                submitHandler();
             });
 
             document.getElementById('bottomDepth').addEventListener('change', (event) => {
                 document.getElementById("BottomStopTime").innerText = "****";
                 const selectedValue = event.target.value;
                 console.log("tank selector value changed: value: " + selectedValue);
-                document.getElementById('diveForm').requestSubmit();
+                submitHandler();
             });
 
             document.getElementById('surfaceRMV').addEventListener('change', (event) => {
                 document.getElementById("BottomStopTime").innerText = "****";
                 const selectedValue = event.target.value;
                 console.log("tank selector value changed: value: " + selectedValue);
-                document.getElementById('diveForm').requestSubmit();
+                submitHandler();
             });
 
             const form = document.getElementById('diveForm');
