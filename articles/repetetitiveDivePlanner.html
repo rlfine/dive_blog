@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dive Plan Visualizer</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        table{
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+            width: 100%;
+            margin: 0px;
+    </style>
+
+    <script>
+
+        const rawNAUIData = {
+            40: [[10, "A"], [19, "B"], [25, "C"], [30, "D"], [35, "E"], [40, "F"], [50, "G"], [60, "H"], [70, "I"], [80, "J"], [90, "K"], [100, "L"], [110, "M"], [120, "N"], [130, "O"], [140, "P"], [150, "Q"], [160, "R"], [170, "S"], [180, "T"], [190, "U"], [200, "V"]],
+            50: [[9, "A"], [17, "B"], [22, "C"], [27, "D"], [31, "E"], [35, "F"], [40, "G"], [45, "H"], [50, "I"], [55, "J"], [60, "K"], [65, "L"], [70, "M"], [75, "N"], [80, "O"], [85, "P"], [90, "Q"]],
+            60: [[8, "A"], [15, "B"], [20, "C"], [25, "D"], [29, "E"], [33, "F"], [37, "G"], [41, "H"], [45, "I"], [49, "J"], [53, "K"], [57, "L"], [61, "M"]],
+            70: [[7, "A"], [13, "B"], [18, "C"], [22, "D"], [26, "E"], [30, "F"], [34, "G"], [37, "H"], [40, "I"], [43, "J"], [46, "K"], [49, "L"]],
+            80: [[6, "A"], [11, "B"], [16, "C"], [20, "D"], [24, "E"], [28, "F"], [31, "G"], [34, "H"], [37, "I"], [40, "J"], [43, "K"]],
+            90: [[6, "A"], [10, "B"], [14, "C"], [18, "D"], [22, "E"], [26, "F"], [29, "G"], [32, "H"], [35, "I"], [38, "J"]],
+            100: [[5, "A"], [9, "B"], [13, "C"], [17, "D"], [21, "E"], [25, "F"], [28, "G"], [31, "H"], [34, "I"]],
+            110: [[5, "A"], [8, "B"], [12, "C"], [16, "D"], [20, "E"], [23, "F"], [26, "G"], [29, "H"]],
+            120: [[4, "A"], [7, "B"], [11, "C"], [15, "D"], [18, "E"], [21, "F"], [24, "G"]],
+            130: [[4, "A"], [6, "B"], [10, "C"], [13, "D"], [16, "E"], [19, "F"]],
+        };
+
+        const NAUI_TABLE = {};
+        for (const depth in rawNAUIData) {
+            NAUI_TABLE[depth] = rawNAUIData[depth].map(([maxTime, group]) => ({ maxTime, group }));
+        }
+
+        function getEndOfDiveLetterGroup(depth, time) {
+            const roundedDepth = Math.ceil(depth / 10) * 10;
+            const entries = NAUI_TABLE[roundedDepth];
+            if (!entries) return null;
+            for (const entry of entries) {
+                if (time <= entry.maxTime) return entry.group;
+            }
+            return null; // Exceeds no-decompression limits
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <header>
+        <h1>A Prototypical Dive Planner <br><span style="font-size: 20px;">Computing allowable bottom time based on tank
+                volume and reserve gas and estimated RMV</span></h1>
+        <p>Exploring the science and safety of scuba diving.</p>
+        <a href="../index.html"> <button>Back to Home</button> </a>
+    </header>
+
+    <article>
+
+        <h1 style="text-align: center">NAUI REPETITIVE AIR DIVE TABLE</h1>
+        <h3 style="text-align: center;color:darkblue;"">Based on NAUI 2023 air dive table</h3>
+        <table>
+            <form id="repetitiveDiveForm">
+                <tr style="background-color:rgb(236, 248, 236);">
+                    <th colspan="4" style="font-size:larger;text-align: left; padding-left:1em; "> Environmental
+                        Parameters</th>
+                    <th colspan="2" style="text-align: right;padding:1em;"> <button
+                            style="background-color: lightblue;margin:.5em 1em .5em 1em;padding:0.8em 2.5em .8em 2.5em;"
+                            onclick="submitHandler()">Compute Letter Group</button></th>
+                </tr>
+                <tr style="background-color:rgb(196, 230, 196);">
+                    <td><label>Start Depth (m): </label></td>
+                    <td><input type="number" id="startDepth" value="70" required max="130" min="5"></td>
+                    <td> <label>Dive Time (minutes)</label></td>
+                    <td> <input type="number" id="diveTime" value="23" required max="500" min="10"></td>
+                    <td> <label>Letter Group: </label></td>
+                    <td><label id="letterGroup"
+                            style=" color:darkblue; font-weight: 700; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">
+                            ****</label>
+                    </td>
+                </tr>
+                <tr style="background-color:rgb(252, 250, 172);">
+                    <td colspan="6"> <button
+                            style="background-color:lightblue;margin:.5em 1em .5em 1em;padding:0.8em 2.5em 0.8em 2.5em;"
+                            type="submit">Compute Letter Group</button>
+                    </td>
+                </tr>
+            </form>
+        </table>
+
+        <script>
+            function submitHandler() {
+                document.getElementById('repetitiveDiveForm').requestSubmit();
+            }
+
+            const form = document.getElementById('repetitiveDiveForm');
+            form.onsubmit = function (event) {
+                event.preventDefault();
+
+                let debugAlerts = false;
+
+
+                document.getElementById("letterGroup").innerText = 'J';
+
+            }
+        </script>
+    </article>
+
+    <div id="footer">loading...</div>
+    <script>
+        fetch('../footer.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('footer').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load error:', err));
+    </script>
+</body>
+
+</html>
