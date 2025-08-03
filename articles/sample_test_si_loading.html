@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NAUI Surface Interval Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #f5f5f5;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      max-width: 560px;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, select {
+      padding: 0.4rem;
+      width: 40%;
+      margin-top: 0.3rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      background: #0073e6;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #005bb5;
+    }
+    .result {
+      margin-top: 1.5rem;
+      padding-left: 2rem;;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>NAUI Surface Interval Calculator</h1>
+    <label for="startGroup">Starting Letter Group:</label>
+    <select id="startGroup">
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <option value="D">D</option>
+      <option value="E">E</option>
+      <option value="F">F</option>
+      <option value="G">G</option>
+      <option value="H">H</option>
+      <option value="I">I</option>
+      <option value="J">J</option>
+      <option value="K">K</option>
+      <option value="L">L</option>
+      <option value="M">M</option>
+      <option value="N">N</option>
+    </select>
+
+    <span class="result" id="result"></span>
+
+    <label for="hours">Surface Interval Hours:</label>
+    <input type="number" id="hours" min="0" value="0">
+
+    <label for="minutes">Surface Interval Minutes:</label>
+    <input type="number" id="minutes" min="0" max="59" value="0">
+
+    <button onclick="calculateGroup()">Calculate New Group</button>
+
+  </div>
+
+  <script>
+    const surfaceIntervalRanges = [
+      { min: 0, max: 52 },     // Column 1
+      { min: 53, max: 104 },   // Column 2
+      { min: 105, max: 157 },  // Column 3
+      { min: 158, max: 209 },  // Column 4
+      { min: 210, max: 261 },  // Column 5
+      { min: 262, max: 313 },  // Column 6
+      { min: 314, max: 366 },  // Column 7
+      { min: 367, max: 358 },  // Column 8
+      { min: 359, max: 470 },  // Column 9
+      { min: 471, max: 522 },  // Column 10
+      { min: 523, max: 574 },  // Column 11
+      { min: 575, max: 629 },  // Column 12
+      { min: 630, max: 705 },  // Column 13
+      { min: 706, max: Infinity } // Column 14+
+       ];
+
+    const letterGroupReductionTable = {
+      'A': ['A','A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'B': ['B','A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'C': ['C','B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'D': ['D','C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'E': ['E','D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'F': ['F','E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'G': ['G','F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'H': ['H','G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'I': ['I','H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A'],
+      'J': ['J','I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A'],
+      'K': ['K','J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A'],
+      'L': ['L','K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A'],
+      'M': ['M','L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A'],
+      'N': ['N','M', 'L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A']
+    };
+
+    function getNewLetterGroup(startGroup, surfaceIntervalMinutes) {
+      const group = startGroup.toUpperCase();
+      const row = letterGroupReductionTable[group];
+      console.log('group: ' +group + ', row: ' + row)
+      if (!row) return null;
+
+      const columnIndex = surfaceIntervalRanges.findIndex(
+        range => surfaceIntervalMinutes >= range.min && surfaceIntervalMinutes <= range.max
+      );
+
+      console.log('columnIndex: ' + columnIndex)
+
+      if (columnIndex === -1 || columnIndex >= row.length) return null;
+
+      const newGroup = row[columnIndex];
+      console.log('newGroup: ' + newGroup)
+      return newGroup;
+    }
+
+    function calculateGroup() {
+      const startGroup = document.getElementById('startGroup').value;
+      const hours = parseInt(document.getElementById('hours').value, 10) || 0;
+      const minutes = parseInt(document.getElementById('minutes').value, 10) || 0;
+      const totalMinutes = (hours * 60) + minutes;
+
+      const newGroup = getNewLetterGroup(startGroup, totalMinutes);
+      console.log('newGroup: ' + newGroup)
+      const resultDiv = document.getElementById('result');
+      if (newGroup) {
+        resultDiv.textContent = `New Letter Group: ${newGroup}`;
+      } else {
+        resultDiv.textContent = `No residual nitrogen (Group A).`;
+      }
+    }
+  </script>
+</body>
+</html>
