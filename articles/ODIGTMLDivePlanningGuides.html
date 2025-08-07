@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ODIGTML Dive Planning Guides</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+
+
+  <style>
+    details {
+      margin: 1em 0;
+      padding: 0.5em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #f9f9f9;
+    }
+    summary {
+      font-weight: bold;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    summary::marker {
+      color: #0077cc;
+    }
+    .section {
+      padding-left: 1em;
+    }
+    h4 {
+      margin-top: 0.5em;
+      margin-bottom: 0.2em;
+      color: #333;
+    }
+    p {
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ODIGTML Dive Planning Guides<br><span style="font-size: 20px;"> Why ODIGTML Has Multiple Meanings</span>
+    </h1>
+
+
+    <p>Exploring the science and safety of scuba diving.</p>
+    <a href="../index.html"> <button>Back to Home</button> </a>
+  </header>
+
+  <article>
+
+<details open>
+  <summary>Introduction – Why ODIGTML Has Multiple Meanings</summary>
+  <div class="section">
+    <p>
+      If you're a NAUI diver or dive leader in training, you may have encountered the acronym <strong>ODIGTML</strong> in more than one setting—sometimes meaning one thing, and sometimes another. That’s not a mistake, and it’s not sloppy instruction. It’s actually a feature of how NAUI teaches <em>context-driven dive planning</em>.
+    </p>
+    <p>
+      The acronym <strong>ODIGTML</strong> is intentionally reused in two distinct frameworks:
+      <ul>
+        <li><strong>Dive Group Planning</strong> – where ODIGTML helps teams structure a safe, organized, collaborative dive</li>
+        <li><strong>Risk-Based Dive Planning</strong> – where ODIGTML serves as a checklist to identify and mitigate dive hazards</li>
+      </ul>
+    </p>
+    <p>
+      While most acronyms strive for a single unambiguous meaning, NAUI appears to have made a pedagogical choice to reuse ODIGTML across domains because the letters still represent **seven planning pillars**, regardless of context. Instead of trying to teach two completely different acronyms for different types of dives, this reuse reinforces the idea that dive planning—whether for a team or a technical challenge—should always involve structured thinking across multiple categories.
+    </p>
+    <p>
+      So rather than seeing ODIGTML's dual use as a flaw, think of it as a mental tool that adapts to your environment. Same structure, different lens. What follows are two fully explained versions of ODIGTML, each matched to its planning context.
+    </p>
+  </div>
+</details>
+
+<details open>
+  <summary>ODIGTML (Dive Group Planning) – A Guide for Group Dive Planning</summary>
+  <div class="section">
+    <h4>O – Objective</h4>
+    <p>Define the purpose of the dive. Example: Navigation practice, search & recovery training, fun dive, etc.</p>
+
+    <h4>D – Dive Site Description</h4>
+    <p>Identify site name, access method, conditions (depth, temperature, visibility), and known hazards.</p>
+
+    <h4>I – Individual & Team Roles</h4>
+    <p>Assign tasks: dive leader, buddy teams, equipment carriers, timing/depth monitors, etc.</p>
+
+    <h4>G – Gear Requirements</h4>
+    <p>List required equipment: wetsuits/drysuits, tanks, slates, SMBs, compasses, special tools.</p>
+
+    <h4>T – Time, Depth & Profile</h4>
+    <p>Plan max depth, bottom time, safety stop, ascent rate, dive profile (square, multi-level), and turn pressures.</p>
+
+    <h4>M – Method of Dive</h4>
+    <p>Describe entry/exit strategy, compass headings, signal use, task sequence, emergency abort criteria.</p>
+
+    <h4>L – Logistics</h4>
+    <p>List surface support, O₂ kits, transportation, gas fills, dive window, meals, weather watch, and check-in protocol.</p>
+  </div>
+</details>
+
+<details>
+  <summary>ODIGTML (Risk-Based) – A Guide to Identify and Mitigate Dive Risks</summary>
+  <div class="section">
+    <h4>O – Oxygen</h4>
+    <p>Evaluate PPO₂ exposure, MOD for Nitrox, CNS % tracking, and oxygen toxicity risk (CNS and pulmonary).</p>
+
+    <h4>D – Decompression</h4>
+    <p>Review NDL status or deco obligation, ascent rates, stop profiles, and algorithm or dive computer settings.</p>
+
+    <h4>I – Inert Gas Narcosis</h4>
+    <p>Assess narcosis risk at planned depth. Consider diver experience, mental readiness, and use of trimix if needed.</p>
+
+    <h4>G – Gas Management</h4>
+    <p>Calculate RMV/SAC, gas needed for descent, task load, ascent, reserve. Include turn pressure and bailout gas.</p>
+
+    <h4>T – Thermal</h4>
+    <p>Evaluate exposure suit needs based on water temperature and duration. Monitor for hypothermia or overheating.</p>
+
+    <h4>M – Mission</h4>
+    <p>Define the primary task (e.g., lift bag use, photo survey). Consider complexity and whether dive is abortable.</p>
+
+    <h4>L – Logistics</h4>
+    <p>Surface support, DAN O₂ kits, emergency response plan, chamber access, communications, extra gas or food.</p>
+  </div>
+</details>
+
+  </article>
+
+  <div id="footer">loading...</div>
+  <script>
+    fetch('../footer.html')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('footer').innerHTML = html;
+      })
+      .catch(err => console.error('Footer load error:', err));
+  </script>
+
+</body>
+
+</html>
