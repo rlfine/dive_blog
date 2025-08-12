@@ -1,0 +1,531 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dive Physics: Gas Laws (Boyle, Gay‑Lussac, Dalton, Charles, Henry) + Archimedes</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+  <style>
+    /* ==== Quick theming: adjust these to match your site ==== */
+    :root {
+      --bg: #ffffff;
+      --ink: #0f172a;
+      --muted: #475569;
+      --line: #e2e8f0;
+      --accent: #0ea5e9;
+      --accent-weak: #e0f2fe;
+    }
+
+    /* ==== Base layout ==== */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    header,
+    main,
+    footer {
+      margin: auto;
+      padding: 1.25rem;
+    }
+
+    header {
+      padding-top: 2rem;
+      padding-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin: .2rem 0 .6rem;
+    }
+
+    h2 {
+      margin-top: 2rem;
+    }
+
+    h3 {
+      margin-top: 1rem;
+    }
+
+    p {
+      margin: .55rem 0;
+    }
+
+    .lede {
+      color: var(--muted)
+    }
+
+    .toc {
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .toc a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .tag {
+      display: inline-block;
+      background: var(--accent-weak);
+      color: #0369a1;
+      padding: .1rem .5rem;
+      border-radius: 999px;
+      font-size: .78rem;
+      margin-left: .4rem;
+    }
+
+    code,
+    .formula {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: #f1f5f9;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: .1rem .35rem;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent);
+      background: #f0f9ff;
+      padding: .75rem 1rem;
+      border-radius: 8px;
+      margin: .9rem 0;
+    }
+
+    .small {
+      font-size: .95rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      padding: .5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: .75rem 1rem;
+      background: #fff;
+    }
+
+    details+details {
+      margin-top: .6rem;
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 700;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: .92rem;
+      padding-bottom: 2rem;
+    }
+
+    .eq {
+      display: block;
+      padding: .4rem .55rem;
+      margin: .4rem 0;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px dashed var(--line);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Gas Laws for Divers</h1>
+    <p>Concise definitions, diver‑centric examples, assumptions, and pitfalls — plus a MOD quick table — for Boyle’s,
+      Gay‑Lussac’s, Dalton’s, Charles’s, and Henry’s laws, and Archimedes’ principle.</p>
+    <p>Exploring the science and safety of scuba diving.</p>
+    <a href="../index.html"> <button>Back to Home</button> </a>
+  </header>
+
+  <article>
+
+    <main>
+
+      <section class="toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">Quick Navigation</h2>
+        <p>
+          <a href="#boyle">Boyle’s Law</a> ·
+          <a href="#gay-lussac">Gay‑Lussac’s Law</a> ·
+          <a href="#dalton">Dalton’s Law</a> ·
+          <a href="#charles">Charles’s Law</a> ·
+          <a href="#henry">Henry’s Law</a> ·
+          <a href="#archimedes">Archimedes’ Principle</a> ·
+          <a href="#mod">Nitrox MOD Table</a> ·
+          <a href="#quickref">Quick‑Reference</a> ·
+          <a href="#assumptions">Assumptions & Limits</a> ·
+          <a href="#practice">Practice Problems</a>
+        </p>
+      </section>
+
+      <!-- ===== Boyle ===== -->
+      <section id="boyle">
+        <h2>Boyle’s Law  <span style="font-size: x-small;">(circa 1662)</span><span class="tag">pressure–volume</span></h2>
+        <details open>
+          <summary>Definition & equation</summary>
+          <div class="eq"><strong>Isothermal:</strong> <code>P₁·V₁ = P₂·V₂</code> (same gas, constant temperature, fixed
+            moles)</div>
+          <p><strong>Plain English:</strong> For a fixed amount of gas at constant temperature, pressure and volume
+            change inversely.</p>
+        </details>
+        <details>
+          <summary>Diver example</summary>
+          <p>Mask air space 150&nbsp;mL at 10&nbsp;m/33&nbsp;ft (~2&nbsp;ATA) becomes ~300&nbsp;mL at the surface
+            (~1&nbsp;ATA). Vent through the nose on ascent to avoid mask squeeze and over‑pressure.</p>
+        </details>
+        <details>
+          <summary>Common pitfalls</summary>
+          <ul>
+            <li>Using gauge instead of absolute pressure. Always use ATA/bar <em>absolute</em>.</li>
+            <li>Forgetting temperature changes (rapid gas expansion can cool).</li>
+          </ul>
+        </details>
+      </section>
+
+      <!-- ===== Gay-Lussac ===== -->
+      <section id="gay-lussac">
+        <h2>Gay‑Lussac’s Law  <span style="font-size: x-small;">(circa 1862)</span><span class="tag">pressure–temperature</span></h2>
+        <details open>
+          <summary>Definition & equation</summary>
+          <div class="eq"><strong>Isochoric:</strong> <code>P₁/T₁ = P₂/T₂</code> (constant volume; T in Kelvin)</div>
+          <p>At fixed volume, pressure is proportional to absolute temperature.</p>
+        </details>
+        <details>
+          <summary>Diver example (hot car)</summary>
+          <p>A cylinder at 200&nbsp;bar at 20&nbsp;°C (293&nbsp;K) warms to 50&nbsp;°C (323&nbsp;K):
+            <code>P₂ ≈ 200·(323/293) ≈ 220.5&nbsp;bar</code>.</p>
+        </details>
+        <details>
+          <summary>Common pitfalls</summary>
+          <ul>
+            <li>Reading a hot‑fill as “full” — it drops after cooling.</li>
+            <li>Using °C/°F directly instead of K in the ratio.</li>
+          </ul>
+        </details>
+      </section>
+
+      <!-- ===== Dalton ===== -->
+      <section id="dalton">
+        <h2>Dalton’s Law of Partial Pressures  <span style="font-size: x-small;">(circa 1180287)</span><span class="tag">gas fractions</span></h2>
+        <details open>
+          <summary>Definition & equations</summary>
+          <div class="eq">
+            <code>P<sub>total</sub> = ΣP<sub>i</sub>, &nbsp; P<sub>i</sub> = F<sub>i</sub>·P<sub>total</sub></code>
+          </div>
+          <p>Each gas in a mixture contributes a partial pressure equal to its fraction times the total pressure.</p>
+        </details>
+        <details>
+          <summary>Diver example (EAN32 at 30&nbsp;m/100&nbsp;ft)</summary>
+          <p>Total pressure ≈ 4&nbsp;ATA → <code>PPO₂ = 0.32·4 = 1.28&nbsp;ATA</code>,
+            <code>PPN₂ = 0.68·4 = 2.72&nbsp;ATA</code>.</p>
+        </details>
+        <details>
+          <summary>Common pitfalls</summary>
+          <ul>
+            <li>Confusing fraction with percent (use 0.32, not 32).</li>
+            <li>Ignoring water vapor in closed systems (minor in open circuit at depth).</li>
+          </ul>
+        </details>
+      </section>
+
+      <!-- ===== Charles ===== -->
+      <section id="charles">
+        <h2>Charles’s Law <span style="font-size: x-small;">(circa 1787)</span><span class="tag">volume–temperature</span></h2>
+        <details open>
+          <summary>Definition & equation</summary>
+          <div class="eq"><strong>Isobaric:</strong> <code>V₁/T₁ = V₂/T₂</code> (constant pressure; T in Kelvin)</div>
+          <p>Volume changes directly with absolute temperature when pressure is constant (e.g., flexible bags).</p>
+        </details>
+        <details>
+          <summary>Diver example</summary>
+          <p>A 10&nbsp;L DSMB left in the sun warms from 20&nbsp;°C (293&nbsp;K) to 35&nbsp;°C (308&nbsp;K) →
+            <code>V₂ ≈ 10·(308/293) ≈ 10.5&nbsp;L</code>.</p>
+        </details>
+      </section>
+
+      <!-- ===== Henry ===== -->
+      <section id="henry">
+        <h2>Henry’s Law <span style="font-size: x-small;">(circa 1803)</span><span class="tag">dissolved gas</span></h2>
+        <details open>
+          <summary>Definition & equation</summary>
+          <div class="eq"><code>C = k<sub>H</sub> · P<sub>gas</sub></code> (at given temperature)</div>
+          <p>Gas dissolved in a liquid is proportional to that gas’s partial pressure.</p>
+        </details>
+        <details>
+          <summary>Diver relevance</summary>
+          <ul>
+            <li>Greater PPN₂ at depth → more N₂ dissolves in tissues.</li>
+            <li>On ascent, PPN₂ falls → off‑gassing; too steep a gradient risks bubbles.</li>
+            <li>Colder water ↑ solubility; perfusion/exertion modifies uptake/elimination.</li>
+          </ul>
+        </details>
+      </section>
+
+      <!-- ===== Archimedes ===== -->
+      <section id="archimedes">
+        <h2>Archimedes’ Principle<span style="font-size: small;"> (circa 250 BCE)</span><span class="tag">buoyancy</span></h2>
+        <details open>
+          <summary>Definition</summary>
+          <div class="eq">Buoyant force equals the weight of displaced fluid.</div>
+          <p>Each 1&nbsp;L of extra gas volume adds ≈1&nbsp;kgf (~2.2&nbsp;lbf) lift in freshwater; slightly more in
+            seawater.</p>
+        </details>
+        <details>
+          <summary>Diver takeaways</summary>
+          <ul>
+            <li>Wetsuit compression on descent → you become more negative; add BC gas.</li>
+            <li>Gas expansion on ascent → vent early/often to prevent runaway buoyancy.</li>
+          </ul>
+        </details>
+      </section>
+
+      <!-- ===== MOD TABLE ===== -->
+      <section id="mod">
+        <h2>Nitrox MOD Quick Table (Feet & Meters)</h2>
+        <p class="small">Formula: <code>MOD = (PPO₂<sub>limit</sub>/F<sub>O₂</sub> − 1) × 33&nbsp;ft</code> (or ×
+          10&nbsp;m). Values rounded (ft to nearest foot; m to ~0.1 m). Always plan conservatively and verify with your
+          agency tables/computer.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Mix</th>
+              <th>MOD @ 1.4&nbsp;ATA</th>
+              <th>MOD @ 1.6&nbsp;ATA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>EAN28</td>
+              <td>132&nbsp;ft / 40.0&nbsp;m</td>
+              <td>156&nbsp;ft / 47.1&nbsp;m</td>
+            </tr>
+            <tr>
+              <td>EAN30</td>
+              <td>121&nbsp;ft / 36.7&nbsp;m</td>
+              <td>143&nbsp;ft / 43.3&nbsp;m</td>
+            </tr>
+            <tr>
+              <td>EAN32</td>
+              <td>111&nbsp;ft / 33.8&nbsp;m</td>
+              <td>132&nbsp;ft / 40.0&nbsp;m</td>
+            </tr>
+            <tr>
+              <td>EAN34</td>
+              <td>103&nbsp;ft / 31.2&nbsp;m</td>
+              <td>122&nbsp;ft / 37.1&nbsp;m</td>
+            </tr>
+            <tr>
+              <td>EAN36</td>
+              <td>95&nbsp;ft / 28.9&nbsp;m</td>
+              <td>114&nbsp;ft / 34.4&nbsp;m</td>
+            </tr>
+            <tr>
+              <td>EAN40</td>
+              <td>82&nbsp;ft / 25.0&nbsp;m</td>
+              <td>99&nbsp;ft / 30.0&nbsp;m</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ===== QUICK REF ===== -->
+      <section id="quickref">
+        <h2>Quick‑Reference Table</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Law / Principle</th>
+              <th>Canonical Form</th>
+              <th>Held Constant</th>
+              <th>What Changes</th>
+              <th>Diver Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Boyle’s</td>
+              <td><code>P·V = const</code></td>
+              <td>T, moles</td>
+              <td>P ↔ V (inverse)</td>
+              <td>Air‑space squeeze/expansion; BC/drysuit control</td>
+            </tr>
+            <tr>
+              <td>Gay‑Lussac’s</td>
+              <td><code>P/T = const</code></td>
+              <td>V, moles</td>
+              <td>P ↔ T (direct)</td>
+              <td>Hot‑fill &amp; cold‑morning pressure swings</td>
+            </tr>
+            <tr>
+              <td>Charles’s</td>
+              <td><code>V/T = const</code></td>
+              <td>P, moles</td>
+              <td>V ↔ T (direct)</td>
+              <td>Flexible bags/balloons at constant pressure</td>
+            </tr>
+            <tr>
+              <td>Dalton’s</td>
+              <td><code>P<sub>i</sub> = F<sub>i</sub>·P<sub>total</sub></code></td>
+              <td>Mixture fractions</td>
+              <td>Partial pressures</td>
+              <td>PPO₂ limits, narcosis planning, deco</td>
+            </tr>
+            <tr>
+              <td>Henry’s</td>
+              <td><code>C = k<sub>H</sub>·P<sub>gas</sub></code></td>
+              <td>Temp (k<sub>H</sub>)</td>
+              <td>Dissolved load</td>
+              <td>On/off‑gassing; supersaturation risk</td>
+            </tr>
+            <tr>
+              <td>Archimedes’</td>
+              <td>Buoyancy = weight of displaced fluid</td>
+              <td>Fluid density</td>
+              <td>Net force</td>
+              <td>Weighting, lift, suit/BC gas management</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ===== ASSUMPTIONS ===== -->
+      <section id="assumptions">
+        <h2>Assumptions & Practical Limits</h2>
+        <div class="grid">
+          <div>
+            <h3>Absolute units</h3>
+            <ul>
+              <li>Pressure: ATA or bar <em>absolute</em> (surface ≈ 1&nbsp;ATA).</li>
+              <li>Temperature: Kelvin (K) for gas‑law ratios: <code>T(K)=T(°C)+273.15</code>.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Same gas, fixed moles</h3>
+            <ul>
+              <li>Boyle/Charles/Gay‑Lussac assume no gas added/removed and the <em>same</em> sample.</li>
+              <li>Dalton uses fractions; Henry ties partial pressure to dissolved amount.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Real‑world caveats</h3>
+            <ul>
+              <li>Non‑ideal behavior at high P/low T (compressibility, humidity).</li>
+              <li>Fast fills heat tanks; readings drift as they cool.</li>
+              <li>Physiology (perfusion, temperature, exercise) modifies Henry‑law dynamics.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PRACTICE ===== -->
+      <section id="practice">
+        <h2>Practice Problems (with reveal answers)</h2>
+
+        <details>
+          <summary>1) Boyle — Bubble expansion on ascent</summary>
+          <p>A 0.8&nbsp;mL bubble at 20&nbsp;m (~3&nbsp;ATA) rises to 10&nbsp;m (~2&nbsp;ATA). What volume at 10&nbsp;m?
+            Assume constant T.</p>
+          <details>
+            <summary>Answer</summary>
+            <p><code>V₂ = V₁·(P₁/P₂) = 0.8·(3/2) = 1.2&nbsp;mL</code>.</p>
+          </details>
+        </details>
+
+        <details>
+          <summary>2) Gay‑Lussac — Cold quarry morning</summary>
+          <p>Tank shows 3000&nbsp;psi at 86&nbsp;°F (≈303&nbsp;K). What pressure at 50&nbsp;°F (≈283&nbsp;K)?</p>
+          <details>
+            <summary>Answer</summary>
+            <p><code>P₂ = 3000·(283/303) ≈ 2800&nbsp;psi</code> (≈ −7%).</p>
+          </details>
+        </details>
+
+        <details>
+          <summary>3) Dalton — MOD check for EAN36</summary>
+          <p>Working PPO₂ limit 1.4&nbsp;ATA. What’s the MOD for EAN36?</p>
+          <details>
+            <summary>Answer</summary>
+            <p><code>MOD = (1.4/0.36 − 1)×33 ≈ 95&nbsp;ft</code> (≈28.9&nbsp;m).</p>
+          </details>
+        </details>
+
+        <details>
+          <summary>4) Henry — Off‑gassing concept</summary>
+          <p>Why do we ascend slowly and make shallow stops?</p>
+          <details>
+            <summary>Answer</summary>
+            <p>Reducing ambient pressure gradually keeps tissue supersaturation within allowable gradients so dissolved
+              inert gas can leave solution without forming problematic bubbles.</p>
+          </details>
+        </details>
+
+        <details>
+          <summary>5) Archimedes — Lung buoyancy tweak</summary>
+          <p>At a shallow safety stop in freshwater, you inhale ~0.6&nbsp;L. How much lift change?</p>
+          <details>
+            <summary>Answer</summary>
+            <p>≈0.6&nbsp;kgf (≈1.3&nbsp;lbf) additional buoyancy.</p>
+          </details>
+        </details>
+      </section>
+
+    </main>
+  </article>
+
+  <div id="footer">loading...</div>
+  <script>
+    fetch('../footer.html')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('footer').innerHTML = html;
+      })
+      .catch(err => console.error('Footer load error:', err));
+  </script>
+  <footer>
+    <p>Tip: Convert to absolute units first, write the relationship (e.g., <code>P₁V₁=P₂V₂</code>), solve symbolically,
+      then plug your numbers. It prevents most slate‑side mistakes.</p>
+  </footer>
+
+</body>
+
+</html>
