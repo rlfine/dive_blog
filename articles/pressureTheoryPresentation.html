@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vacuum, Pressure & Gas Mixtures — A Diver’s Guide (NAUI MSD Theory)</title>
+  <meta name="description"
+    content="An online, collapsible-slide presentation for NAUI Master Scuba Diver theory: vacuum, pressure, Dalton, the Ideal Gas Law, and diver-relevant examples." />
+  <slink rel="stylesheet" href="../css/style.css">
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+    <style>
+      :root {
+        --bg: #0f1216;
+        --panel: #131821;
+        --panel-2: #0e1420;
+        --text: #e7eef7;
+        --muted: #a7b3c6;
+        --accent: #5cc8ff;
+        --accent-2: #9ef0a0;
+        --border: #243044;
+        --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+        --radius: 16px;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        --sans: ui-sans-serif, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", system-ui, sans-serif;
+      }
+
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f7fafc;
+          --panel: #ffffff;
+          --panel-2: #f3f6fb;
+          --text: #0d1b2a;
+          --muted: #415a77;
+          --accent: #0ea5e9;
+          --accent-2: #059669;
+          --border: #e5e7eb;
+          --shadow: 0 8px 20px rgba(0, 0, 0, .08);
+        }
+      }
+
+      html,
+      body {
+        background: var(--bg);
+        color: var(--text);
+        margin: 0;
+        padding: 0;
+        font-family: var(--sans);
+        line-height: 1.6;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .wrap {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      header.top {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        backdrop-filter: blur(6px);
+        background: color-mix(in oklab, var(--bg) 75%, transparent);
+        border-bottom: 1px solid var(--border);
+      }
+
+      header.top .wrap {
+        display: grid;
+        gap: 12px;
+      }
+
+      h1 {
+        margin: 8px 0 0;
+        sfont-size: clamp(1.4rem, 1.2rem + 1.2vw, 2rem);
+        letter-spacing: .2px;
+        text-align: center;
+        color: darkblue;
+        font-size: 2.5em;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: .98rem;
+        margin: 0 0 8px;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .btn {
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--text);
+        padding: 8px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+      }
+
+      .btn:hover {
+        background: var(--panel-2);
+      }
+
+      .toc {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 10px;
+        margin: 4px 0 12px;
+      }
+
+      .toc a {
+        display: block;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        padding: 8px 12px;
+        border-radius: 12px;
+      }
+
+      .toc a:hover {
+        background: var(--panel-2);
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        margin: 18px 0;
+        box-shadow: var(--shadow);
+      }
+
+      details {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        overflow: clip;
+      }
+
+      summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 16px 18px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(0deg, color-mix(in oklab, var(--panel) 70%, var(--panel-2)), var(--panel));
+        border-bottom: 1px solid var(--border);
+      }
+
+      summary::marker,
+      summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .chev {
+        inline-size: 1.05em;
+        block-size: 1.05em;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--border);
+        background: var(--panel-2);
+        flex-shrink: 0;
+        transition: transform .2s ease;
+      }
+
+      details[open] summary .chev {
+        transform: rotate(90deg);
+      }
+
+      .content {
+        padding: 18px;
+      }
+
+      h2 {
+        margin: 0 0 10px;
+        font-size: 1.25rem;
+      }
+
+      h3 {
+        margin: 16px 0 8px;
+        font-size: 1.05rem;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .kicker {
+        color: var(--accent-2);
+        text-transform: uppercase;
+        font-size: .75rem;
+        letter-spacing: .12em;
+      }
+
+      .callout {
+        border-left: 4px solid var(--accent);
+        background: var(--panel-2);
+        padding: 12px 14px;
+        border-radius: 10px;
+        margin: 12px 0;
+      }
+
+      /* Existing .callout stays as general-purpose (blue accent) */
+
+      .callout-practical {
+        border-left: 4px solid var(--accent-2);
+        /* green */
+        background: color-mix(in oklab, var(--panel-2) 80%, white 10%);
+        padding: 12px 14px;
+        border-radius: 10px;
+        margin: 12px 0;
+        box-shadow: var(--shadow);
+      }
+
+      .callout-practical h3 {
+        margin-top: 0;
+        color: var(--accent-2);
+        font-size: 1rem;
+      }
+
+      .grid2 {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+
+      code,
+      .code {
+        font-family: var(--mono);
+        font-size: .95rem;
+      }
+
+      .eq {
+        font-family: var(--mono);
+        display: block;
+        padding: 10px 12px;
+        background: var(--panel-2);
+        border: 1px dashed var(--border);
+        border-radius: 10px;
+        overflow: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 8px 0 12px;
+      }
+
+      th,
+      td {
+        padding: 10px 8px;
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .small {
+        font-size: .92rem;
+      }
+
+      .foot {
+        color: var(--muted);
+        font-size: .9rem;
+        margin-top: 24px;
+      }
+
+      hr.sep {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 18px 0;
+      }
+
+      .tag {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--panel-2);
+        color: var(--muted);
+        font-size: 1.25rem;
+      }
+
+      /* Print: open all sections, hide controls */
+      @media print {
+
+        header.top,
+        .controls {
+          display: none !important;
+        }
+
+        details {
+          border: none;
+          box-shadow: none;
+        }
+
+        details:not([open])>summary~* {
+          display: block !important;
+        }
+
+        summary {
+          background: transparent;
+          border: none;
+          padding: 0 0 8px;
+        }
+      }
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+homeNav {
+    background: #ddd;
+    padding: 10px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Vacuum, Pressure &amp; Gas Mixtures <br> A Diver’s Guide <br><span class="tag">NAUI Master Scuba Diver
+          Theory</span>
+      </h1>
+      <p class="subtitle">A web presentation about what pressure really is, why “vacuum” isn’t suction, how Dalton and
+        the Ideal Gas Law fit together, and why this matters to divers.</p>
+      <div class="controls">
+        <button class="btn" id="expandAll">Expand all</button>
+        <button class="btn" id="collapseAll">Collapse all</button>
+      </div>
+      <nav class="toc" aria-label="Table of contents">
+        <a href="#s1">1 · The everyday myth: “vacuum sucks”</a>
+        <a href="#s2">2 · What pressure is (absolute vs gauge)</a>
+        <a href="#s3">3 · What a vacuum really means</a>
+        <a href="#s4">4 · Kinetic theory: why gases push</a>
+        <a href="#s5">5 · What pumps actually do</a>
+        <a href="#s6">6 · Why a perfect vacuum is unreachable</a>
+        <a href="#s7">7 · Dalton + Ideal Gas Law</a>
+        <a href="#s8">8 · Worked examples (diver-relevant)</a>
+        <a href="#s9">9 · Diver applications &amp; takeaways</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <details id="s1" open>
+      <summary><span class="chev">›</span> 1) The everyday myth: “vacuum sucks”</summary>
+      <div class="content">
+        <div class="kicker">Myth vs. Reality</div>
+        <h2>There’s no such thing as negative pressure.</h2>
+        <p>People say a vacuum “sucks,” as if it pulls air in. In physics, pressure is either <em>absolute</em> (always
+          ≥ 0) or measured <em>relative</em> to ambient (gauge). What we call “suction” is simply <strong>higher
+            pressure pushing</strong> toward a lower pressure region.</p>
+        <div class="callout">
+          <strong>Key idea:</strong> Air moves from higher pressure to lower pressure because gas molecules already
+          carry kinetic energy; nothing “reaches in” to pull them.
+        </div>
+      </div>
+    </details>
+
+    <details id="s2">
+      <summary><span class="chev">›</span> 2) What pressure is (absolute vs gauge)</summary>
+      <div class="content">
+        <h2>Pressure is force per area: <span class="eq">P = F / A</span></h2>
+        <div class="grid2">
+          <div>
+            <h3>Absolute vs Gauge</h3>
+            <ul>
+              <li><strong>PSIA / bar(a):</strong> measured from a true vacuum (0 absolute).</li>
+              <li><strong>PSIG / bar(g):</strong> measured relative to ambient. 0&nbsp;psig ≈ 14.7&nbsp;psia at sea
+                level.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Useful anchors</h3>
+            <ul>
+              <li>1&nbsp;atm ≈ <strong>14.7&nbsp;psi</strong> ≈ 1.01325&nbsp;bar.</li>
+              <li>Sea level ambient ≈ 1&nbsp;atm (absolute).</li>
+              <li>Dive pressure increases ≈ 1&nbsp;atm every ~10&nbsp;m seawater (~33&nbsp;ft).</li>
+            </ul>
+          </div>
+        </div>
+        <p class="muted small">Note: “STP” sometimes means 1&nbsp;atm and 0 °C (molar volume ≈ 22.414 L/mol). Some
+          standards use 1&nbsp;bar (22.711 L/mol). State which convention you use.</p>
+      </div>
+    </details>
+
+    <details id="s3">
+      <summary><span class="chev">›</span> 3) What a vacuum really means</summary>
+      <div class="content">
+        <h2>“Vacuum” = fewer molecules than ambient</h2>
+        <p>A <em>total</em> vacuum is a perfect absence of matter (never achieved). A <em>partial</em> vacuum is simply
+          a region with <strong>lower absolute pressure</strong> than its surroundings — i.e., fewer gas molecules per
+          unit volume.</p>
+        <div class="callout">
+          <strong>Language tip for divers:</strong> “Negative pressure test” really means “below ambient”
+          (gauge-negative), not pressure &lt; 0 absolute.
+        </div>
+      </div>
+    </details>
+
+    <details id="s4">
+      <summary><span class="chev">›</span> 4) Kinetic theory: why gases push</summary>
+      <div class="content">
+        <h2>Pressure comes from molecular collisions with surfaces</h2>
+        <p>Gas molecules incessantly move and collide with container walls. The collective momentum transfer per area
+          per time is what we measure as pressure. More molecules (or higher temperature) → more collisions → higher
+          pressure.</p>
+        <div class="eq">At fixed volume and temperature: &nbsp; <strong>P ∝ N</strong> (number of molecules)</div>
+      </div>
+    </details>
+
+    <details id="s5">
+      <summary><span class="chev">›</span> 5) What pumps actually do</summary>
+      <div class="content">
+        <h2>Pumps create a lower-pressure path, molecules do the rest</h2>
+        <p>A pump doesn’t “grab” gas inside your vessel. It reduces pressure on the outlet side, so the natural random
+          motion of molecules favors escape toward the lower pressure region. Over many collisions, more go out than
+          return until a new equilibrium is reached.</p>
+        <div class="grid2">
+          <div>
+            <h3>Two broad families (plain-English)</h3>
+            <ul>
+              <li><strong>Positive-displacement</strong> (e.g., piston/rotary vane): enlarges volume to reduce pressure
+                and move gas out.</li>
+              <li><strong>Molecular/entrainment</strong> (e.g., turbomolecular, diffusion): transfer momentum to
+                molecules, sweeping them away.</li>
+            </ul>
+          </div>
+          <div class="callout">
+            <strong>Diver analogy:</strong> Bubbles don’t “get pulled up”; pressure is greater below and lower above, so
+            buoyant forces push them upward.
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details id="s6">
+      <summary><span class="chev">›</span> 6) Why a perfect vacuum is unreachable</summary>
+      <div class="content">
+        <h2>The “last molecule” paradox</h2>
+        <p>To remove the very last molecule from a container, the outside would have to be at an even lower pressure.
+          But then to empty the outside, you’d need an even “emptier” region, and so on. Practically, pumps approach
+          lower and lower pressures <em>asymptotically</em> but never reach zero molecules.</p>
+        <div class="callout">
+          <strong>Reality check:</strong> Ultra-high vacuum is possible; absolute zero pressure is not.
+        </div>
+      </div>
+    </details>
+
+    <details id="s7">
+      <summary><span class="chev">›</span> 7) Dalton + Ideal Gas Law</summary>
+      <div class="content">
+        <div class="grid2">
+          <div>
+            <h3>Dalton’s Law (mixtures)</h3>
+            <div class="eq">P<sub>total</sub> = Σ&nbsp;P<sub>i</sub>&nbsp;&nbsp; and &nbsp;&nbsp;P<sub>i</sub> =
+              x<sub>i</sub> · P<sub>total</sub></div>
+            <p>Each gas contributes a partial pressure proportional to its mole fraction x<sub>i</sub>.</p>
+          </div>
+          <div>
+            <h3>Ideal Gas Law</h3>
+            <div class="eq">P·V = n·R·T</div>
+            <p>At fixed V and T, pressure scales with the amount of gas: <strong>P ∝ n</strong> (or ∝ molecule count N).
+            </p>
+          </div>
+        </div>
+        <p>These two ideas dovetail: if you halve the number of molecules of each component, each partial pressure
+          halves, and the total halves.</p>
+      </div>
+    </details>
+
+    <details id="s8">
+      <summary><span class="chev">›</span> 8) Worked examples (diver-relevant)</summary>
+      <div class="content">
+        <h2>Assume STP = 1 atm and 0 °C (22.414 L/mol). Vessel volume = 1 L.</h2>
+
+        <h3>8.1 · How many molecules are in 1 L at STP?</h3>
+        <ul>
+          <li>Moles in 1 L: <code>n = 1 / 22.414 ≈ 0.044615 mol</code></li>
+          <li>Avogadro’s number: <code>N<sub>A</sub> = 6.02214076×10²³ mol⁻¹</code></li>
+          <li>Total molecules: <code>N ≈ 0.044615 × N<sub>A</sub> ≈ 2.6868×10²²</code></li>
+        </ul>
+        <div class="callout">
+          80/20 mixture → N₂ molecules ≈ <strong>2.149×10²²</strong>, O₂ molecules ≈ <strong>5.374×10²¹</strong>.
+        </div>
+
+        <h3>8.2 · Remove half the molecules (same T, same V). What is the pressure?</h3>
+        <p>By <span class="code">PV = nRT</span>, halving <em>n</em> halves <em>P</em>. Starting from 1 atm (≈14.7 psi),
+          new pressure ≈ <strong>0.5 atm (7.35 psi)</strong>. Each partial pressure halves as well (Dalton).</p>
+
+        <h3>8.3 · Extreme thought experiment: only 10 molecules remain (8 N₂ + 2 O₂)</h3>
+        <p>Pressure scales with molecule count (at fixed T, V):</p>
+        <div class="eq">P<sub>new</sub> = P<sub>STP</sub> × (N<sub>new</sub> / N<sub>STP</sub>) = 14.7 psi × (10 /
+          2.6868×10²²) ≈ <strong>5.47×10<sup>−21</sup> psi</strong></div>
+        <p>That’s effectively a near-vacuum; at so few molecules, pressure becomes a statistical (not smooth) quantity.
+        </p>
+
+        <h3>8.4 · The opposite: Pack 1 mole of gas into the same 1 L at 0 °C</h3>
+        <p>By the Ideal Gas Law: <code>P = nRT/V = (1 mol)(0.082057 L·atm/mol·K)(273.15 K)/1 L ≈ 22.414 atm</code> →
+          <strong>≈ 329.4 psi</strong>.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Mole fraction</th>
+              <th>Partial pressure</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>N₂</td>
+              <td>0.80</td>
+              <td>≈ 17.93 atm ≈ <strong>263.5 psi</strong></td>
+            </tr>
+            <tr>
+              <td>O₂</td>
+              <td>0.20</td>
+              <td>≈ 4.48 atm ≈ <strong>65.9 psi</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td>1.00</td>
+              <td>≈ 22.41 atm ≈ <strong>329.4 psi</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <hr class="sep" />
+        <p class="muted small">
+          If you prefer the 1&nbsp;bar STP convention (22.711 L/mol), the molecule counts and scaling change slightly,
+          but the logic is identical. Always state your STP convention.
+        </p>
+      </div>
+    </details>
+
+    <details id="s9">
+      <summary><span class="chev">›</span> 9) Diver applications &amp; takeaways</summary>
+      <div class="content">
+        <div class="grid2">
+          <div>
+            <h3>Tank “empty” ≠ no molecules</h3>
+            <p>At 0 psig your cylinder still has ~14.7 psia inside:
+            <ul>
+              <li>trillions upon trillions of molecules remain.</li>
+              <li><em>Empty</em> means equal to ambient, not vacuum.</li>
+            </ul>
+            </p>
+          </div>
+          <div>
+            <h3>Equalization language</h3>
+            <p>When we say “negative pressure” across the eardrum or under a mask, we mean <em>below ambient</em>
+              (gauge-negative), not pressure &lt; 0 absolute.</p>
+          </div>
+        </div>
+        <div class="grid2">
+          <div>
+            <h3>Dalton’s in gas planning</h3>
+            <p>ppO₂ and ppN₂ track with fractions × depth pressure. The physiology (e.g., O₂ toxicity limits, N₂
+              narcosis) keys off partial pressures, not just mix labels.</p>
+          </div>
+          <div>
+            <h3>Henry’s Law is different</h3>
+            <p>Henry’s Law relates dissolved gas in tissues to <em>partial pressure</em> in breathing gas. Our
+              vacuum/pump discussion is Dalton + Ideal Gas Law, not Henry.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Bottom line:</strong>
+          <ul>
+            <li>Pressure is about how many molecules (and how fast) hit surfaces. </li>
+            <li>To reduce the pressure in a fixed geometric volume:
+              <ul>
+                <li>lower the kinetic energy by lowering the temperature or</li>
+                <li>reduce the number of molecules</li>
+              </ul>
+            </li>
+            <li>Pumps don’t “suck”; they create a lower-pressure path.</li>
+            <li>Dalton explains mixture shares; the Ideal Gas Law explains scaling.</li>
+          </ul>
+        </div>
+
+        <div class="callout-practical">
+          <h3>Sidebar · Cylinder size vs. free gas volume</h3>
+          <p>
+            A standard 11-liter scuba cylinder has a <strong>fixed internal volume</strong> of about 11 L —
+            this is the <em>cylinder volume</em> or <em>water capacity</em>.
+            When filled to 200 bar, the gas inside is compressed ~200× compared to surface pressure.
+          </p>
+          <p>
+            That means the cylinder actually contains the same number of molecules as about
+            <strong>2200 liters of free air at 1 bar</strong>. This larger number is called the
+            <em>free gas volume</em>, and it represents the breathing gas you could expand and use
+            at the surface.
+          </p>
+          <p>
+            <strong>Summary:</strong><br />
+            • <strong>Cylinder volume</strong> = physical container size (11 L).<br />
+            • <strong>Free gas volume</strong> = usable air if expanded to 1 bar (~2000–2200 L).
+          </p>
+        </div>
+
+
+      </div>
+    </details>
+
+    <section class="foot">
+      <p><strong>Author:</strong> r fine (NAUI MSD Theory). This page is designed as collapsible “slides” for web
+        delivery. To print, expand all sections first.</p>
+    </section>
+
+  </main>
+
+  <script>
+    // Expand/Collapse all controls
+    const expandBtn = document.getElementById('expandAll');
+    const collapseBtn = document.getElementById('collapseAll');
+    const allDetails = () => Array.from(document.querySelectorAll('main details'));
+
+    expandBtn?.addEventListener('click', () => {
+      allDetails().forEach(d => d.open = true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    collapseBtn?.addEventListener('click', () => {
+      allDetails().forEach((d, i) => { if (i !== 0) d.open = false; }); // keep first section open
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+
+<p style="text-align: center;background: #ddd; padding: 10px;color:darkblue;font-weight: 700;font-size:larger;">
+    <a href="/dive_blog/index.html">Back to Home</a>
+</p>
+
+<footer>
+    <p style="font-size:small;">© 2024, 2025 Roy Fine | Diving Into Science</p>
+    <p style="font-size:x-small;"> PADI Rescue Diver <br> NAUI Deep Diver (dit) | NAUI Master Scuba Diver(dit) Dive | Safety Advocate</p>
+</footer>
+
+</body>
+
+</html>
