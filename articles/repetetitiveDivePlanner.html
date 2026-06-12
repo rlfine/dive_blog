@@ -25,7 +25,7 @@
 
     <script>
 
-        const rawNAUIData = {
+        const rawNAUIAirDepthData = {
             20: [[26, "A"], [43, "B"], [61, "C"], [82, "D"], [106, "E"], [133, "F"], [165, "G"], [205, "H"], [256, "I"], [330, "J"], [461, "K"], [560, "L"]],
             30: [[17, "A"], [27, "B"], [38, "C"], [50, "D"], [62, "E"], [76, "F"], [91, "G"], [107, "H"], [125, "I"], [145, "J"], [167, "K"], [193, "L"], [223, "M"], [260, "N"]],
             40: [[12, "A"], [20, "B"], [27, "C"], [36, "D"], [44, "E"], [53, "F"], [63, "G"], [73, "H"], [84, "I"], [95, "J"], [108, "K"], [121, "L"], [130, "M"], [140, "N"]],
@@ -41,8 +41,8 @@
         };
 
         const NAUI_TABLE = {};
-        for (const depth in rawNAUIData) {
-            NAUI_TABLE[depth] = rawNAUIData[depth].map(([maxTime, group]) => ({ maxTime, group }));
+        for (const depth in rawNAUIAirDepthData) {
+            NAUI_TABLE[depth] = rawNAUIAirDepthData[depth].map(([maxTime, group]) => ({ maxTime, group }));
         }
 
         function getEndOfDiveLetterGroup(depth, time) {
@@ -62,6 +62,81 @@
             return null; // Exceeds no-decompression limits
         }
     </script>
+
+    <script>
+        const surfaceIntervalRanges = [
+            { min: 0, max: 52 },     // Column 1
+            { min: 53, max: 104 },   // Column 2
+            { min: 105, max: 157 },  // Column 3
+            { min: 158, max: 209 },  // Column 4
+            { min: 210, max: 261 },  // Column 5
+            { min: 262, max: 313 },  // Column 6
+            { min: 314, max: 366 },  // Column 7
+            { min: 367, max: 358 },  // Column 8
+            { min: 359, max: 470 },  // Column 9
+            { min: 471, max: 522 },  // Column 10
+            { min: 523, max: 574 },  // Column 11
+            { min: 575, max: 629 },  // Column 12
+            { min: 630, max: 705 },  // Column 13
+            { min: 706, max: Infinity } // Column 14+
+        ];
+
+        const letterGroupReductionTable = {
+            'A': ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'B': ['B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'C': ['C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'D': ['D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'E': ['E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'F': ['F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'G': ['G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'H': ['H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'I': ['I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A', 'A'],
+            'J': ['J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A', 'A'],
+            'K': ['K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A', 'A'],
+            'L': ['L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A', 'A'],
+            'M': ['M', 'L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A', 'A'],
+            'N': ['N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A']
+        };
+
+        function getNewLetterGroup(startGroup, surfaceIntervalMinutes) {
+            const group = startGroup.toUpperCase();
+            const row = letterGroupReductionTable[group];
+            console.log('group: ' + group + ', row: ' + row)
+            if (!row) return null;
+
+            const columnIndex = surfaceIntervalRanges.findIndex(
+                range => surfaceIntervalMinutes >= range.min && surfaceIntervalMinutes <= range.max
+            );
+
+            console.log('columnIndex: ' + columnIndex)
+
+            if (columnIndex === -1 || columnIndex >= row.length) return null;
+
+            const newGroup = row[columnIndex];
+            console.log('newGroup: ' + newGroup)
+            return newGroup;
+        }
+
+        function calculateGroup() {
+            //const startGroup = document.getElementById('startGroup').value;
+            const startGroup = document.getElementById("letterGroup").innerText;
+
+            const hours = parseInt(document.getElementById('hours').value, 10) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value, 10) || 0;
+            const totalMinutes = (hours * 60) + minutes;
+
+            const newGroup = getNewLetterGroup(startGroup, totalMinutes);
+            console.log('newGroup: ' + newGroup)
+            const resultDiv = document.getElementById('result');
+            if (newGroup) {
+                resultDiv.textContent = `New Letter Group: ${newGroup}`;
+            } else {
+                resultDiv.textContent = `No residual nitrogen (Group A).`;
+            }
+        }
+    </script>
+
+
 
 </head>
 
@@ -102,6 +177,35 @@
                     </td>
                 </tr>
             </form>
+
+
+            <form id="repetitiveDiveForm">
+                <tr style="background-color:rgb(196, 230, 196);height:2rem;">
+                    <td colspan="6" >&nbsp;</td>
+                </tr>
+                <tr style="background-color:rgb(196, 230, 196);">
+                    <td><label>Surface Interval (hours): </label></td>
+                    <td><input type="number" id="siHours" value="0" required max="24" min="0"></td>
+                    <td> <label>Surface Interval (minutes)</label></td>
+                    <td> <input type="number" id="siMinutes" value="0" required max="1440" min="0"></td>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+
+                <tr style="background-color:rgb(252, 250, 172);">
+                    <td colspan="6" style="text-align: right;"> <button
+                            style="background-color:lightblue;margin:0.5em 1em 0.5em 1em;padding:0.8em 2.5em 0.8em 2.5em;"
+                            type="submit">Compute Residual Nitrogen Loading Group</button>
+                    </td>
+                </tr>
+                <tr style="background-color:rgb(196, 230, 196);">
+                    <td><label>New Residual Nitrogen Letter Group: </label></td>
+                    <td><input type="number" id="siHours" value="0" required max="24" min="0"></td>
+                    <td colspan="4">&nbsp;</td>
+                </tr>
+
+            </form>
+
+
         </table>
 
         <script>

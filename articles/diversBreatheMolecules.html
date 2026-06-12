@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>We Breathe Molecules of Air, Not PSI (RMV-first Dive Planning)</title>
+    <link rel="icon" href="../Resources/favicon_DiveMask.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        (function () {
+            var s = document.createElement('script');
+            s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+            s.async = true; document.head.appendChild(s);
+            window.MathJax = { tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]] }, options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] } };
+        })();
+    </script>
+    <style>
+        :root {
+            --fg: #0f172a;
+            --muted: #ffffff;
+            --accent: #0ea5e9;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            line-height: 1.55;
+            color: var(--fg);
+            margin: 0;
+        }
+
+        header {
+            padding: 2.25rem 1rem 0.75rem;
+            max-width: 980px;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            margin: 0 0 0.25rem;
+        }
+
+        h2 {
+            margin-top: 2rem;
+        }
+
+        h3 {
+            margin-top: 1.25rem;
+        }
+
+        p,
+        li {
+            color: var(--fg);
+        }
+
+        .lead {
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        main {
+            padding: 0 1rem 4rem;
+            max-width: 980px;
+            margin: auto;
+        }
+
+        .note {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 0.9rem 1rem;
+            border-radius: 12px;
+        }
+
+        .kbd {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            background: #0f172a0e;
+            padding: 0.1rem 0.4rem;
+            border-radius: 6px;
+        }
+
+        code {
+            background: #0f172a0e;
+            padding: 0.2rem 0.35rem;
+            border-radius: 6px;
+        }
+
+        .eq {
+            background: #fafafa;
+            border-left: 4px solid var(--accent);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #e2e8f0;
+            padding: 0.55rem 0.6rem;
+            text-align: right;
+        }
+
+        th:first-child,
+        td:first-child {
+            text-align: left;
+        }
+
+        thead th {
+            background: #f8fafc;
+        }
+
+        .tiny {
+            font-size: 0.92rem;
+            color: var(--muted);
+        }
+
+        .pill {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #075985;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            margin-left: 0.35rem;
+        }
+
+        .sidebar {
+            background: #ecfdf5;
+            border-left: 4px solid #10b981;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+            color: #065f46;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+    </header>
+
+
+    <header>
+
+        <h1>We Breathe Molecules of Air, Not PSI</h1>
+
+        <p class="lead">Switch your planning from pressure (PSI/bar) to <strong>liters of gas</strong> and
+            <strong>RMV</strong>. Your lungs count molecules, not dial readings.</p>
+        <a href="../index.html"> <button>Back to Home</button> </a>
+    </header>
+
+    <article>
+
+        <main>
+
+            <section>
+                <h2>1) The Core Idea</h2>
+                <p>Pressure is a tool for engineers; <em>molecules</em> are what divers actually consume. Two cylinders
+                    at the same gauge pressure can hold very different amounts of usable gas because their <em>internal
+                        volumes</em> differ. Planning in <strong>liters of gas</strong> and <strong>RMV (Respiratory
+                        Minute Volume)</strong> lines up your math with what your body uses.</p>
+                <p style="background:#f1f5f9;border:1px solid #e2e8f0;padding:0.9rem 1rem;border-radius:12px;">
+                    <strong>Quick intuition</strong>: at the surface, an RMV of 16&nbsp;L/min means you breathe about
+                    <em>0.654 mol</em> of gas per minute, i.e., roughly <em>3.94×10<sup>23</sup> molecules</em> per
+                    minute. That’s the budget that matters.
+                </p>
+            </section>
+
+            <section>
+                <h2>2) Ideal Gas Law: the “one ring” that unifies the others</h2>
+                <p>Rather than juggling Dalton’s, Charles’, and Amonton’s laws separately, use the <strong>Ideal Gas
+                        Law</strong> and derive anything you need:</p>
+                <pre style="background:#fafafa;border-left:4px solid #0ea5e9;padding:0.75rem 1rem;border-radius:8px;">
+PV = nRT</pre>
+                <p style="font-size:0.92rem;color:#475569;">Where P = absolute pressure (atm), V = volume (L), n =
+                    moles, R = 0.082057 L·atm·mol⁻¹·K⁻¹, T = temperature (K). Use absolute pressure: P<sub>abs</sub> =
+                    P<sub>gauge</sub> + 1 atm. For PSI, 1 atm = 14.7 psi.</p>
+            </section>
+
+            <section>
+                <h2>3) Molecules in a Cylinder (worked AL80 example)</h2>
+                <h3>(a) At 750&nbsp;psi gauge</h3>
+                <pre style="background:#fafafa;border-left:4px solid #0ea5e9;padding:0.75rem 1rem;border-radius:8px;">
+P_abs = (750 + 14.7) / 14.7 ≈ 52 atm
+n = (P_abs × V) / (R × T) → ~23.6 mol
+Molecules ≈ 1.42×10²⁵
+Free gas ≈ 52 atm × 11.1 L ≈ 578 L</pre>
+
+                <h3>(b) At 3000&nbsp;psi gauge</h3>
+                <pre style="background:#fafafa;border-left:4px solid #0ea5e9;padding:0.75rem 1rem;border-radius:8px;">
+P_abs = (3000 + 14.7) / 14.7 ≈ 206 atm
+n ≈ 93.1 mol → Molecules ≈ 5.61×10²⁵
+Free gas ≈ 206 atm × 11.1 L ≈ 2277 L</pre>
+            </section>
+
+            <section>
+                <h2>4) Liters &amp; RMV Beat PSI for Planning</h2>
+                <p>RMV is your surface gas use in liters per minute. At the surface with RMV = 16 L/min:</p>
+                <pre style="background:#fafafa;border-left:4px solid #0ea5e9;padding:0.75rem 1rem;border-radius:8px;">
+n per min = RMV / (R × T) ≈ 0.654 mol
+Molecules/min ≈ 3.94×10²³</pre>
+                <p>At depth, multiply by ATA. Example: 16 L/min × 4 ATA = 64 L/min at 30 m.</p>
+            </section>
+
+            <section>
+                <h2>5) Quick Reference at 750&nbsp;psi</h2>
+                <table style="border-collapse:collapse;width:100%;margin:1rem 0;">
+                    <thead>
+                        <tr>
+                            <th style="border:1px solid #ccc;padding:0.5rem;text-align:left;">Cylinder</th>
+                            <th style="border:1px solid #ccc;padding:0.5rem;">Water cap (L)</th>
+                            <th style="border:1px solid #ccc;padding:0.5rem;">Free gas (L)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">AL80</td>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">10.5</td>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">~546</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">Steel HP100</td>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">11.9</td>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">~619</td>
+                        </tr>
+                        <tr>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">HP AL100</td>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">12.4</td>
+                            <td style="border:1px solid #ccc;padding:0.5rem;">~645</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>6) Why This Framing Helps Older/Mixed-Equipment Divers</h2>
+                <ul>
+                    <li>Different cylinders at the same PSI can have very different liters remaining.</li>
+                    <li>RMV × ATA converts liters to minutes, regardless of tank size.</li>
+                    <li>Turn pressures become turn liters — more reliable in mixed teams.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>7) Takeaways</h2>
+                <ul>
+                    <li><strong>Memorize the ideal gas law</strong>. It unifies the classroom laws and powers your field
+                        math.</li>
+                    <li>Plan in <strong>liters + RMV</strong>, verify with PSI/bar.</li>
+                    <li>Carry your cylinder’s <strong>water capacity (V)</strong> on a slate; it’s the key to converting
+                        PSI → liters → minutes.</li>
+                </ul>
+                <p style="background:#f1f5f9;border:1px solid #e2e8f0;padding:0.9rem 1rem;border-radius:12px;">
+                    Molecule mindset: with RMV 16 L/min, you’re breathing ≈ <strong>3.94×10²³</strong> molecules per
+                    minute at the surface.
+                </p>
+            </section>
+
+            <section>
+                <h2>8) Sidebars: Switching to Bar/Meters + Quick Cheat Sheet</h2>
+
+                <div
+                    style="background:#ecfdf5;border-left:4px solid #10b981;padding:1rem 1.25rem;border-radius:8px;margin:1rem 0;">
+                    <h3 style="margin-top:0;color:#065f46;">💡 Why Bar + Meters + Liters Makes Math Easier</h3>
+                    <ul>
+                        <li><strong>Meters → ATA is trivial</strong>: depth (m)/10 + 1. Example: 30 m = 4 ATA.</li>
+                        <li><strong>Bar × liters = liters</strong>: A 12 L tank at 200 bar ≈ 2400 L. PSI needs
+                            conversion first.</li>
+                        <li><strong>RMV already in L/min</strong>: Multiply RMV × ATA; divide liters by that number for
+                            time.</li>
+                        <li><strong>Turn pressures become turn liters</strong>: 50 bar reserve × tank liters = safety
+                            gas in liters.</li>
+                        <li>Head-math: 200 bar × 11 L ≈ 2200 L; 230 bar × 13 L ≈ 3000 L.</li>
+                    </ul>
+                    <p><strong>Bottom line:</strong> meters + bar + RMV give instant answers. PSI/feet always need
+                        conversions.</p>
+                </div>
+
+                <div
+                    style="background:#ecfdf5;border-left:4px solid #10b981;padding:1rem 1.25rem;border-radius:8px;margin:1rem 0;">
+                    <h3 style="margin-top:0;color:#065f46;">📏 Quick Conversion Cheat Sheet</h3>
+                    <table style="border-collapse:collapse;width:100%;margin:0.5rem 0;">
+                        <thead>
+                            <tr>
+                                <th style="border:1px solid #ccc;padding:0.5rem;text-align:left;">Imperial</th>
+                                <th style="border:1px solid #ccc;padding:0.5rem;text-align:left;">Metric</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">33 ft</td>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">≈ 10 m (≈ 2 ATA total)</td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">66 ft</td>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">≈ 20 m (≈ 3 ATA)</td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">99 ft</td>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">≈ 30 m (≈ 4 ATA)</td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">3000 psi</td>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">≈ 207 bar</td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">2250 psi</td>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">≈ 155 bar</td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">1500 psi</td>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">≈ 103 bar</td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">750 psi</td>
+                                <td style="border:1px solid #ccc;padding:0.5rem;">≈ 52 bar</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="font-size:0.95rem;color:#475569;">Use these cues in mixed-unit teams. Plan in liters + bar
+                        + meters, but keep this to stay bilingual.</p>
+                </div>
+            </section>
+
+<div style="background:#fef3c7;border-left:4px solid #f59e0b;padding:1rem 1.25rem;border-radius:8px;margin:1.5rem 0;">
+  <h3 style="margin-top:0;color:#92400e;">🤿 Fun Fact: 200 Molecules in an AL80</h3>
+  <p>Let’s say we somehow trapped only <strong>200 molecules of air</strong> in an AL80 tank 
+  (about 80% nitrogen = 160 N<sub>2</sub> molecules, and 20% oxygen = 40 O<sub>2</sub> molecules). 
+  Using the ideal gas law at room temperature (298 K) and the AL80 internal volume (~11 L):</p>
+  <pre style="background:#fafafa;border-left:4px solid #f59e0b;padding:0.75rem 1rem;border-radius:8px;">
+n = 200 / (6.022×10²³) mol ≈ 3.32×10⁻²² mol
+P = nRT / V = (3.32×10⁻²² × 0.08206 × 298) / 11
+P ≈ 7.4×10⁻²² atm
+P ≈ 1.1×10⁻²⁰ psi (absolute)</pre>
+  <p><strong>Gauge pressure ≈ –14.7 psi</strong> (a near-perfect vacuum). In other words: 
+  200 molecules in an AL80 wouldn’t even nudge the needle off zero!</p>
+</div>
+
+        </main>
+    </article>
+    <div id="footer">loading...</div>
+    <script>
+        fetch('../footer.html')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok: ' + response.status);
+                return response.text();
+            })
+            .then(html => {
+                document.getElementById('footer').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load error:', err));
+    </script>
+</body>
+
+</html>

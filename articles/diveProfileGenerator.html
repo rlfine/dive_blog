@@ -217,7 +217,7 @@
                     <td><label>Bottom Dive<br> Depth (m):</label></td>
                     <td><input class="autoUpdater" type="number" id="bottomDepth" value="40" required max="40" min="2">
                     </td>
-                    <td> <label>Stop Time<br> (min): </label></td>
+                    <td> <label>Bottom Time<br> (min): </label></td>
                     <td><label id="BottomStopTime"
                             style=" color:darkblue; font-weight: 700; display:block; width:8ch; border-color: black; border-width: 2px;border-style: inset;text-align: left; padding:.3em;">
                             ****</label>
@@ -530,14 +530,15 @@
 
                 const bottomATA = 1 + bottomDepth / 10;
                 const bottomAvailableGas = remainingGas - finalSurfaceReserve;
-
                 const bottomTime = bottomAvailableGas / (surfaceRMV * bottomATA);
 
                 bottomTimeLabel = document.getElementById('BottomStopTime');
                 if (bottomTimeLabel === null) {
                     console.log("bottomTimeLabel is null");
                 }
-                bottomTimeLabel.textContent = bottomTime.toFixed(2);
+                //bottomTimeLabel.textContent = bottomTime.toFixed(2);
+
+                console.log("bottomTimeLabel:" + bottomTime.toFixed(2));
 
                 console.log("getting ready to build graph");
 
@@ -585,12 +586,12 @@
 
                         const { xValue, yValue, text, color } = pluginOptions;
 
-                        console.log("drawBottomTimeLabel.  xValue: " + xValue + ", yValue:" + yValue);
+                        //console.log("drawBottomTimeLabel.  xValue: " + xValue + ", yValue:" + yValue);
 
                         const x = xScale.getPixelForValue(xValue);
                         const y = yScale.getPixelForValue(yValue);
 
-                        console.log("drawBottomTimeLabel.  x: " + x + ", y:" + y);
+                        //console.log("drawBottomTimeLabel.  x: " + x + ", y:" + y);
 
                         // Draw the label
                         ctx.fillStyle = color || 'red';

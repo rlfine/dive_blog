@@ -1,0 +1,342 @@
+<!-- Train Hard, Dive Easy — Copy/Paste HTML+CSS with Sidebars -->
+<style>
+  :root{
+    --bg:#0e0f12; --card:#15171c; --ink:#e9edf1; --muted:#a8b0bb;
+    --accent:#4cc9f0; --accent-2:#ffd166; --ok:#06d6a0; --warn:#ef476f;
+    --border:#242833; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:18px; --maxw:1100px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f7f8fb; --card:#ffffff; --ink:#111418; --muted:#5a6572;
+      --border:#e7e9ef; --shadow:0 8px 24px rgba(0,0,0,.08);
+    }
+  }
+  .post{
+    color:var(--ink); background:var(--bg); padding:40px 16px; display:flex; justify-content:center;
+    font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+  }
+  .wrap{width:100%; max-width:var(--maxw);}
+  .hero{
+    background:linear-gradient(140deg, rgba(76,201,240,.12), rgba(239,71,111,.08));
+    border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow);
+    padding:28px 28px 24px; margin:0 auto 22px;
+  }
+  .eyebrow{letter-spacing:.12em; text-transform:uppercase; color:var(--accent); font-weight:700; font-size:.82rem}
+  h1{font-weight:900; line-height:1.15; font-size: clamp(1.8rem, 2.4vw + 1rem, 2.6rem); margin:.35em 0 .15em}
+  .sub{color:var(--muted); font-size:1.05rem; max-width:70ch}
+  .meta{display:flex; gap:18px; margin-top:10px; color:var(--muted); font-size:.92rem}
+  .badge{display:inline-block; border:1px solid var(--border); padding:.22rem .5rem; border-radius:999px; font-size:.78rem; color:var(--muted)}
+  .kicker{
+    margin:22px 0 18px; padding:14px 16px; border-left:4px solid var(--accent-2); background:color-mix(in oklab, var(--accent-2) 12%, transparent);
+    border-radius:12px;
+  }
+
+  /* NEW: Sidebars */
+  .sidebars{
+    display:grid; gap:16px; margin:18px 0 26px;
+    grid-template-columns:1fr;
+  }
+  .sidebars .primary{order:1}
+  .sidebar{
+    background:var(--card); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow);
+    padding:16px; position:relative; overflow:hidden;
+  }
+  .sidebar h3{margin:.25rem 0 .35rem; font-size:1.05rem; line-height:1.2}
+  .sidebar p{margin:.35rem 0 .5rem; color:var(--muted)}
+  .sidebar ul{margin:.3rem 0 0 1.1rem}
+  .sidebar .tag{position:absolute; top:10px; right:10px; font-size:.72rem; padding:.18rem .5rem; border:1px solid var(--border); border-radius:999px; color:var(--muted)}
+  .sidebar.emph{border-color:color-mix(in oklab, var(--ok) 40%, var(--border))}
+  .sidebar.warn{border-color:color-mix(in oklab, var(--warn) 40%, var(--border))}
+  @media (min-width:980px){
+    .sidebars{
+      grid-template-columns: 1.4fr .8fr .8fr;
+      align-items:start;
+    }
+    .sidebar.sticky{position:sticky; top:18px}
+  }
+
+  /* Collapsible sections */
+  .accordion{display:grid; gap:14px; margin:18px 0 26px}
+  details.panel{
+    background:var(--card); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); overflow:hidden
+  }
+  details.panel[open]{outline:1px solid color-mix(in oklab, var(--accent) 30%, var(--border));}
+  summary{
+    cursor:pointer; list-style:none; padding:18px 54px 18px 18px; position:relative; font-weight:700; font-size:1.05rem
+  }
+  summary::-webkit-details-marker{display:none}
+  .chev{
+    position:absolute; right:16px; top:18px; width:22px; height:22px; border-radius:50%;
+    border:1px solid var(--border); display:grid; place-items:center; font-size:.95rem; color:var(--muted);
+    transition:transform .25s ease;
+  }
+  details[open] .chev{transform:rotate(90deg); color:var(--accent)}
+  .content{padding:0 18px 18px}
+  .lead{font-size:1.05rem; color:var(--muted)}
+  .callouts{display:grid; gap:12px; margin:10px 0 4px}
+  .callout{
+    padding:14px 14px 12px; border-radius:14px; border:1px dashed var(--border);
+    background:color-mix(in oklab, var(--card) 70%, transparent);
+  }
+  .callout strong{display:block; font-weight:800; margin-bottom:4px}
+  .callout.ok{border-color:color-mix(in oklab, var(--ok) 40%, var(--border))}
+  .callout.warn{border-color:color-mix(in oklab, var(--warn) 40%, var(--border))}
+  ul, ol{margin:0 0 0 1.1rem}
+  .grid-2{display:grid; gap:14px; grid-template-columns:1fr;}
+  @media (min-width:820px){ .grid-2{grid-template-columns:1fr 1fr} }
+  table{border-collapse:separate; border-spacing:0; width:100%; margin:8px 0 0; font-size:.98rem}
+  th, td{padding:10px 12px; border-bottom:1px solid var(--border); vertical-align:top}
+  th{background:color-mix(in oklab, var(--accent) 8%, var(--card)); text-align:left; font-weight:800}
+  tr:last-child td{border-bottom:none}
+
+  .footer{
+    margin-top:20px; padding:16px 18px; border-radius:16px; border:1px solid var(--border);
+    background:linear-gradient(135deg, rgba(6,214,160,.08), rgba(76,201,240,.08));
+  }
+  .quote{
+    margin:12px 0 0; padding:14px 18px; border-left:4px solid var(--ok); background:color-mix(in oklab, var(--ok) 10%, transparent); border-radius:12px
+  }
+</style>
+
+<article class="post">
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow">Training Philosophy</div>
+      <h1 style="text-align: center;">Train Hard to Dive Easy<br> Why Lake Diving Builds Better Divers</h1>
+      <p class="sub">
+        Four shallow checkout dives do not prepare you for safe 90-foot dives in the Caribbean. Cold, dark, low-vis lakes—done under the right conditions—forge the skills, composure, and
+        contingency habits that make blue-water dives feel effortless.
+      </p>
+      <div class="meta">
+        <span class="badge">Skill Development</span>
+        <span class="badge">Cold &amp; Low-Vis</span>
+        <span class="badge">Search &amp; Recovery</span>
+      </div>
+      <div class="kicker">
+        <strong>Thesis:</strong> Paradise conditions can hide fragile skills. Lakes expose gaps and harden competence—before problems show up at 90 ft on a crowded boat, 30–40 minutes from shore care.
+      </div>
+    </header>
+
+    <!-- NEW: Sidebars Row -->
+    <section class="sidebars">
+      <div class="primary">
+        <div class="callout ok">
+          <strong>Read This First</strong>
+          The goal is advancing dive skills—not mountain climbing. Choose a training lake and mentor that reduce logistics friction and maximize time-on-task.
+        </div>
+      </div>
+
+      <!-- Sidebar A: Choosing the Lake -->
+      <aside class="sidebar warn sticky">
+        <span class="tag">Checklist</span>
+        <h3>Pick the <em>right</em> lake (not just any puddle)</h3>
+        <p>Look for depth, cleanliness, and progressive training sites with easy access.</p>
+        <ul>
+          <li><strong>Depth &amp; variety:</strong> 80–120 ft options, real thermoclines, platforms/lines, mixed bottoms.</li>
+          <li><strong>Progression:</strong> sheltered 30–50 ft cove → 60–90 ft wall → objects for S&amp;R/lift reps.</li>
+          <li><strong>Accessibility:</strong> ramps, stairs, docks; short gear carries; safe entries/exits.</li>
+          <li><strong>Shore support:</strong> O₂ kit, shelter, hot fluids, comms, clear EMS route &amp; timings.</li>
+          <li><strong>Stewardship:</strong> silt discipline; avoid fragile vegetation; low-impact team spacing.</li>
+        </ul>
+      </aside>
+
+      <!-- Sidebar B: Choosing the Instructor -->
+      <aside class="sidebar emph sticky">
+        <span class="tag">Pro Tip</span>
+        <h3>The instructor matters more than the agency</h3>
+        <p>Logos are fine; teaching quality and safety culture matter most.</p>
+        <ul>
+          <li><strong>Cold/low-vis chops:</strong> frequent local dives, not just warm-water credentials.</li>
+          <li><strong>Small ratios:</strong> ≤ 2:1 for task-loaded deep work; clear abort criteria.</li>
+          <li><strong>Planning discipline:</strong> rock-bottom gas, roles, signals, lost-buddy &amp; separation plans.</li>
+          <li><strong>Prepared support:</strong> carries O₂, runs realistic scenarios, debriefs with action items.</li>
+          <li><strong>Transparency:</strong> encourages “thumbs up” without ego; welcomes observation/references.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- Main Content -->
+    <section class="accordion">
+
+      <!-- Section 1 -->
+      <details class="panel" open>
+        <summary>
+          1) Why “easy” diving isn’t automatically safer
+          <span class="chev">›</span>
+        </summary>
+        <div class="content">
+          <p class="lead">Warm, clear water lowers perceived risk—but it can lengthen the response chain if something goes wrong at depth.</p>
+          <div class="grid-2 callouts">
+            <div class="callout warn">
+              <strong>The long response chain (typical)</strong>
+              <ul>
+                <li>Initial care on an often crowded boat with limited equipment.</li>
+                <li>O₂ typically delivered by trained crew, not medical staff.</li>
+                <li>No one gets left in the water—boat must collect divers before returning.</li>
+                <li>Transit + handoff delays to shore-based care (which may lack dive-medicine specialization).</li>
+              </ul>
+            </div>
+            <div class="callout ok">
+              <strong>What you control</strong>
+              <ul>
+                <li>Prevention via robust skills, gas planning, and calm execution under stress.</li>
+                <li>Situational awareness and early abort criteria.</li>
+                <li>Practice deploying DSMB, signaling, and team protocols before you need them.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Section 2 -->
+      <details class="panel">
+        <summary>
+          2) The lake as a training ground (what it builds)
+          <span class="chev">›</span>
+        </summary>
+        <div class="content">
+          <table>
+            <thead>
+              <tr><th>Skill/Behavior</th><th>Why the Lake Builds It Better</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Gas management under stress</td>
+                <td>Cold + task loading expose optimistic air plans. You learn conservative turn pressures and real SAC/RMV.</td>
+              </tr>
+              <tr>
+                <td>Narcosis awareness</td>
+                <td>Extended time 80–100 ft teaches your personal onset cues and how to slow down, signal clearly, and simplify tasks.</td>
+              </tr>
+              <tr>
+                <td>Search &amp; Recovery discipline</td>
+                <td>Low-vis forces reliance on kick cycles, compass headings, lines, and tidy reel work—not just eyes.</td>
+              </tr>
+              <tr>
+                <td>Lift bag + knots</td>
+                <td>Tying a bowline with 5mm gloves at 85 ft and doing a controlled bag fill = true mastery (not just “I watched it on YouTube”).</td>
+              </tr>
+              <tr>
+                <td>Equipment R&amp;R &amp; problem solving</td>
+                <td>Managing a BC/tank at depth in the cold requires buoyancy brakes, trim control, and methodical steps.</td>
+              </tr>
+              <tr>
+                <td>Calm in discomfort</td>
+                <td>Repeated reps normalize stress. Confidence expands; clear-water dives feel easy by comparison.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <!-- Section 3 -->
+      <details class="panel">
+        <summary>
+          3) A practical lake training progression (sample plan)
+          <span class="chev">›</span>
+        </summary>
+        <div class="content">
+          <ol>
+            <li><strong>Baseline &amp; Buoyancy</strong> (shallow platform)
+              <ul>
+                <li>Weight check for cold exposure; hover drills; S-drills; valve reach (if applicable).</li>
+                <li>Lights, line, slate/wetnotes, DSMB + spool staged and practiced.</li>
+              </ul>
+            </li>
+            <li><strong>Low-Vis Nav Reps</strong> (30–40 ft)
+              <ul>
+                <li>Out-and-back bearings, kick-cycle logs, depth discipline, and team spacing.</li>
+                <li>Lost-buddy protocol dry run, then in-water with timers.</li>
+              </ul>
+            </li>
+            <li><strong>Lift Bag &amp; Knots</strong> (50–60 ft)
+              <ul>
+                <li>Tie bowline/round-turn-two half hitches with gloves; staged lifts on small objects.</li>
+                <li>Gas check cadence: “Breathing, Bubble, Pressure, Time.”</li>
+              </ul>
+            </li>
+            <li><strong>Search Patterns</strong> (50–70 ft)
+              <ul>
+                <li>Jackstay, expanding square, U-pattern with precise turns, tidy line management.</li>
+              </ul>
+            </li>
+            <li><strong>Task Loading at Depth</strong> (75–90 ft)
+              <ul>
+                <li>One core task (e.g., bag tie) + one communication task (slates/signals) with strict time/gas limits.</li>
+                <li>Ascent: mid-water stop discipline, DSMB from 20–30 ft, controlled team spacing.</li>
+              </ul>
+            </li>
+            <li><strong>Scenario Day</strong> (as a team)
+              <ul>
+                <li>“Lost tool” recovery, “stuck reel” fix, mask remove/replace + lights-out exit to a known reference.</li>
+                <li>Post-dive debrief: what went well, what to change, update personal checklists.</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      </details>
+
+      <!-- Section 4 -->
+      <details class="panel">
+        <summary>
+          4) Gear &amp; prep checklist for cold, dark, low-vis
+          <span class="chev">›</span>
+        </summary>
+        <div class="content">
+          <div class="grid-2">
+            <ul>
+              <li>Thermal protection dialed (hood, gloves; suit that matches bottom temps).</li>
+              <li>Primary + backup light (fresh batteries), and a marker light if permitted.</li>
+              <li>DSMB + spool; audible + visual surface signaling.</li>
+              <li>Cutting tools (at least two, different types) accessible with gloves.</li>
+              <li>Reel/line for search; pre-rigged lift bag with over-pressure valve (OPV).</li>
+            </ul>
+            <ul>
+              <li>Slate/wetnotes with pre-written checklists &amp; signals.</li>
+              <li>Conservative gas plan with rock-bottom appropriate for team of two.</li>
+              <li>Clear “thumb” criteria (temps, vis, task saturation, comms quality).</li>
+              <li>Shore support if possible (O₂ kit, hot fluids, shelter).</li>
+              <li>Briefing: roles, depths, turn points, lost-buddy &amp; separation plans.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <!-- Section 5 -->
+      <details class="panel">
+        <summary>
+          5) Comfort zone vs. confidence zone
+          <span class="chev">›</span>
+        </summary>
+        <div class="content">
+          <p>
+            Emergencies rarely respect your comfort zone. Lake training doesn’t try to scare you—it inoculates against panic by making challenge familiar.
+            Repeated, well-briefed reps in cold, dark water grow composure, which translates directly to safer tropical dives.
+          </p>
+          <div class="quote"><em>“Caribbean dives may feed the soul, but lake dives build the diver.”</em></div>
+        </div>
+      </details>
+
+      <!-- Section 6 -->
+      <details class="panel">
+        <summary>
+          6) A note on scope, standards, and safety
+          <span class="chev">›</span>
+        </summary>
+        <div class="content">
+          <ul>
+            <li>Stay within your training and local agency standards; add specialties (Navigation, Search &amp; Recovery, Deep) as you progress.</li>
+            <li>Use a qualified instructor/mentor for task-loaded deep work; agree on abort signals and hard limits.</li>
+            <li>Cold stress and task loading increase gas use—recalculate turn pressures accordingly.</li>
+            <li>If conditions degrade (surge, vis collapse, thermocline shock), simplify tasks or end the dive.</li>
+          </ul>
+        </div>
+      </details>
+
+    </section>
+
+    <footer class="footer">
+      <strong>TL;DR:</strong> Blue water is beautiful, but it can hide fragile skills. Cold, dark lakes—done right—make you calm, capable, and ready for 90 ft when the ocean gets bumpy.
+    </footer>
+  </div>
+</article>
